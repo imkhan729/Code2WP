@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { upload } from "./services/fileUpload";
@@ -7,6 +7,11 @@ import { WordPressGenerator } from "./services/wordpressGenerator";
 import { insertConversionSchema } from "@shared/schema";
 import fs from "fs-extra";
 import path from "path";
+
+// Extend Express Request type to include multer file
+interface RequestWithFile extends Request {
+  file?: Express.Multer.File;
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const htmlParser = new HtmlParser();
@@ -36,7 +41,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create conversion from file upload
-  app.post("/api/conversions/upload", upload.single('file'), async (req, res) => {
+  app.post("/api/conversions/upload", upload.single('file'), async (req: RequestWithFile, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -63,6 +68,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json(conversion);
     } catch (error) {
+      console.error('Upload error:', error);
       res.status(500).json({ message: "Failed to create conversion" });
     }
   });
