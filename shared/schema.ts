@@ -14,6 +14,8 @@ export const conversions = pgTable("conversions", {
   errorMessage: text("error_message"),
   downloadUrl: text("download_url"),
   previewData: jsonb("preview_data"), // Store preview HTML/CSS
+  analysisReport: jsonb("analysis_report"), // Store detailed analysis
+  diagnosticsReport: jsonb("diagnostics_report"), // Store QA diagnostics
   createdAt: timestamp("created_at").default(sql`now()`),
   completedAt: timestamp("completed_at"),
 });

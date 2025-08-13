@@ -34,6 +34,8 @@ export class MemStorage implements IStorage {
       downloadUrl: null,
       originalFiles: null,
       previewData: null,
+      analysisReport: null,
+      diagnosticsReport: null,
       createdAt: new Date(),
       completedAt: null,
     };

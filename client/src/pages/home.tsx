@@ -4,7 +4,7 @@ import FileUpload from "@/components/FileUpload";
 import UrlInput from "@/components/UrlInput";
 import ProcessingSteps from "@/components/ProcessingSteps";
 import ProgressBar from "@/components/ProgressBar";
-import PreviewSection from "@/components/PreviewSection";
+
 import RecentConversions from "@/components/RecentConversions";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -105,8 +105,37 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Preview Section */}
-        <PreviewSection conversionId={currentConversion} />
+        {/* Features Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+          <h3 className="text-2xl font-semibold text-gray-900 mb-4">Professional WordPress Conversion</h3>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            Our advanced conversion engine analyzes your HTML, CSS, and JavaScript files to create 
+            a fully functional WordPress theme that preserves your design and functionality.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6 mt-8">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Code className="w-6 h-6 text-blue-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Smart Analysis</h4>
+              <p className="text-sm text-gray-600">Detects pages, forms, navigation, and assets automatically</p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Code className="w-6 h-6 text-green-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">WordPress Ready</h4>
+              <p className="text-sm text-gray-600">Generates proper template hierarchy and functions.php</p>
+            </div>
+            <div className="text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <Code className="w-6 h-6 text-purple-600" />
+              </div>
+              <h4 className="font-semibold text-gray-900 mb-2">Design Preserved</h4>
+              <p className="text-sm text-gray-600">Maintains responsive design and interactive elements</p>
+            </div>
+          </div>
+        </div>
 
         {/* Recent Conversions */}
         <RecentConversions />

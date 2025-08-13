@@ -1,11 +1,29 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileArchive, Link as LinkIcon, Download, RotateCcw, CheckCircle, XCircle } from "lucide-react";
+import { ConversionDetails } from "./ConversionDetails";
+import { FileArchive, Link as LinkIcon, Download, RotateCcw, CheckCircle, XCircle, Eye } from "lucide-react";
 import { format } from "date-fns";
 
+interface Conversion {
+  id: string;
+  name: string;
+  type: string;
+  status: string;
+  progress: number;
+  errorMessage?: string;
+  downloadUrl?: string;
+  previewData?: any;
+  analysisReport?: any;
+  diagnosticsReport?: any;
+  createdAt: string;
+  completedAt?: string;
+}
+
 export default function RecentConversions() {
-  const { data: conversions = [], isLoading } = useQuery({
+  const [selectedConversion, setSelectedConversion] = useState<string | null>(null);
+  const { data: conversions = [], isLoading } = useQuery<Conversion[]>({
     queryKey: ['/api/conversions'],
     refetchInterval: 5000, // Refresh every 5 seconds
   });
@@ -13,6 +31,29 @@ export default function RecentConversions() {
   const handleDownload = (conversionId: string) => {
     window.open(`/api/conversions/${conversionId}/download`, '_blank');
   };
+
+  const handleViewDetails = (conversionId: string) => {
+    setSelectedConversion(conversionId);
+  };
+
+  const selectedConversionData = conversions.find((c: Conversion) => c.id === selectedConversion);
+
+  if (selectedConversionData) {
+    return (
+      <div className="space-y-4" data-testid="conversion-details-view">
+        <div className="flex items-center justify-between">
+          <Button 
+            variant="outline" 
+            onClick={() => setSelectedConversion(null)}
+            data-testid="back-to-list"
+          >
+            ← Back to List
+          </Button>
+        </div>
+        <ConversionDetails conversion={selectedConversionData} />
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -49,7 +90,7 @@ export default function RecentConversions() {
         </div>
       ) : (
         <div className="space-y-4">
-          {conversions.map((conversion: any) => (
+          {conversions.map((conversion: Conversion) => (
             <div 
               key={conversion.id} 
               className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
@@ -73,41 +114,38 @@ export default function RecentConversions() {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <Badge
-                  variant={
-                    conversion.status === 'completed' ? 'default' :
-                    conversion.status === 'failed' ? 'destructive' :
-                    conversion.status === 'processing' ? 'secondary' :
-                    'outline'
-                  }
+                <Badge 
                   className={
-                    conversion.status === 'completed' ? 'bg-green-100 text-green-800' :
-                    conversion.status === 'failed' ? 'bg-red-100 text-red-800' :
-                    conversion.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-gray-100 text-gray-800'
+                    conversion.status === 'completed' ? 'bg-green-100 text-green-800 border-green-200' :
+                    conversion.status === 'failed' ? 'bg-red-100 text-red-800 border-red-200' :
+                    'bg-blue-100 text-blue-800 border-blue-200'
                   }
+                  data-testid={`status-${conversion.status}`}
                 >
-                  {conversion.status === 'completed' && <CheckCircle className="w-3 h-3 mr-1" />}
-                  {conversion.status === 'failed' && <XCircle className="w-3 h-3 mr-1" />}
-                  {conversion.status === 'completed' ? 'Complete' :
-                   conversion.status === 'failed' ? 'Failed' :
-                   conversion.status === 'processing' ? 'Processing' :
-                   'Pending'}
+                  {conversion.status === 'completed' && <CheckCircle className="w-4 h-4 mr-1" />}
+                  {conversion.status === 'failed' && <XCircle className="w-4 h-4 mr-1" />}
+                  {conversion.status === 'processing' && <RotateCcw className="w-4 h-4 mr-1 animate-spin" />}
+                  {conversion.status}
                 </Badge>
-                
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => handleViewDetails(conversion.id)}
+                  className="flex items-center"
+                  data-testid={`view-details-${conversion.id}`}
+                >
+                  <Eye className="w-4 h-4 mr-1" />
+                  Details
+                </Button>
                 {conversion.status === 'completed' && (
                   <Button 
-                    variant="ghost" 
-                    size="sm"
+                    size="sm" 
                     onClick={() => handleDownload(conversion.id)}
+                    className="flex items-center"
+                    data-testid={`download-${conversion.id}`}
                   >
-                    <Download className="w-4 h-4" />
-                  </Button>
-                )}
-                
-                {conversion.status === 'failed' && (
-                  <Button variant="ghost" size="sm">
-                    <RotateCcw className="w-4 h-4" />
+                    <Download className="w-4 h-4 mr-1" />
+                    Download
                   </Button>
                 )}
               </div>

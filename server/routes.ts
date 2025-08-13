@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { upload } from "./services/fileUpload";
 import { HtmlParser } from "./services/htmlParser";
-import { WordPressGenerator } from "./services/wordpressGenerator";
+import { AdvancedWordPressGenerator } from "./services/advancedWordPressGenerator";
 import { insertConversionSchema } from "@shared/schema";
 import fs from "fs-extra";
 import path from "path";
@@ -15,7 +15,7 @@ interface RequestWithFile extends Request {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const htmlParser = new HtmlParser();
-  const wpGenerator = new WordPressGenerator();
+  const wpGenerator = new AdvancedWordPressGenerator();
 
   // Get all conversions
   app.get("/api/conversions", async (req, res) => {
@@ -153,30 +153,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
         parsedWebsite = await htmlParser.parseFromUrl(source);
       }
 
-      // Update progress
+      // Update progress with analysis
       await storage.updateConversion(conversionId, { 
         progress: 60,
+        analysisReport: parsedWebsite.analysis,
         previewData: {
           html: parsedWebsite.html.substring(0, 5000), // Store truncated HTML for preview
-          title: parsedWebsite.structure.title
+          title: parsedWebsite.structure.title,
+          analysis: {
+            pagesFound: parsedWebsite.analysis.pages.length,
+            blogPages: parsedWebsite.analysis.blogPages.length,
+            formsFound: parsedWebsite.analysis.forms.length,
+            hasNavigation: parsedWebsite.analysis.navigation !== null,
+            assetsFound: Object.values(parsedWebsite.analysis.assets).flat().length
+          }
         }
       });
 
       // Generate WordPress theme
-      const themeName = `converted-theme-${conversionId}`;
-      const themeZip = await wpGenerator.generateTheme(parsedWebsite, themeName);
+      const themeName = parsedWebsite.analysis.pages[0]?.title?.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() || `converted-theme-${conversionId}`;
+      const themeResult = await wpGenerator.generateTheme(parsedWebsite, themeName);
 
       // Save generated theme
       const outputDir = path.join(process.cwd(), 'generated-themes');
       await fs.ensureDir(outputDir);
       const outputPath = path.join(outputDir, `${themeName}.zip`);
-      await fs.writeFile(outputPath, themeZip);
+      await fs.writeFile(outputPath, themeResult.zip);
 
-      // Update conversion with success
+      // Update conversion with success and diagnostics
       await storage.updateConversion(conversionId, {
         status: "completed",
         progress: 100,
         downloadUrl: outputPath,
+        diagnosticsReport: themeResult.diagnostics,
         completedAt: new Date(),
       });
 

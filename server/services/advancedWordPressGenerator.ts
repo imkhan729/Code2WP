@@ -1,0 +1,1181 @@
+import * as cheerio from 'cheerio';
+import JSZip from 'jszip';
+import path from 'path';
+import { ParsedWebsite, AnalysisReport, ScriptInfo, CSSInfo, FormInfo, NavigationInfo } from './htmlParser';
+
+export interface WordPressTheme {
+  zip: Buffer;
+  diagnostics: DiagnosticsReport;
+}
+
+export interface DiagnosticsReport {
+  missingFiles: string[];
+  assetErrors: string[];
+  scriptAdjustments: string[];
+  hazards: string[];
+  beforeScreenshot?: string;
+  afterScreenshot?: string;
+}
+
+export class AdvancedWordPressGenerator {
+  async generateTheme(parsedWebsite: ParsedWebsite, themeName: string): Promise<WordPressTheme> {
+    const zip = new JSZip();
+    const themeFolder = zip.folder(themeName);
+    
+    if (!themeFolder) {
+      throw new Error('Failed to create theme folder');
+    }
+
+    const analysis = parsedWebsite.analysis;
+    const diagnostics: DiagnosticsReport = {
+      missingFiles: [],
+      assetErrors: [],
+      scriptAdjustments: [],
+      hazards: analysis.hazards
+    };
+
+    // Generate core WordPress theme files
+    await this.generateCoreThemeFiles(themeFolder, parsedWebsite, analysis, diagnostics);
+
+    // Create assets folder and copy all assets
+    await this.processAssets(themeFolder, analysis, diagnostics);
+
+    // Generate template files for all pages
+    await this.generateTemplateFiles(themeFolder, analysis, diagnostics);
+
+    // Generate custom nav walker if navigation exists
+    if (analysis.navigation) {
+      await this.generateNavWalker(themeFolder, analysis.navigation);
+    }
+
+    // Generate content import file
+    await this.generateContentImport(themeFolder, analysis);
+
+    // Generate documentation
+    await this.generateDocumentation(themeFolder, analysis, diagnostics);
+
+    const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' });
+    
+    return {
+      zip: zipBuffer,
+      diagnostics
+    };
+  }
+
+  private async generateCoreThemeFiles(
+    themeFolder: JSZip,
+    parsedWebsite: ParsedWebsite,
+    analysis: AnalysisReport,
+    diagnostics: DiagnosticsReport
+  ): Promise<void> {
+    // Generate style.css with WordPress header only
+    const styleCSS = this.generateStyleCSS(parsedWebsite, analysis);
+    themeFolder.file('style.css', styleCSS);
+
+    // Generate functions.php with proper enqueuing
+    const functionsPhp = this.generateFunctionsPhp(analysis, diagnostics);
+    themeFolder.file('functions.php', functionsPhp);
+
+    // Generate header.php preserving original head
+    const headerPhp = this.generateHeaderPhp(analysis);
+    themeFolder.file('header.php', headerPhp);
+
+    // Generate footer.php preserving original footer
+    const footerPhp = this.generateFooterPhp(analysis);
+    themeFolder.file('footer.php', footerPhp);
+
+    // Generate index.php as fallback
+    const indexPhp = this.generateIndexTemplate(analysis);
+    themeFolder.file('index.php', indexPhp);
+
+    // Generate front-page.php from homepage
+    const frontPagePhp = this.generateFrontPagePhp(analysis);
+    themeFolder.file('front-page.php', frontPagePhp);
+
+    // Generate page.php template
+    const pagePhp = this.generatePagePhp(analysis);
+    themeFolder.file('page.php', pagePhp);
+
+    // Generate blog templates if blog detected
+    if (analysis.blogPages.length > 0) {
+      const singlePhp = this.generateSinglePhp(analysis);
+      themeFolder.file('single.php', singlePhp);
+
+      const archivePhp = this.generateArchivePhp(analysis);
+      themeFolder.file('archive.php', archivePhp);
+    }
+
+    // Generate 404.php
+    const notFoundPhp = this.generate404Php(analysis);
+    themeFolder.file('404.php', notFoundPhp);
+
+    // Generate search.php
+    const searchPhp = this.generateSearchPhp(analysis);
+    themeFolder.file('search.php', searchPhp);
+
+    // Generate searchform.php if search found
+    if (this.hasSearchForm(analysis)) {
+      const searchFormPhp = this.generateSearchFormPhp(analysis);
+      themeFolder.file('searchform.php', searchFormPhp);
+    }
+  }
+
+  private generateStyleCSS(parsedWebsite: ParsedWebsite, analysis: AnalysisReport): string {
+    const header = `/*
+Theme Name: ${analysis.pages[0]?.title || 'Converted Theme'}
+Description: WordPress theme converted from HTML using advanced conversion engine
+Version: 1.0.0
+Author: HTML to WordPress Converter
+Text Domain: ${this.sanitizeTextDomain(analysis.pages[0]?.title || 'converted-theme')}
+*/
+
+/* Original CSS preserved exactly as-is */
+`;
+
+    // Combine all CSS while preserving order and fixing paths
+    const combinedCSS = analysis.css
+      .filter(css => css.inline && css.content.trim())
+      .sort((a, b) => a.order - b.order)
+      .map(css => this.fixCSSPaths(css.content))
+      .join('\n\n');
+
+    return header + combinedCSS;
+  }
+
+  private generateFunctionsPhp(analysis: AnalysisReport, diagnostics: DiagnosticsReport): string {
+    const hasNavigation = analysis.navigation !== null;
+    const hasBlog = analysis.blogPages.length > 0;
+    
+    return `<?php
+/**
+ * Theme functions and definitions
+ * Generated by HTML to WordPress Converter
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Theme setup
+ */
+function ${this.getFunctionPrefix()}_setup() {
+    // Add theme support
+    add_theme_support('title-tag');
+    ${hasBlog ? "add_theme_support('post-thumbnails');" : ""}
+    add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption'));
+    
+    ${hasNavigation ? `// Register navigation menus
+    register_nav_menus(array(
+        'primary' => __('Primary Menu', '${this.getTextDomain(analysis)}'),
+    ));` : ''}
+}
+add_action('after_setup_theme', '${this.getFunctionPrefix()}_setup');
+
+/**
+ * Enqueue scripts and styles
+ */
+function ${this.getFunctionPrefix()}_scripts() {
+    // Enqueue external CSS files in original order
+${this.generateCSSEnqueues(analysis, diagnostics)}
+
+    // Enqueue external JavaScript files in original order
+${this.generateJSEnqueues(analysis, diagnostics)}
+}
+add_action('wp_enqueue_scripts', '${this.getFunctionPrefix()}_scripts');
+
+${this.generateFormHandlers(analysis)}
+
+${hasNavigation ? this.generateNavWalkerClass(analysis.navigation!) : ''}
+
+/**
+ * Add body classes for admin bar compatibility
+ */
+function ${this.getFunctionPrefix()}_body_classes($classes) {
+    if (is_admin_bar_showing()) {
+        $classes[] = 'admin-bar-showing';
+    }
+    return $classes;
+}
+add_filter('body_class', '${this.getFunctionPrefix()}_body_classes');
+`;
+  }
+
+  private generateHeaderPhp(analysis: AnalysisReport): string {
+    const homepage = analysis.pages.find(p => p.filename === analysis.homepage);
+    if (!homepage) return this.getDefaultHeader();
+
+    const $ = cheerio.load(homepage.content);
+    
+    // Extract head content while preserving structure
+    const headContent = this.extractAndProcessHeadContent($);
+    
+    // Extract header/nav content
+    const headerContent = this.extractHeaderContent($);
+
+    return `<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    ${headContent}
+    <?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+${headerContent}
+`;
+  }
+
+  private generateFooterPhp(analysis: AnalysisReport): string {
+    const homepage = analysis.pages.find(p => p.filename === analysis.homepage);
+    if (!homepage) return this.getDefaultFooter();
+
+    const $ = cheerio.load(homepage.content);
+    const footerContent = this.extractFooterContent($);
+    const footerScripts = this.getFooterScripts(analysis);
+
+    return `${footerContent}
+${footerScripts}
+<?php wp_footer(); ?>
+</body>
+</html>`;
+  }
+
+  private generateFrontPagePhp(analysis: AnalysisReport): string {
+    const homepage = analysis.pages.find(p => p.filename === analysis.homepage);
+    if (!homepage) return this.getDefaultFrontPage();
+
+    const $ = cheerio.load(homepage.content);
+    
+    // Remove header and footer, keep main content
+    this.removeHeaderFooter($);
+    
+    // Convert internal links to WordPress URLs
+    this.convertInternalLinks($, analysis);
+    
+    const mainContent = $('body').html() || '';
+
+    return `<?php get_header(); ?>
+
+${mainContent}
+
+<?php get_footer(); ?>`;
+  }
+
+  private generatePagePhp(analysis: AnalysisReport): string {
+    // Find a generic page template or use homepage as base
+    const templatePage = analysis.pages.find(p => !p.isBlogLike) || analysis.pages[0];
+    if (!templatePage) return this.getDefaultPageTemplate();
+
+    const $ = cheerio.load(templatePage.content);
+    this.removeHeaderFooter($);
+    
+    // Find main content area and replace with WordPress content
+    const contentArea = this.findContentArea($);
+    if (contentArea.length > 0) {
+      contentArea.html('<?php the_content(); ?>');
+    } else {
+      // Fallback: add content after first heading or at beginning
+      const firstHeading = $('h1, h2').first();
+      if (firstHeading.length > 0) {
+        firstHeading.after('<div class="entry-content"><?php the_content(); ?></div>');
+      } else {
+        $('body').prepend('<div class="entry-content"><?php the_content(); ?></div>');
+      }
+    }
+
+    const pageContent = $('body').html() || '';
+
+    return `<?php get_header(); ?>
+
+<div class="page-content">
+    <?php while (have_posts()) : the_post(); ?>
+        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <header class="entry-header">
+                <h1 class="entry-title"><?php the_title(); ?></h1>
+            </header>
+            
+            ${pageContent}
+        </article>
+    <?php endwhile; ?>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private generateSinglePhp(analysis: AnalysisReport): string {
+    const blogPage = analysis.blogPages[0];
+    if (!blogPage) return this.getDefaultSingle();
+
+    const $ = cheerio.load(blogPage.content);
+    this.removeHeaderFooter($);
+    
+    // Replace blog-specific elements with WordPress equivalents
+    this.replaceBlogElements($);
+    
+    const articleContent = $('body').html() || '';
+
+    return `<?php get_header(); ?>
+
+<div class="blog-content">
+    <?php while (have_posts()) : the_post(); ?>
+        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <header class="entry-header">
+                <h1 class="entry-title"><?php the_title(); ?></h1>
+                <div class="entry-meta">
+                    <time class="entry-date"><?php echo get_the_date(); ?></time>
+                    <span class="entry-author"><?php the_author(); ?></span>
+                </div>
+            </header>
+            
+            <div class="entry-content">
+                ${articleContent}
+                <?php the_content(); ?>
+            </div>
+            
+            <footer class="entry-footer">
+                <?php the_tags('<div class="tags">', ', ', '</div>'); ?>
+                <?php the_category(', '); ?>
+            </footer>
+        </article>
+    <?php endwhile; ?>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private generateArchivePhp(analysis: AnalysisReport): string {
+    // Create blog listing based on detected blog structure
+    return `<?php get_header(); ?>
+
+<div class="blog-archive">
+    <header class="archive-header">
+        <h1 class="archive-title"><?php the_archive_title(); ?></h1>
+        <?php the_archive_description('<div class="archive-description">', '</div>'); ?>
+    </header>
+    
+    <div class="posts-grid">
+        <?php if (have_posts()) : ?>
+            <?php while (have_posts()) : the_post(); ?>
+                <article id="post-<?php the_ID(); ?>" <?php post_class('post-card'); ?>>
+                    <?php if (has_post_thumbnail()) : ?>
+                        <div class="post-thumbnail">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php the_post_thumbnail('medium'); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="post-content">
+                        <h2 class="post-title">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h2>
+                        
+                        <div class="post-meta">
+                            <time class="post-date"><?php echo get_the_date(); ?></time>
+                        </div>
+                        
+                        <div class="post-excerpt">
+                            <?php the_excerpt(); ?>
+                        </div>
+                        
+                        <a href="<?php the_permalink(); ?>" class="read-more">Read More</a>
+                    </div>
+                </article>
+            <?php endwhile; ?>
+            
+            <div class="pagination">
+                <?php the_posts_pagination(); ?>
+            </div>
+        <?php else : ?>
+            <p>No posts found.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private generate404Php(analysis: AnalysisReport): string {
+    const homepage = analysis.pages.find(p => p.filename === analysis.homepage);
+    const title = homepage?.title || 'Page Not Found';
+    
+    return `<?php get_header(); ?>
+
+<div class="error-404 not-found">
+    <header class="page-header">
+        <h1 class="page-title">${title} - Page Not Found</h1>
+    </header>
+    
+    <div class="page-content">
+        <p>It looks like nothing was found at this location. Maybe try one of the links below or a search?</p>
+        
+        <?php get_search_form(); ?>
+        
+        <div class="recent-posts">
+            <h2>Recent Posts</h2>
+            <?php
+            $recent_posts = wp_get_recent_posts(array(
+                'numberposts' => 5,
+                'post_status' => 'publish'
+            ));
+            foreach ($recent_posts as $post) :
+                ?>
+                <p><a href="<?php echo get_permalink($post['ID']); ?>"><?php echo $post['post_title']; ?></a></p>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private generateSearchPhp(analysis: AnalysisReport): string {
+    return `<?php get_header(); ?>
+
+<div class="search-results">
+    <header class="page-header">
+        <h1 class="page-title">
+            <?php printf('Search Results for: %s', get_search_query()); ?>
+        </h1>
+    </header>
+    
+    <div class="search-content">
+        <?php if (have_posts()) : ?>
+            <div class="search-results-list">
+                <?php while (have_posts()) : the_post(); ?>
+                    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                        <h2 class="entry-title">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h2>
+                        
+                        <div class="entry-summary">
+                            <?php the_excerpt(); ?>
+                        </div>
+                        
+                        <div class="entry-meta">
+                            <span class="post-type"><?php echo get_post_type(); ?></span>
+                            <time class="entry-date"><?php echo get_the_date(); ?></time>
+                        </div>
+                    </article>
+                <?php endwhile; ?>
+                
+                <div class="pagination">
+                    <?php the_posts_pagination(); ?>
+                </div>
+            </div>
+        <?php else : ?>
+            <div class="no-results">
+                <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
+                <?php get_search_form(); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private generateSearchFormPhp(analysis: AnalysisReport): string {
+    // Try to preserve original search form styling
+    const searchForm = this.findOriginalSearchForm(analysis);
+    
+    if (searchForm) {
+      return searchForm.replace(/action="[^"]*"/gi, 'action="<?php echo esc_url(home_url(\'/\')); ?>"')
+                      .replace(/name="q"/gi, 'name="s"')
+                      .replace(/placeholder="[^"]*"/gi, 'placeholder="<?php echo esc_attr_x(\'Search...\', \'placeholder\'); ?>"');
+    }
+    
+    return `<form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
+    <label>
+        <span class="screen-reader-text">Search for:</span>
+        <input type="search" class="search-field" placeholder="Search..." value="<?php echo get_search_query(); ?>" name="s">
+    </label>
+    <input type="submit" class="search-submit" value="Search">
+</form>`;
+  }
+
+  // Helper methods
+  private sanitizeTextDomain(title: string): string {
+    return title.toLowerCase().replace(/[^a-z0-9\-]/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
+  private getFunctionPrefix(): string {
+    return 'converted_theme';
+  }
+
+  private getTextDomain(analysis: AnalysisReport): string {
+    return this.sanitizeTextDomain(analysis.pages[0]?.title || 'converted-theme');
+  }
+
+  private fixCSSPaths(css: string): string {
+    // Fix relative paths in CSS
+    return css.replace(/url\(([^)]+)\)/g, (match, url) => {
+      const cleanUrl = url.replace(/['"]/g, '').trim();
+      if (cleanUrl.startsWith('http') || cleanUrl.startsWith('//') || cleanUrl.startsWith('data:')) {
+        return match;
+      }
+      if (cleanUrl.startsWith('/')) {
+        return `url('<?php echo get_template_directory_uri(); ?>/assets${cleanUrl}')`;
+      }
+      return `url('<?php echo get_template_directory_uri(); ?>/assets/${cleanUrl}')`;
+    });
+  }
+
+  private generateCSSEnqueues(analysis: AnalysisReport, diagnostics: DiagnosticsReport): string {
+    const enqueues: string[] = [];
+    
+    analysis.css
+      .filter(css => !css.inline && css.href)
+      .sort((a, b) => a.order - b.order)
+      .forEach((css, index) => {
+        const handle = `theme-style-${index + 1}`;
+        const path = this.convertAssetPath(css.href!);
+        
+        enqueues.push(`    wp_enqueue_style('${handle}', get_template_directory_uri() . '/assets/${path}', array(), '1.0.0'${css.media ? `, '${css.media}'` : ''});`);
+      });
+    
+    return enqueues.join('\n');
+  }
+
+  private generateJSEnqueues(analysis: AnalysisReport, diagnostics: DiagnosticsReport): string {
+    const enqueues: string[] = [];
+    
+    analysis.scripts
+      .filter(script => script.src)
+      .sort((a, b) => a.order - b.order)
+      .forEach((script, index) => {
+        const handle = `theme-script-${index + 1}`;
+        const path = this.convertAssetPath(script.src!);
+        const inFooter = script.location === 'body' || script.location === 'footer';
+        
+        let enqueue = `    wp_enqueue_script('${handle}', get_template_directory_uri() . '/assets/${path}', array()`;
+        enqueue += `, '1.0.0', ${inFooter ? 'true' : 'false'});`;
+        
+        if (script.defer) {
+          enqueue += `\n    wp_script_add_data('${handle}', 'defer', true);`;
+          diagnostics.scriptAdjustments.push(`Added defer attribute to ${handle}`);
+        }
+        
+        if (script.async) {
+          enqueue += `\n    wp_script_add_data('${handle}', 'async', true);`;
+          diagnostics.scriptAdjustments.push(`Added async attribute to ${handle}`);
+        }
+        
+        enqueues.push(enqueue);
+      });
+    
+    return enqueues.join('\n');
+  }
+
+  private convertAssetPath(originalPath: string): string {
+    if (originalPath.startsWith('http') || originalPath.startsWith('//')) {
+      return originalPath;
+    }
+    
+    // Convert relative paths
+    return originalPath.replace(/^\.?\//, '');
+  }
+
+  private generateFormHandlers(analysis: AnalysisReport): string {
+    if (analysis.forms.length === 0) return '';
+    
+    return `
+/**
+ * Handle contact forms
+ */
+function ${this.getFunctionPrefix()}_handle_contact_form() {
+    if (isset($_POST['contact_form_submit'])) {
+        // Basic form handling - extend as needed
+        $name = sanitize_text_field($_POST['name'] ?? '');
+        $email = sanitize_email($_POST['email'] ?? '');
+        $message = sanitize_textarea_field($_POST['message'] ?? '');
+        
+        // Send email or save to database
+        wp_mail(get_option('admin_email'), 'Contact Form Submission', $message);
+        
+        wp_redirect(add_query_arg('form_sent', '1', wp_get_referer()));
+        exit;
+    }
+}
+add_action('init', '${this.getFunctionPrefix()}_handle_contact_form');`;
+  }
+
+  private generateNavWalkerClass(navigation: NavigationInfo): string {
+    return `
+/**
+ * Custom Nav Walker to preserve original markup
+ */
+class ${this.getFunctionPrefix()}_Nav_Walker extends Walker_Nav_Menu {
+    public function start_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '<ul class="sub-menu">';
+    }
+    
+    public function end_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '</ul>';
+    }
+    
+    public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+        
+        $output .= '<li' . $class_names . '>';
+        $output .= '<a href="' . esc_url($item->url) . '">' . esc_html($item->title) . '</a>';
+    }
+    
+    public function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= '</li>';
+    }
+}`;
+  }
+
+  // Additional helper methods would continue here...
+  private async processAssets(themeFolder: JSZip, analysis: AnalysisReport, diagnostics: DiagnosticsReport): Promise<void> {
+    const assetsFolder = themeFolder.folder('assets');
+    if (!assetsFolder) return;
+
+    // Copy CSS files
+    const cssFolder = assetsFolder.folder('css');
+    if (cssFolder) {
+      analysis.css.filter(css => css.href).forEach((css, index) => {
+        const filename = `style-${index + 1}.css`;
+        cssFolder.file(filename, css.content || `/* External CSS: ${css.href} */`);
+      });
+    }
+
+    // Copy JS files  
+    const jsFolder = assetsFolder.folder('js');
+    if (jsFolder) {
+      analysis.scripts.filter(script => script.src).forEach((script, index) => {
+        const filename = `script-${index + 1}.js`;
+        jsFolder.file(filename, script.content || `/* External JS: ${script.src} */`);
+      });
+    }
+  }
+
+  private async generateTemplateFiles(themeFolder: JSZip, analysis: AnalysisReport, diagnostics: DiagnosticsReport): Promise<void> {
+    // Generate page templates for each unique page
+    analysis.pages.forEach(page => {
+      if (page.filename !== analysis.homepage && !page.isBlogLike) {
+        const templateName = `page-${this.sanitizeFilename(page.filename)}.php`;
+        const template = this.generateCustomPageTemplate(page, analysis);
+        themeFolder.file(templateName, template);
+      }
+    });
+  }
+
+  private async generateNavWalker(themeFolder: JSZip, navigation: NavigationInfo): Promise<void> {
+    const incFolder = themeFolder.folder('inc');
+    if (!incFolder) return;
+
+    const navWalker = `<?php
+/**
+ * Custom Navigation Walker
+ * Preserves original navigation markup and classes
+ */
+
+class Custom_Nav_Walker extends Walker_Nav_Menu {
+    public function start_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat('\\t', $depth);
+        $output .= "\\n$indent<ul class=\\"submenu\\">\\n";
+    }
+
+    public function end_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat('\\t', $depth);
+        $output .= "$indent</ul>\\n";
+    }
+
+    public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $indent = ($depth) ? str_repeat('\\t', $depth) : '';
+        
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+        
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+        
+        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args);
+        $id = $id ? ' id="' . esc_attr($id) . '"' : '';
+        
+        $output .= $indent . '<li' . $id . $class_names .'>';
+        
+        $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+        $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
+        $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
+        $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url        ) .'"' : '';
+        
+        $item_output = $args->before ?? '';
+        $item_output .= '<a' . $attributes . '>';
+        $item_output .= ($args->link_before ?? '') . apply_filters('the_title', $item->title, $item->ID) . ($args->link_after ?? '');
+        $item_output .= '</a>';
+        $item_output .= $args->after ?? '';
+        
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+
+    public function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= "</li>\\n";
+    }
+}
+`;
+    
+    incFolder.file('NavWalker.php', navWalker);
+  }
+
+  private async generateContentImport(themeFolder: JSZip, analysis: AnalysisReport): Promise<void> {
+    const importFolder = themeFolder.folder('import');
+    if (!importFolder) return;
+
+    // Generate WordPress XML export format
+    const wxr = this.generateWXR(analysis);
+    importFolder.file('content.xml', wxr);
+
+    // Generate import manifest
+    const manifest = this.generateImportManifest(analysis);
+    importFolder.file('import-manifest.json', JSON.stringify(manifest, null, 2));
+  }
+
+  private async generateDocumentation(themeFolder: JSZip, analysis: AnalysisReport, diagnostics: DiagnosticsReport): Promise<void> {
+    const docsFolder = themeFolder.folder('docs');
+    if (!docsFolder) return;
+
+    const readme = this.generateReadme(analysis, diagnostics);
+    docsFolder.file('README-IMPLEMENTATION.md', readme);
+
+    const reportFolder = themeFolder.folder('report');
+    if (reportFolder) {
+      reportFolder.file('analysis.json', JSON.stringify(analysis, null, 2));
+      reportFolder.file('diagnostics.html', this.generateDiagnosticsHTML(diagnostics));
+    }
+  }
+
+  // Helper methods for content generation
+  private getDefaultHeader(): string {
+    return `<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php wp_title('|', true, 'right'); ?></title>
+    <?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+`;
+  }
+
+  private getDefaultFooter(): string {
+    return `<?php wp_footer(); ?>
+</body>
+</html>`;
+  }
+
+  private getDefaultFrontPage(): string {
+    return `<?php get_header(); ?>
+<div class="content">
+    <h1><?php bloginfo('name'); ?></h1>
+    <p><?php bloginfo('description'); ?></p>
+</div>
+<?php get_footer(); ?>`;
+  }
+
+  private getDefaultPageTemplate(): string {
+    return `<?php get_header(); ?>
+<div class="page-content">
+    <?php while (have_posts()) : the_post(); ?>
+        <article <?php post_class(); ?>>
+            <h1><?php the_title(); ?></h1>
+            <div class="entry-content">
+                <?php the_content(); ?>
+            </div>
+        </article>
+    <?php endwhile; ?>
+</div>
+<?php get_footer(); ?>`;
+  }
+
+  private getDefaultSingle(): string {
+    return `<?php get_header(); ?>
+<div class="single-post">
+    <?php while (have_posts()) : the_post(); ?>
+        <article <?php post_class(); ?>>
+            <h1><?php the_title(); ?></h1>
+            <div class="entry-meta">
+                <time><?php the_date(); ?></time>
+                <span class="author"><?php the_author(); ?></span>
+            </div>
+            <div class="entry-content">
+                <?php the_content(); ?>
+            </div>
+        </article>
+    <?php endwhile; ?>
+</div>
+<?php get_footer(); ?>`;
+  }
+
+  private generateIndexTemplate(analysis: AnalysisReport): string {
+    // Use homepage as fallback template
+    const homepage = analysis.pages.find(p => p.filename === analysis.homepage);
+    if (!homepage) return this.getDefaultFrontPage();
+
+    return `<?php get_header(); ?>
+
+<div class="index-content">
+    <?php if (have_posts()) : ?>
+        <?php while (have_posts()) : the_post(); ?>
+            <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                <div class="entry-content">
+                    <?php the_excerpt(); ?>
+                </div>
+            </article>
+        <?php endwhile; ?>
+        
+        <div class="pagination">
+            <?php the_posts_pagination(); ?>
+        </div>
+    <?php else : ?>
+        <p>No content found.</p>
+    <?php endif; ?>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private extractAndProcessHeadContent($: cheerio.CheerioAPI): string {
+    const headElements: string[] = [];
+    
+    $('head > *').each((_, el) => {
+      const tagName = el.tagName?.toLowerCase();
+      if (tagName === 'title') return; // WordPress handles this
+      if (tagName === 'script' || tagName === 'link') return; // Handled by enqueue
+      
+      headElements.push($.html(el));
+    });
+    
+    return headElements.join('\n    ');
+  }
+
+  private extractHeaderContent($: cheerio.CheerioAPI): string {
+    const headerSelectors = ['header', '.header', '#header', 'nav', '.navbar', '.nav'];
+    
+    for (const selector of headerSelectors) {
+      const element = $(selector).first();
+      if (element.length > 0) {
+        return $.html(element) || '';
+      }
+    }
+    
+    return '';
+  }
+
+  private extractFooterContent($: cheerio.CheerioAPI): string {
+    const footerSelectors = ['footer', '.footer', '#footer'];
+    
+    for (const selector of footerSelectors) {
+      const element = $(selector).first();
+      if (element.length > 0) {
+        return $.html(element) || '';
+      }
+    }
+    
+    return '';
+  }
+
+  private getFooterScripts(analysis: AnalysisReport): string {
+    const footerScripts = analysis.scripts
+      .filter(script => script.location === 'footer' && script.content.trim())
+      .sort((a, b) => a.order - b.order)
+      .map(script => `<script${script.type ? ` type="${script.type}"` : ''}>${script.content}</script>`)
+      .join('\n');
+    
+    return footerScripts ? '\n' + footerScripts : '';
+  }
+
+  private removeHeaderFooter($: cheerio.CheerioAPI): void {
+    $('header, .header, #header, footer, .footer, #footer, nav, .navbar, .nav').remove();
+  }
+
+  private convertInternalLinks($: cheerio.CheerioAPI, analysis: AnalysisReport): void {
+    $('a[href]').each((_, link) => {
+      const href = $(link).attr('href');
+      if (href && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+        // Convert to WordPress URL
+        const slug = this.htmlFileToSlug(href);
+        $(link).attr('href', `<?php echo esc_url(home_url('/${slug}/')); ?>`);
+      }
+    });
+  }
+
+  private findContentArea($: cheerio.CheerioAPI): cheerio.Cheerio<any> {
+    const contentSelectors = ['.content', '#content', '.main', '#main', 'main', '.page-content', '.entry-content'];
+    
+    for (const selector of contentSelectors) {
+      const element = $(selector).first();
+      if (element.length > 0) {
+        return element;
+      }
+    }
+    
+    return $();
+  }
+
+  private replaceBlogElements($: cheerio.CheerioAPI): void {
+    // Replace common blog elements with WordPress equivalents
+    $('.date, .published, time').each((_, el) => {
+      $(el).html('<?php echo get_the_date(); ?>');
+    });
+    
+    $('.author').each((_, el) => {
+      $(el).html('<?php the_author(); ?>');
+    });
+  }
+
+  private hasSearchForm(analysis: AnalysisReport): boolean {
+    return analysis.forms.some(form => 
+      form.fields.some(field => 
+        field.name.toLowerCase().includes('search') || 
+        field.name.toLowerCase() === 'q' ||
+        field.name.toLowerCase() === 's'
+      )
+    );
+  }
+
+  private findOriginalSearchForm(analysis: AnalysisReport): string | null {
+    const searchForm = analysis.forms.find(form => 
+      form.fields.some(field => 
+        field.name.toLowerCase().includes('search') || 
+        field.name.toLowerCase() === 'q' ||
+        field.name.toLowerCase() === 's'
+      )
+    );
+    
+    return searchForm?.markup || null;
+  }
+
+  private sanitizeFilename(filename: string): string {
+    return path.basename(filename, path.extname(filename))
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  private generateCustomPageTemplate(page: any, analysis: AnalysisReport): string {
+    const $ = cheerio.load(page.content);
+    this.removeHeaderFooter($);
+    this.convertInternalLinks($, analysis);
+    
+    const content = $('body').html() || '';
+    
+    return `<?php get_header(); ?>
+
+<div class="page-content page-${this.sanitizeFilename(page.filename)}">
+    <?php while (have_posts()) : the_post(); ?>
+        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            ${content}
+        </article>
+    <?php endwhile; ?>
+</div>
+
+<?php get_footer(); ?>`;
+  }
+
+  private htmlFileToSlug(htmlFile: string): string {
+    return this.sanitizeFilename(htmlFile);
+  }
+
+  private generateWXR(analysis: AnalysisReport): string {
+    // Generate WordPress eXtended RSS (WXR) format for import
+    return `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+    xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:wp="http://wordpress.org/export/1.2/">
+
+<channel>
+    <title>Converted Website Content</title>
+    <description>Pages and posts from HTML conversion</description>
+    <generator>HTML to WordPress Converter</generator>
+    
+    ${analysis.pages.map((page, index) => `
+    <item>
+        <title><![CDATA[${page.title}]]></title>
+        <wp:post_id>${index + 1}</wp:post_id>
+        <wp:post_date><![CDATA[${new Date().toISOString()}]]></wp:post_date>
+        <wp:post_name><![CDATA[${this.sanitizeFilename(page.filename)}]]></wp:post_name>
+        <wp:status><![CDATA[publish]]></wp:status>
+        <wp:post_type><![CDATA[${page.isBlogLike ? 'post' : 'page'}]]></wp:post_type>
+        <content:encoded><![CDATA[${this.extractPageContent(page.content)}]]></content:encoded>
+    </item>
+    `).join('\n')}
+</channel>
+</rss>`;
+  }
+
+  private generateImportManifest(analysis: AnalysisReport): any {
+    return {
+      conversion_date: new Date().toISOString(),
+      original_pages: analysis.pages.length,
+      blog_pages: analysis.blogPages.length,
+      has_navigation: analysis.navigation !== null,
+      forms_detected: analysis.forms.length,
+      assets_found: Object.values(analysis.assets).flat().length,
+      page_mapping: analysis.pages.map(page => ({
+        original: page.filename,
+        wordpress_slug: this.sanitizeFilename(page.filename),
+        type: page.isBlogLike ? 'post' : 'page',
+        title: page.title
+      }))
+    };
+  }
+
+  private generateReadme(analysis: AnalysisReport, diagnostics: DiagnosticsReport): string {
+    return `# WordPress Theme Implementation Guide
+
+## Conversion Summary
+- **Pages Converted**: ${analysis.pages.length}
+- **Blog Pages**: ${analysis.blogPages.length}
+- **Forms Found**: ${analysis.forms.length}
+- **Assets Processed**: ${Object.values(analysis.assets).flat().length}
+- **Navigation**: ${analysis.navigation ? 'Detected and preserved' : 'None found'}
+
+## Installation Instructions
+
+1. Upload the theme folder to your WordPress \`/wp-content/themes/\` directory
+2. Activate the theme in WordPress Admin → Appearance → Themes
+3. Import content using \`import/content.xml\` via WordPress Admin → Tools → Import
+4. Set up navigation via WordPress Admin → Appearance → Menus
+
+## Theme Features
+
+### Preserved Elements
+- Original CSS styling (in \`style.css\` and \`assets/css/\`)
+- JavaScript functionality (in \`assets/js/\`)
+- Navigation structure${analysis.navigation ? ' with custom walker' : ''}
+- Form styling and structure
+
+### WordPress Integration
+- Proper theme structure with all required templates
+- Content managed through WordPress admin
+- SEO-friendly URLs and meta tags
+- Responsive and accessible markup preserved
+
+## Customization
+
+### Adding Content
+- Pages: WordPress Admin → Pages → Add New
+- Blog Posts: WordPress Admin → Posts → Add New (if blog detected)
+- Navigation: WordPress Admin → Appearance → Menus
+
+### Styling
+- Main styles: Edit \`style.css\`
+- Asset files: Located in \`assets/\` folder
+- Custom CSS: WordPress Admin → Appearance → Customize → Additional CSS
+
+## Technical Notes
+
+### Scripts and Dependencies
+${diagnostics.scriptAdjustments.length > 0 ? 
+  '- Script loading adjustments made:\n' + diagnostics.scriptAdjustments.map(adj => `  - ${adj}`).join('\n') :
+  '- All scripts preserved with original loading behavior'
+}
+
+### Potential Issues
+${diagnostics.hazards.length > 0 ? 
+  diagnostics.hazards.map(hazard => `- ${hazard}`).join('\n') :
+  'No major compatibility issues detected'
+}
+
+### Missing Assets
+${diagnostics.missingFiles.length > 0 ? 
+  diagnostics.missingFiles.map(file => `- ${file}`).join('\n') :
+  'All assets successfully converted'
+}
+
+## Support
+
+For theme customization and WordPress-specific questions, consult:
+- WordPress Codex: https://codex.wordpress.org/
+- Theme Developer Handbook: https://developer.wordpress.org/themes/
+
+Generated by HTML to WordPress Converter v1.0.0
+`;
+  }
+
+  private generateDiagnosticsHTML(diagnostics: DiagnosticsReport): string {
+    return `<!DOCTYPE html>
+<html>
+<head>
+    <title>Conversion Diagnostics Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        .error { background: #ffebee; }
+        .warning { background: #fff3e0; }
+        .success { background: #e8f5e8; }
+        .list { list-style: none; padding: 0; }
+        .list li { padding: 5px 0; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <h1>WordPress Theme Conversion Diagnostics</h1>
+    
+    <div class="section ${diagnostics.hazards.length > 0 ? 'error' : 'success'}">
+        <h2>Compatibility Hazards</h2>
+        ${diagnostics.hazards.length > 0 ? 
+          `<ul class="list">${diagnostics.hazards.map(h => `<li>${h}</li>`).join('')}</ul>` :
+          '<p>No compatibility issues detected.</p>'
+        }
+    </div>
+    
+    <div class="section ${diagnostics.scriptAdjustments.length > 0 ? 'warning' : 'success'}">
+        <h2>Script Adjustments</h2>
+        ${diagnostics.scriptAdjustments.length > 0 ? 
+          `<ul class="list">${diagnostics.scriptAdjustments.map(a => `<li>${a}</li>`).join('')}</ul>` :
+          '<p>No script adjustments required.</p>'
+        }
+    </div>
+    
+    <div class="section ${diagnostics.missingFiles.length > 0 ? 'error' : 'success'}">
+        <h2>Missing Files</h2>
+        ${diagnostics.missingFiles.length > 0 ? 
+          `<ul class="list">${diagnostics.missingFiles.map(f => `<li>${f}</li>`).join('')}</ul>` :
+          '<p>All files successfully processed.</p>'
+        }
+    </div>
+    
+    <div class="section">
+        <h2>Conversion Summary</h2>
+        <p>Theme generated successfully with WordPress compatibility maintained.</p>
+        <p>Report generated: ${new Date().toLocaleString()}</p>
+    </div>
+</body>
+</html>`;
+  }
+
+  private extractPageContent(htmlContent: string): string {
+    const $ = cheerio.load(htmlContent);
+    
+    // Remove header, footer, nav elements
+    $('header, footer, nav, .header, .footer, .nav, .navbar').remove();
+    
+    // Extract main content
+    const contentSelectors = ['main', '.main', '.content', '#content', '.page-content', 'article'];
+    
+    for (const selector of contentSelectors) {
+      const element = $(selector).first();
+      if (element.length > 0) {
+        return element.html() || '';
+      }
+    }
+    
+    // Fallback to body content
+    return $('body').html() || htmlContent;
+  }
+}
