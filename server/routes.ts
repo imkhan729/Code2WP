@@ -132,7 +132,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Live preview of converted website
+  // Live preview of converted website - serves directly from extracted files
   app.get("/api/conversions/:id/preview", async (req, res) => {
     try {
       const conversion = await storage.getConversion(req.params.id);
@@ -140,34 +140,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Conversion not found" });
       }
 
-      if (!conversion.previewData?.html) {
-        return res.status(400).json({ message: "Preview not available yet" });
+      const files = await storage.getFilesByConversionId(conversion.id);
+      const file = files[0];
+      
+      if (!file) {
+        return res.status(404).json({ message: "Original files not found" });
       }
 
-      // Get the full HTML from analysis instead of truncated preview
-      let fullHtml = conversion.previewData.html;
+      // Look for the main index.html file in the extracted directory
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
       
-      // If we have analysis report, try to get the full HTML from the first page
-      if (conversion.analysisReport?.pages?.length > 0) {
-        const mainPage = conversion.analysisReport.pages.find((p: any) => 
-          p.filename.includes('index') || p.filename.includes('home')
-        ) || conversion.analysisReport.pages[0];
+      // Find potential index files
+      const findHtmlFiles = async (dir: string): Promise<string[]> => {
+        const results: string[] = [];
+        try {
+          const entries = await fs.readdir(dir, { withFileTypes: true });
+          for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+              const subResults = await findHtmlFiles(fullPath);
+              results.push(...subResults);
+            } else if (entry.name.toLowerCase().endsWith('.html')) {
+              results.push(fullPath);
+            }
+          }
+        } catch (error) {
+          // Directory might not exist
+        }
+        return results;
+      };
+
+      const htmlFiles = await findHtmlFiles(extractPath);
+      
+      // Prioritize index.html files
+      let selectedFile = htmlFiles.find(f => path.basename(f).toLowerCase() === 'index.html');
+      
+      if (!selectedFile) {
+        // Look for other main page candidates
+        selectedFile = htmlFiles.find(f => {
+          const basename = path.basename(f).toLowerCase();
+          return basename.includes('index') || basename.includes('home') || basename.includes('main');
+        });
+      }
+      
+      if (!selectedFile && htmlFiles.length > 0) {
+        // Find the largest HTML file as fallback
+        let largest = htmlFiles[0];
+        let largestSize = 0;
         
-        if (mainPage?.content) {
-          fullHtml = mainPage.content;
+        for (const htmlFile of htmlFiles) {
+          try {
+            const stat = await fs.stat(htmlFile);
+            if (stat.size > largestSize) {
+              largest = htmlFile;
+              largestSize = stat.size;
+            }
+          } catch (error) {
+            // Skip files that can't be read
+          }
+        }
+        selectedFile = largest;
+      }
+
+      if (!selectedFile || !await fs.pathExists(selectedFile)) {
+        return res.status(404).send(`
+          <html>
+            <body>
+              <h1>No Preview Available</h1>
+              <p>No suitable HTML file found in the uploaded ZIP.</p>
+              <p>Found files: ${htmlFiles.map(f => path.basename(f)).join(', ')}</p>
+            </body>
+          </html>
+        `);
+      }
+
+      // Read and serve the HTML file
+      let htmlContent = await fs.readFile(selectedFile, 'utf-8');
+      
+      // Check if it's a redirect page and try to find a better one
+      if (htmlContent.includes('meta http-equiv="refresh"') || htmlContent.includes('window.location.href')) {
+        const nonRedirectFiles = [];
+        for (const htmlFile of htmlFiles) {
+          try {
+            const content = await fs.readFile(htmlFile, 'utf-8');
+            if (!content.includes('meta http-equiv="refresh"') && !content.includes('window.location.href') && content.length > 1000) {
+              nonRedirectFiles.push({ file: htmlFile, content, size: content.length });
+            }
+          } catch (error) {
+            // Skip files that can't be read
+          }
+        }
+        
+        if (nonRedirectFiles.length > 0) {
+          // Use the largest non-redirect file
+          const bestFile = nonRedirectFiles.sort((a, b) => b.size - a.size)[0];
+          selectedFile = bestFile.file;
+          htmlContent = bestFile.content;
         }
       }
 
+      // Get the relative path from extract directory to make asset URLs work
+      const relativePath = path.relative(extractPath, selectedFile);
+      const basePath = path.dirname(relativePath);
+      
       // Inject asset proxy URLs to serve CSS, JS, and images from the original files
-      fullHtml = fullHtml.replace(
+      htmlContent = htmlContent.replace(
         /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))["']/gi,
-        `$1="/api/conversions/${conversion.id}/assets/$2"`
+        (match, attr, assetPath) => {
+          // Handle relative paths
+          let fullAssetPath = assetPath;
+          if (!assetPath.startsWith('http') && !assetPath.startsWith('/')) {
+            fullAssetPath = basePath ? `${basePath}/${assetPath}` : assetPath;
+          }
+          return `${attr}="/api/conversions/${conversion.id}/assets/${fullAssetPath}"`;
+        }
       );
+
+      console.log(`Serving preview: ${path.basename(selectedFile)} (${htmlContent.length} chars)`);
 
       // Set appropriate headers
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-      res.send(fullHtml);
+      res.send(htmlContent);
     } catch (error) {
       console.error('Preview error:', error);
       res.status(500).send(`
@@ -286,7 +380,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         progress: 60,
         analysisReport: parsedWebsite.analysis,
         previewData: {
-          html: parsedWebsite.html.substring(0, 5000), // Store truncated HTML for preview
+          html: parsedWebsite.html, // Store full HTML content for preview
           title: parsedWebsite.structure.title,
           analysis: {
             pagesFound: parsedWebsite.analysis.pages.length,
