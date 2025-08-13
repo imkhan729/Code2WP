@@ -12,7 +12,9 @@ import {
   XCircle, 
   AlertCircle,
   FileCode,
-  Zap
+  Zap,
+  ExternalLink,
+  Monitor
 } from "lucide-react";
 
 interface Conversion {
@@ -99,6 +101,11 @@ export function ConversionDetails({ conversion }: ConversionDetailsProps) {
     }
   };
 
+  const openPreview = () => {
+    const previewUrl = `/api/conversions/${conversion.id}/preview`;
+    window.open(previewUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+  };
+
   return (
     <Card className="w-full" data-testid="conversion-details">
       <CardHeader>
@@ -120,12 +127,25 @@ export function ConversionDetails({ conversion }: ConversionDetailsProps) {
             >
               {conversion.status.toUpperCase()}
             </Badge>
-            {conversion.status === "completed" && (
-              <Button onClick={downloadTheme} className="flex items-center gap-2" data-testid="download-button">
-                <Download className="w-4 h-4" />
-                Download Theme
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              {(conversion.status === "completed" || conversion.previewData) && (
+                <Button 
+                  variant="outline" 
+                  onClick={openPreview} 
+                  className="flex items-center gap-2" 
+                  data-testid="preview-button"
+                >
+                  <Monitor className="w-4 h-4" />
+                  Live Preview
+                </Button>
+              )}
+              {conversion.status === "completed" && (
+                <Button onClick={downloadTheme} className="flex items-center gap-2" data-testid="download-button">
+                  <Download className="w-4 h-4" />
+                  Download Theme
+                </Button>
+              )}
+            </div>
           </div>
         </div>
         
@@ -265,14 +285,85 @@ export function ConversionDetails({ conversion }: ConversionDetailsProps) {
 
           {activeTab === 'preview' && (
             <div className="mt-6">
-            {conversion.previewData ? (
-              <PreviewSection previewData={conversion.previewData} />
-            ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                <Eye className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Preview not available</p>
-              </div>
-            )}
+              {conversion.previewData ? (
+                <div className="space-y-4">
+                  <PreviewSection previewData={conversion.previewData} />
+                  
+                  {/* Live Preview Section */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Monitor className="w-5 h-5" />
+                        Live Website Preview
+                      </CardTitle>
+                      <CardDescription>
+                        View your converted website exactly as it will appear to visitors
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="flex gap-4">
+                          <Button 
+                            onClick={openPreview} 
+                            className="flex items-center gap-2"
+                            data-testid="open-preview-new-tab"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Open in New Tab
+                          </Button>
+                          <Button 
+                            variant="outline"
+                            onClick={() => {
+                              const iframe = document.getElementById('preview-iframe') as HTMLIFrameElement;
+                              if (iframe) {
+                                iframe.src = `/api/conversions/${conversion.id}/preview`;
+                              }
+                            }}
+                            data-testid="refresh-preview"
+                          >
+                            <Monitor className="w-4 h-4 mr-2" />
+                            Refresh Preview
+                          </Button>
+                        </div>
+                        
+                        {/* Embedded Preview */}
+                        <div className="border rounded-lg overflow-hidden bg-gray-50">
+                          <div className="bg-gray-100 px-4 py-2 border-b flex items-center gap-2 text-sm text-gray-600">
+                            <div className="flex gap-1">
+                              <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                              <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                              <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                            </div>
+                            <span className="ml-2">Preview - {conversion.name}</span>
+                          </div>
+                          <iframe
+                            id="preview-iframe"
+                            src={`/api/conversions/${conversion.id}/preview`}
+                            className="w-full h-96 border-0"
+                            title="Website Preview"
+                            data-testid="preview-iframe"
+                            onError={() => {
+                              console.error('Preview iframe failed to load');
+                            }}
+                          />
+                        </div>
+                        
+                        <div className="text-sm text-gray-500">
+                          <p>• This preview shows your website with original styling and functionality</p>
+                          <p>• JavaScript interactions and responsive design are preserved</p>
+                          <p>• Use "Open in New Tab" for full-screen testing</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Eye className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>Preview not available</p>
+                  <p className="text-sm mt-2">Website conversion is still in progress</p>
+                </div>
+              )}
             </div>
           )}
 

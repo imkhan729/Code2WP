@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConversionDetails } from "./ConversionDetails";
-import { FileArchive, Link as LinkIcon, Download, RotateCcw, CheckCircle, XCircle, Eye } from "lucide-react";
+import { FileArchive, Link as LinkIcon, Download, RotateCcw, CheckCircle, XCircle, Eye, Monitor } from "lucide-react";
 import { format } from "date-fns";
 
 interface Conversion {
@@ -34,6 +34,11 @@ export default function RecentConversions() {
 
   const handleViewDetails = (conversionId: string) => {
     setSelectedConversion(conversionId);
+  };
+
+  const handlePreview = (conversionId: string) => {
+    const previewUrl = `/api/conversions/${conversionId}/preview`;
+    window.open(previewUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
   };
 
   const selectedConversionData = conversions.find((c: Conversion) => c.id === selectedConversion);
@@ -127,6 +132,18 @@ export default function RecentConversions() {
                   {conversion.status === 'processing' && <RotateCcw className="w-4 h-4 mr-1 animate-spin" />}
                   {conversion.status}
                 </Badge>
+                {(conversion.status === "completed" || conversion.previewData) && (
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => handlePreview(conversion.id)}
+                    className="flex items-center"
+                    data-testid={`preview-${conversion.id}`}
+                  >
+                    <Monitor className="w-4 h-4 mr-1" />
+                    Preview
+                  </Button>
+                )}
                 <Button 
                   size="sm" 
                   variant="outline"
