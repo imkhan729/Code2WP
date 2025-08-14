@@ -283,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Conversion not found" });
       }
 
-      const assetPath = req.params[0]; // Get the wildcard part
+      const assetPath = (req.params as any)[0]; // Get the wildcard part
       const files = await storage.getFilesByConversionId(conversion.id);
       const file = files[0]; // Get the main uploaded file
 
