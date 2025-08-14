@@ -62,12 +62,44 @@ export default function BlogArticle() {
 
   const article = articles[slug as keyof typeof articles];
 
+  const getTableOfContents = (slug: string) => {
+    switch (slug) {
+      case "ultimate-guide-html-to-wordpress-2025":
+        return [
+          { id: "why-convert", title: "Why Convert HTML to WordPress?" },
+          { id: "ai-vs-manual", title: "AI-Powered vs Manual Conversion" },
+          { id: "step-by-step", title: "Step-by-Step Conversion Process" },
+          { id: "seo-optimization", title: "SEO Optimization During Conversion" },
+          { id: "best-practices", title: "Best Practices for 2025" },
+          { id: "conclusion", title: "Conclusion" }
+        ];
+      case "wordpress-theme-development-trends-2025":
+        return [
+          { id: "ai-revolution", title: "AI-Powered Development Revolution" },
+          { id: "fse-maturity", title: "Full Site Editing Maturity" },
+          { id: "performance-first", title: "Performance-First Development" },
+          { id: "accessibility", title: "Accessibility-First Design" },
+          { id: "mobile-pwa", title: "Mobile-First and PWA Features" }
+        ];
+      case "ai-vs-manual-wordpress-conversion":
+        return [
+          { id: "understanding", title: "Understanding Both Approaches" },
+          { id: "comparison", title: "Detailed Comparison" },
+          { id: "when-manual", title: "When to Choose Manual Conversion" },
+          { id: "when-ai", title: "When to Choose AI Conversion" },
+          { id: "hybrid", title: "Hybrid Approach: Best of Both Worlds" }
+        ];
+      default:
+        return [];
+    }
+  };
+
   const getArticleContent = (slug: string) => {
     switch (slug) {
       case "ultimate-guide-html-to-wordpress-2025":
         return `
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Why Convert HTML to WordPress?</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">WordPress powers over 40% of all websites on the internet, making it the most popular content management system worldwide. Converting your static HTML site to WordPress offers numerous compelling benefits that can transform your online presence.</p>
+          <h2 id="why-convert" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Why Convert HTML to WordPress?</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">WordPress powers over <a href="https://w3techs.com/technologies/details/cm-wordpress" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">40% of all websites</a> on the internet, making it the most popular content management system worldwide. Converting your static HTML site to WordPress offers numerous compelling benefits that can transform your online presence.</p>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Dynamic Content Management</h3>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -85,7 +117,7 @@ export default function BlogArticle() {
             <li>Multi-language support</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">AI-Powered vs Manual Conversion</h2>
+          <h2 id="ai-vs-manual" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI-Powered vs Manual Conversion</h2>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Traditional Manual Conversion</h3>
           <p class="text-gray-700 mb-4 leading-relaxed">The traditional approach involves manually breaking down HTML files and converting them to PHP templates. This process typically requires:</p>
@@ -103,7 +135,7 @@ export default function BlogArticle() {
             <li><strong>Process:</strong> Automated analysis, generation, and optimization</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Step-by-Step Conversion Process</h2>
+          <h2 id="step-by-step" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Step-by-Step Conversion Process</h2>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Method 1: Using Code2WP (Recommended)</h3>
           
@@ -132,8 +164,8 @@ export default function BlogArticle() {
             <li>Optimizes for mobile responsiveness and performance</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">SEO Optimization During Conversion</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Modern conversion tools automatically implement SEO best practices:</p>
+          <h2 id="seo-optimization" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">SEO Optimization During Conversion</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">Modern conversion tools automatically implement <a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">SEO best practices</a> following <a href="https://support.google.com/webmasters/answer/7451184" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google's guidelines</a>:</p>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Semantic HTML structure for better search engine understanding</li>
             <li>Meta tag implementation for social sharing</li>
@@ -142,7 +174,7 @@ export default function BlogArticle() {
             <li>Mobile-first responsive design</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Best Practices for 2025</h2>
+          <h2 id="best-practices" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Best Practices for 2025</h2>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Modern Development Standards</h3>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -160,16 +192,26 @@ export default function BlogArticle() {
             <li>Regular security updates and maintenance</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Converting HTML websites to WordPress themes in 2025 offers multiple approaches, from traditional manual conversion to modern AI-powered solutions. While manual conversion provides complete control, AI-powered tools like Code2WP offer unmatched speed and efficiency for most projects.</p>
+          <h2 id="conclusion" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Conclusion</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">Converting HTML websites to WordPress themes in 2025 offers multiple approaches, from traditional manual conversion to modern AI-powered solutions. While manual conversion provides complete control, AI-powered tools like <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">Code2WP</a> offer unmatched speed and efficiency for most projects.</p>
           
-          <p class="text-gray-700 mb-8 leading-relaxed">The future of web development lies in leveraging both traditional skills and modern AI tools to create exceptional WordPress websites that serve users effectively and efficiently. Choose the method that best fits your timeline, skill level, and project requirements.</p>
+          <p class="text-gray-700 mb-4 leading-relaxed">The future of web development lies in leveraging both traditional skills and modern AI tools to create exceptional WordPress websites that serve users effectively and efficiently. Choose the method that best fits your timeline, skill level, and project requirements.</p>
+          
+          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
+            <ul class="space-y-2">
+              <li><a href="/blog/wordpress-theme-development-trends-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Trends 2025</a></li>
+              <li><a href="/blog/ai-vs-manual-wordpress-conversion" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual WordPress Conversion Guide</a></li>
+              <li><a href="/documentation" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+              <li><a href="https://wordpress.org/documentation/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Official WordPress Documentation</a></li>
+            </ul>
+          </div>
         `;
       
       case "wordpress-theme-development-trends-2025":
         return `
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">AI-Powered Development Revolution</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">The WordPress ecosystem is experiencing a transformation driven by artificial intelligence. AI-powered development tools are changing how we approach theme creation, offering unprecedented speed and consistency.</p>
+          <h2 id="ai-revolution" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI-Powered Development Revolution</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">The WordPress ecosystem is experiencing a transformation driven by artificial intelligence. AI-powered development tools like <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">Code2WP</a> are changing how we approach theme creation, offering unprecedented speed and consistency. According to <a href="https://trends.builtwith.com/websitelist/wordpress" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">recent data</a>, WordPress continues to dominate the CMS market with over 455 million websites.</p>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Key AI Innovations</h3>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -179,8 +221,8 @@ export default function BlogArticle() {
             <li>Built-in SEO optimization and schema markup</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Full Site Editing Maturity</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">WordPress's Full Site Editing (FSE) has reached maturity, making block-based themes the new standard for modern WordPress development.</p>
+          <h2 id="fse-maturity" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Full Site Editing Maturity</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">WordPress's <a href="https://wordpress.org/gutenberg/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Full Site Editing (FSE)</a> has reached maturity with WordPress 6.0+, making block-based themes the new standard for modern WordPress development. This represents a significant shift from traditional <a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">PHP-based theme development</a>.</p>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">FSE Features</h3>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -190,8 +232,8 @@ export default function BlogArticle() {
             <li>Visual editing without code knowledge</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Performance-First Development</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Google's Core Web Vitals have become crucial ranking factors, making performance optimization a priority in theme development.</p>
+          <h2 id="performance-first" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance-First Development</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed"><a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google's Core Web Vitals</a> have become crucial ranking factors, making performance optimization a priority in theme development. Sites that load faster than 3 seconds have significantly better user engagement and <a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">search rankings</a>.</p>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Optimization Techniques</h3>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
@@ -201,22 +243,37 @@ export default function BlogArticle() {
             <li>Service workers for intelligent caching</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Accessibility-First Design</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Accessibility is no longer optional but a legal and ethical requirement. Modern themes must comply with WCAG 2.2 standards from the ground up.</p>
+          <h2 id="accessibility" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Accessibility-First Design</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">Accessibility is no longer optional but a legal and ethical requirement. Modern themes must comply with <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WCAG 2.2 standards</a> from the ground up. The <a href="https://www.ada.gov/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Americans with Disabilities Act (ADA)</a> requires digital accessibility compliance.</p>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Mobile-First and PWA Features</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">With mobile traffic exceeding desktop, themes must prioritize mobile experience and incorporate Progressive Web App features for app-like functionality.</p>
+          <h2 id="mobile-pwa" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Mobile-First and PWA Features</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">With <a href="https://www.statista.com/statistics/277125/share-of-website-traffic-coming-from-mobile-devices/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">mobile traffic exceeding desktop</a>, themes must prioritize mobile experience and incorporate <a href="https://web.dev/progressive-web-apps/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Progressive Web App features</a> for app-like functionality.</p>
+
+          <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 my-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">💡 Pro Tip</h3>
+            <p class="text-gray-700 text-sm">Start your next WordPress project with an <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI-powered conversion</a> to incorporate all these modern trends automatically. This saves weeks of development time while ensuring best practices are followed.</p>
+          </div>
 
           <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
-          <p class="text-gray-700 mb-8 leading-relaxed">The WordPress theme development landscape in 2025 is characterized by AI integration, performance optimization, and accessibility focus. Developers who embrace these trends while maintaining code quality will create themes that meet both current standards and future needs.</p>
+          <p class="text-gray-700 mb-4 leading-relaxed">The WordPress theme development landscape in 2025 is characterized by AI integration, performance optimization, and accessibility focus. Developers who embrace these trends while maintaining code quality will create themes that meet both current standards and future needs.</p>
+          
+          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
+            <ul class="space-y-2">
+              <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Conversion Guide</a></li>
+              <li><a href="/blog/ai-vs-manual-wordpress-conversion" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual Conversion Comparison</a></li>
+              <li><a href="/features" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Code2WP Features Overview</a></li>
+              <li><a href="https://wordpress.org/news/category/releases/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Latest WordPress Updates</a></li>
+            </ul>
+          </div>
         `;
 
       case "ai-vs-manual-wordpress-conversion":
         return `
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Understanding Both Approaches</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">The landscape of WordPress theme development has been transformed by AI-powered conversion tools, but traditional manual methods still have their place. Understanding when to use each approach is crucial for project success.</p>
+          <h2 id="understanding" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Understanding Both Approaches</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">The landscape of WordPress theme development has been transformed by AI-powered conversion tools, but traditional manual methods still have their place. Understanding when to use each approach is crucial for project success. With <a href="https://hostingtribunal.com/blog/wordpress-statistics/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress powering 43% of all websites</a>, choosing the right conversion method can significantly impact development efficiency.</p>
           
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Detailed Comparison</h2>
+          <h2 id="comparison" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Detailed Comparison</h2>
           
           <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Time Investment</h3>
           <p class="font-bold text-gray-900 mt-6 mb-3">Manual Conversion:</p>
@@ -252,7 +309,7 @@ export default function BlogArticle() {
             <li>Total: $20-200 per project</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">When to Choose Manual Conversion</h2>
+          <h2 id="when-manual" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">When to Choose Manual Conversion</h2>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Complex custom functionality requirements</li>
             <li>Unique design implementations</li>
@@ -261,7 +318,7 @@ export default function BlogArticle() {
             <li>E-commerce customizations</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">When to Choose AI Conversion</h2>
+          <h2 id="when-ai" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">When to Choose AI Conversion</h2>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Standard business websites</li>
             <li>Tight deadlines and quick turnaround</li>
@@ -270,21 +327,63 @@ export default function BlogArticle() {
             <li>Rapid prototyping needs</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Hybrid Approach: Best of Both Worlds</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Many successful projects use a hybrid approach: start with AI conversion for the foundation, then add manual customizations as needed. This provides speed and efficiency while maintaining flexibility for custom requirements.</p>
+          <h2 id="hybrid" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Hybrid Approach: Best of Both Worlds</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">Many successful projects use a hybrid approach: start with <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI conversion</a> for the foundation, then add manual customizations as needed. This approach is recommended by <a href="https://developer.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress developers</a> for balancing speed and customization.</p>
+
+          <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 my-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">⚡ Quick Comparison Table</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b">
+                    <th class="text-left py-2">Factor</th>
+                    <th class="text-left py-2">AI Conversion</th>
+                    <th class="text-left py-2">Manual Conversion</th>
+                  </tr>
+                </thead>
+                <tbody class="space-y-2">
+                  <tr class="border-b border-gray-100">
+                    <td class="py-2 font-medium">Time</td>
+                    <td class="py-2">5-15 minutes</td>
+                    <td class="py-2">15-60+ hours</td>
+                  </tr>
+                  <tr class="border-b border-gray-100">
+                    <td class="py-2 font-medium">Cost</td>
+                    <td class="py-2">$20-200</td>
+                    <td class="py-2">$750-7,500+</td>
+                  </tr>
+                  <tr class="border-b border-gray-100">
+                    <td class="py-2 font-medium">Skill Level</td>
+                    <td class="py-2">Beginner</td>
+                    <td class="py-2">Advanced</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
           <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Decision Framework</h2>
           <p class="text-gray-700 mb-4 leading-relaxed">Consider these factors when choosing your approach:</p>
           <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
-            <li>Timeline: Days vs weeks vs months</li>
-            <li>Budget: Hundreds vs thousands of dollars</li>
-            <li>Functionality: Standard vs custom requirements</li>
-            <li>Maintenance: Self-managed vs developer-maintained</li>
-            <li>Scalability: One-time vs ongoing development</li>
+            <li><strong>Timeline:</strong> Days vs weeks vs months</li>
+            <li><strong>Budget:</strong> Hundreds vs thousands of dollars</li>
+            <li><strong>Functionality:</strong> Standard vs custom requirements</li>
+            <li><strong>Maintenance:</strong> Self-managed vs developer-maintained</li>
+            <li><strong>Scalability:</strong> One-time vs ongoing development</li>
           </ul>
 
           <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
-          <p class="text-gray-700 mb-8 leading-relaxed">The choice between AI and manual WordPress conversion depends on your specific project requirements, constraints, and goals. For maximum efficiency, consider starting with AI conversion and adding manual customizations as needed. The future of WordPress development lies in understanding when and how to leverage both approaches effectively.</p>
+          <p class="text-gray-700 mb-4 leading-relaxed">The choice between AI and manual WordPress conversion depends on your specific project requirements, constraints, and goals. For maximum efficiency, consider starting with <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI conversion</a> and adding manual customizations as needed.</p>
+          
+          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
+            <ul class="space-y-2">
+              <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Guide</a></li>
+              <li><a href="/blog/wordpress-theme-development-trends-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
+              <li><a href="/documentation" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+              <li><a href="https://codex.wordpress.org/Theme_Development" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Guide</a></li>
+            </ul>
+          </div>
         `;
 
       default:
@@ -311,10 +410,21 @@ export default function BlogArticle() {
           {/* Article */}
           <article className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
             {/* Featured Image */}
-            <div className="w-full h-64 bg-gradient-to-r from-purple-500 to-orange-500 flex items-center justify-center">
-              <div className="text-white text-center">
-                <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-80" />
-                <p className="text-lg font-medium opacity-90">Featured Article</p>
+            <div className="relative w-full h-80 bg-gradient-to-br from-purple-600 via-blue-600 to-orange-500 overflow-hidden">
+              <div className="absolute inset-0 bg-black/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              
+              {/* Animated background elements */}
+              <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute bottom-16 right-16 w-32 h-32 bg-orange-400/20 rounded-full blur-2xl animate-bounce"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
+              
+              <div className="relative z-10 text-white text-center h-full flex flex-col justify-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-md">
+                  <BookOpen className="w-20 h-20 mx-auto mb-6 opacity-90 drop-shadow-lg" />
+                  <p className="text-xl font-bold opacity-95 mb-2">Featured Article</p>
+                  <p className="text-sm opacity-80">In-depth WordPress conversion guide</p>
+                </div>
               </div>
             </div>
 
@@ -386,10 +496,31 @@ export default function BlogArticle() {
               </div>
 
               {/* Article Content */}
-              <div 
-                className="prose prose-lg max-w-none"
-                dangerouslySetInnerHTML={{ __html: getArticleContent(slug) }} 
-              />
+              <div className="prose prose-lg max-w-none">
+                {/* Table of Contents */}
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-6 mb-8">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                    <BookOpen className="w-5 h-5 mr-2 text-blue-600" />
+                    Table of Contents
+                  </h3>
+                  <nav className="space-y-2">
+                    {getTableOfContents(slug).map((item, index) => (
+                      <a 
+                        key={index}
+                        href={`#${item.id}`} 
+                        className="block text-blue-700 hover:text-blue-900 text-sm font-medium hover:bg-white/50 px-3 py-2 rounded-lg transition-colors"
+                      >
+                        {item.title}
+                      </a>
+                    ))}
+                  </nav>
+                </div>
+                
+                <div 
+                  className="article-content"
+                  dangerouslySetInnerHTML={{ __html: getArticleContent(slug) }} 
+                />
+              </div>
 
               {/* Call to Action */}
               <div className="mt-12 p-8 bg-gradient-to-r from-purple-600 to-orange-500 rounded-2xl text-white text-center">

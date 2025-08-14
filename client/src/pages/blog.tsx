@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Calendar, Clock, ArrowRight, User, Tag, TrendingUp, Star, BookOpen, Zap } from "lucide-react";
+import { Calendar, Clock, ArrowRight, User, Tag, TrendingUp, Star, BookOpen, Zap, Eye, CheckCircle, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 
@@ -220,25 +220,52 @@ export default function Blog() {
 
           {/* Featured Article */}
           <div className="mb-20">
-            <div className="flex items-center mb-8">
-              <Star className="w-6 h-6 text-yellow-500 mr-2" />
-              <h2 className="text-2xl font-bold text-gray-900">Featured Article</h2>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-800 font-bold mb-4">
+                <Star className="w-5 h-5 mr-2 text-yellow-600" />
+                Featured Article
+              </div>
+              <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent mb-4">
+                Editor's Choice
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Our most comprehensive guide to mastering WordPress conversion
+              </p>
             </div>
             
-            <article className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden hover:shadow-2xl transition-all duration-300">
-              <div className="aspect-video bg-gradient-to-r from-purple-600 to-orange-500 relative overflow-hidden">
-                <div className="absolute inset-0 bg-black/20"></div>
+            <article className="group bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden hover:shadow-3xl hover:scale-[1.02] transition-all duration-700">
+              <div className="aspect-video bg-gradient-to-br from-purple-600 via-blue-600 to-orange-500 relative overflow-hidden">
+                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                
+                {/* Enhanced animated background elements */}
+                <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse group-hover:scale-110 transition-transform duration-1000"></div>
+                <div className="absolute bottom-16 right-16 w-40 h-40 bg-orange-400/20 rounded-full blur-3xl animate-bounce group-hover:animate-pulse transition-all duration-1000"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-purple-400/10 rounded-full blur-3xl animate-pulse group-hover:scale-125 transition-transform duration-1000"></div>
+                
+                {/* Floating elements */}
+                <div className="absolute top-20 right-20 w-6 h-6 bg-white/30 rounded-full animate-ping"></div>
+                <div className="absolute bottom-32 left-20 w-4 h-4 bg-orange-300/40 rounded-full animate-bounce delay-1000"></div>
+                
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white font-medium mb-4">
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    {featuredPost.category}
+                  <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/20 group-hover:bg-white/10 transition-colors duration-500">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white font-semibold">
+                        <TrendingUp className="w-4 h-4 mr-2" />
+                        {featuredPost.category}
+                      </div>
+                      <div className="flex items-center text-white/80 text-sm">
+                        <Eye className="w-4 h-4 mr-1" />
+                        {featuredPost.views} views
+                      </div>
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-3 leading-tight group-hover:text-yellow-100 transition-colors duration-300">
+                      {featuredPost.title}
+                    </h3>
+                    <p className="text-white/90 text-lg leading-relaxed">
+                      {featuredPost.excerpt}
+                    </p>
                   </div>
-                  <h3 className="text-3xl font-bold text-white mb-2 leading-tight">
-                    {featuredPost.title}
-                  </h3>
-                  <p className="text-white/90 text-lg">
-                    {featuredPost.excerpt}
-                  </p>
                 </div>
               </div>
               
@@ -277,12 +304,24 @@ export default function Blog() {
                   ))}
                 </div>
                 
-                <Link href={`/blog/${featuredPost.slug}`}>
-                  <Button size="lg" className="bg-gradient-to-r from-purple-600 to-orange-500 text-white hover:opacity-90 transition-opacity" data-testid="read-featured-article">
-                    Read Complete Guide
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link href={`/blog/${featuredPost.slug}`} className="flex-1">
+                    <Button size="lg" className="w-full bg-gradient-to-r from-purple-600 to-orange-500 text-white hover:opacity-90 transition-opacity shadow-lg" data-testid="read-featured-article">
+                      Read Complete Guide
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center bg-green-50 px-3 py-2 rounded-lg">
+                      <CheckCircle className="w-4 h-4 mr-1 text-green-600" />
+                      <span className="text-green-800 font-medium">Editor Approved</span>
+                    </div>
+                    <div className="flex items-center bg-blue-50 px-3 py-2 rounded-lg">
+                      <Award className="w-4 h-4 mr-1 text-blue-600" />
+                      <span className="text-blue-800 font-medium">Best Practices</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </article>
           </div>
@@ -303,22 +342,60 @@ export default function Blog() {
 
           {/* Latest Articles Grid */}
           <div className="mb-20">
-            <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Latest Articles</h2>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">Latest Articles</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Stay updated with the latest WordPress conversion techniques, best practices, and industry insights from our expert developers
+              </p>
+              
+              {/* SEO-optimized topic highlights */}
+              <div className="flex flex-wrap justify-center gap-3 mt-8">
+                <span className="px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                  <a href="/blog/ultimate-guide-html-to-wordpress-2025" className="hover:underline">HTML to WordPress</a>
+                </span>
+                <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                  <a href="/blog/wordpress-theme-development-trends-2025" className="hover:underline">Theme Development</a>
+                </span>
+                <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                  <a href="/blog/ai-vs-manual-wordpress-conversion" className="hover:underline">AI Conversion</a>
+                </span>
+                <span className="px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+                  <a href="/features" className="hover:underline">Advanced Features</a>
+                </span>
+              </div>
+            </div>
+            
             <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
               {blogPosts.map((post) => (
-                <article key={post.id} className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl hover:scale-105 transition-all duration-300 group">
-                  <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-orange-500/10 group-hover:from-purple-600/20 group-hover:to-orange-500/20 transition-all duration-300"></div>
+                <article key={post.id} className="group bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-2xl hover:scale-[1.03] transition-all duration-500">
+                  <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-orange-500/10 group-hover:from-purple-600/30 group-hover:to-orange-500/30 transition-all duration-500"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:from-black/40 transition-all duration-500"></div>
+                    
+                    {/* Category badge with improved design */}
                     <div className="absolute top-4 left-4">
-                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-gray-800 font-medium text-sm">
+                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm text-gray-800 font-semibold text-sm shadow-lg group-hover:bg-white transition-colors duration-300">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
                         {post.category}
                       </div>
                     </div>
+                    
+                    {/* View count badge */}
+                    <div className="absolute top-4 right-4">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-black/20 backdrop-blur-sm text-white text-xs font-medium">
+                        <Eye className="w-3 h-3 mr-1" />
+                        {post.views}
+                      </div>
+                    </div>
+                    
+                    {/* Animated background elements */}
+                    <div className="absolute bottom-4 left-4 w-16 h-16 bg-white/10 rounded-full blur-lg animate-pulse group-hover:scale-110 transition-transform duration-700"></div>
+                    <div className="absolute top-8 right-8 w-12 h-12 bg-orange-400/20 rounded-full blur-lg animate-bounce group-hover:animate-pulse transition-all duration-700"></div>
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 leading-tight group-hover:text-primary transition-colors">
-                      <Link href={`/blog/${post.slug}`}>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight group-hover:text-purple-600 transition-colors duration-300">
+                      <Link href={`/blog/${post.slug}`} className="hover:underline decoration-purple-300">
                         {post.title}
                       </Link>
                     </h3>
