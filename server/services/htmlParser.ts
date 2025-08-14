@@ -89,35 +89,59 @@ export class HtmlParser {
     const zipData = await fs.readFile(zipPath);
     const zip = await JSZip.loadAsync(zipData);
     
-    // First pass: inventory all files
+    // First pass: inventory all files with detailed structure
     const inventory = await this.inventoryZipFiles(zip);
     
-    // Create comprehensive analysis
+    // Create comprehensive analysis with route mapping
     const analysis = await this.analyzeWebsite(zip, inventory);
     
     // Find main HTML content (prefer index.html)
     const mainHtmlFile = this.findMainHtmlFile(inventory.pages);
     const htmlContent = await zip.files[mainHtmlFile].async('text');
     
-    // Extract all CSS and JS content
+    // Extract and combine all CSS files with proper order
     const cssFiles: string[] = [];
+    const cssOrder = this.determineCSSOrder(zip, inventory.css, analysis.pages);
+    
+    for (const cssFile of cssOrder) {
+      try {
+        const content = await zip.files[cssFile].async('text');
+        // Process CSS to fix relative paths and imports
+        const processedCSS = this.processCSSContent(content, cssFile, inventory);
+        cssFiles.push(processedCSS);
+      } catch (error) {
+        console.warn(`Failed to process CSS file: ${cssFile}`);
+      }
+    }
+    
+    // Extract and combine all JS files with proper order and functionality preservation
     const jsFiles: string[] = [];
+    const jsOrder = this.determineJSOrder(zip, inventory.js, analysis.scripts);
     
-    for (const cssFile of inventory.css) {
-      const content = await zip.files[cssFile].async('text');
-      cssFiles.push(content);
+    for (const jsFile of jsOrder) {
+      try {
+        const content = await zip.files[jsFile].async('text');
+        // Process JS to preserve functionality and fix paths
+        const processedJS = this.processJSContent(content, jsFile, inventory);
+        jsFiles.push(processedJS);
+      } catch (error) {
+        console.warn(`Failed to process JS file: ${jsFile}`);
+      }
     }
     
-    for (const jsFile of inventory.js) {
-      const content = await zip.files[jsFile].async('text');
-      jsFiles.push(content);
-    }
+    // Collect all assets with proper categorization
+    const allAssets = [
+      ...inventory.images,
+      ...inventory.fonts, 
+      ...inventory.videos,
+      ...inventory.assets
+    ];
     
     return {
       html: htmlContent,
       css: cssFiles,
       js: jsFiles,
-      assets: inventory.assets,
+      assets: allAssets,
       analysis,
       structure: this.parseBasicStructure(htmlContent)
     };
@@ -284,15 +308,48 @@ export class HtmlParser {
 
   private extractInternalLinks($: cheerio.CheerioAPI, currentFile: string): string[] {
     const links: string[] = [];
+    const currentDir = path.dirname(currentFile);
     
     $('a[href]').each((_, link) => {
       const href = $(link).attr('href');
-      if (href && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
-        links.push(href);
+      if (href && !href.startsWith('http') && !href.startsWith('mailto:') && 
+          !href.startsWith('tel:') && !href.startsWith('#')) {
+        
+        // Normalize the link path relative to current directory
+        let normalizedHref = href;
+        
+        // Handle relative paths
+        if (href.startsWith('./')) {
+          normalizedHref = href.substring(2);
+        } else if (href.startsWith('../')) {
+          // Resolve parent directory references
+          const currentParts = currentDir.split('/').filter(p => p);
+          let upLevels = 0;
+          let tempHref = href;
+          
+          while (tempHref.startsWith('../')) {
+            upLevels++;
+            tempHref = tempHref.substring(3);
+          }
+          
+          const targetParts = currentParts.slice(0, Math.max(0, currentParts.length - upLevels));
+          normalizedHref = [...targetParts, tempHref].join('/');
+        } else if (!href.startsWith('/')) {
+          // Relative to current directory
+          normalizedHref = currentDir ? `${currentDir}/${href}` : href;
+        }
+        
+        // Clean up the path
+        normalizedHref = normalizedHref.replace(/\/+/g, '/'); // Remove double slashes
+        if (normalizedHref.startsWith('/')) {
+          normalizedHref = normalizedHref.substring(1);
+        }
+        
+        links.push(normalizedHref);
       }
     });
 
-    return links;
+    return Array.from(new Set(links)); // Remove duplicates
   }
 
   private extractFormInfo($form: cheerio.Cheerio<any>): FormInfo | null {
@@ -479,33 +536,67 @@ export class HtmlParser {
       
       const htmlContent = await response.text();
       
-      // Create a simplified analysis for URL-based parsing
+      // Enhanced URL parsing for comprehensive website analysis
       const $ = cheerio.load(htmlContent);
       const cssFiles: string[] = [];
       const jsFiles: string[] = [];
       const assets: string[] = [];
+      const externalAssets: string[] = [];
 
-      // Get inline styles
-      $('style').each((_, el) => {
-        cssFiles.push($(el).html() || '');
-      });
-      
-      // Get inline scripts
-      $('script').each((_, el) => {
-        const src = $(el).attr('src');
-        if (!src && $(el).html()) {
-          jsFiles.push($(el).html() || '');
-        } else if (src) {
+      // Process external CSS files
+      $('link[rel="stylesheet"]').each((_, link) => {
+        const href = $(link).attr('href');
+        if (href) {
           try {
-            const jsUrl = new URL(src, url).toString();
-            assets.push(jsUrl);
+            const cssUrl = new URL(href, url).toString();
+            externalAssets.push(cssUrl);
           } catch (e) {
             // Invalid URL, skip
           }
         }
       });
 
-      // Create simplified analysis for URL parsing
+      // Get inline styles with order preservation
+      $('style').each((index, el) => {
+        const content = $(el).html() || '';
+        if (content.trim()) {
+          cssFiles.push(this.processCSSContent(content, 'inline-style', { css: [], js: [], assets: [] }));
+        }
+      });
+      
+      // Process external JavaScript files
+      $('script[src]').each((_, script) => {
+        const src = $(script).attr('src');
+        if (src) {
+          try {
+            const jsUrl = new URL(src, url).toString();
+            externalAssets.push(jsUrl);
+          } catch (e) {
+            // Invalid URL, skip
+          }
+        }
+      });
+      
+      // Get inline scripts with order preservation
+      $('script').each((index, el) => {
+        const $script = $(el);
+        const src = $script.attr('src');
+        if (!src && $script.html()) {
+          const content = $script.html() || '';
+          if (content.trim()) {
+            jsFiles.push(this.processJSContent(content, 'inline-script', { css: [], js: [], assets: [] }));
+          }
+        }
+      });
+
+      // Extract all asset references from the page
+      const pageAssets = this.extractAssetReferences($, url);
+      assets.push(...pageAssets, ...externalAssets);
+
+      // Discover linked pages for multi-page websites
+      const linkedPages = await this.discoverLinkedPages($, url);
+
+      // Create comprehensive analysis for URL parsing
       const analysis: AnalysisReport = {
         pages: [{
           filename: 'index.html',
@@ -513,17 +604,22 @@ export class HtmlParser {
           path: '/',
           content: htmlContent,
           isBlogLike: this.detectBlogLike($),
-          links: []
-        }],
+          links: this.extractInternalLinks($, 'index.html')
+        }, ...linkedPages],
         homepage: 'index.html',
-        blogPages: [],
-        assets: { images: [], fonts: [], videos: [], other: assets },
-        css: [],
-        scripts: [],
-        forms: [],
-        navigation: null,
-        hazards: [],
-        sitemap: {}
+        blogPages: linkedPages.filter(page => page.isBlogLike),
+        assets: {
+          images: pageAssets.filter(a => this.isImageAsset(a)),
+          fonts: pageAssets.filter(a => this.isFontAsset(a)),
+          videos: pageAssets.filter(a => this.isVideoAsset(a)),
+          other: assets
+        },
+        css: this.extractCSSInfo($),
+        scripts: this.extractScriptInfo($),
+        forms: this.extractAllForms($),
+        navigation: this.extractNavigationFromPage($),
+        hazards: this.detectPageHazards($),
+        sitemap: this.buildSitemapFromLinks($, linkedPages)
       };
 
       return {
@@ -543,5 +639,465 @@ export class HtmlParser {
     const assetExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico', 
                            '.woff', '.woff2', '.ttf', '.eot', '.mp4', '.webm'];
     return assetExtensions.some(ext => filename.toLowerCase().endsWith(ext));
+  }
+
+  // Enhanced CSS processing methods
+  private determineCSSOrder(zip: JSZip, cssFiles: string[], pages: any[]): string[] {
+    // Determine CSS loading order based on:
+    // 1. Framework CSS first (bootstrap, foundation, etc.)
+    // 2. Base/reset CSS
+    // 3. Component CSS
+    // 4. Page-specific CSS
+    // 5. Theme/custom CSS last
+    
+    const orderWeight = (filename: string): number => {
+      const name = filename.toLowerCase();
+      
+      // Framework CSS - highest priority
+      if (name.includes('bootstrap') || name.includes('foundation') || 
+          name.includes('tailwind') || name.includes('bulma')) return 1;
+      
+      // Reset/normalize CSS
+      if (name.includes('reset') || name.includes('normalize') || 
+          name.includes('base')) return 2;
+      
+      // Vendor/library CSS
+      if (name.includes('vendor') || name.includes('lib') || 
+          name.includes('plugin')) return 3;
+      
+      // Main/style CSS
+      if (name.includes('main') || name.includes('style') || 
+          name.includes('app')) return 4;
+      
+      // Component CSS
+      if (name.includes('component') || name.includes('module')) return 5;
+      
+      // Page-specific CSS
+      if (name.includes('page') || name.includes('layout')) return 6;
+      
+      // Theme/custom CSS - lowest priority
+      if (name.includes('theme') || name.includes('custom')) return 7;
+      
+      return 5; // Default
+    };
+    
+    return cssFiles.sort((a, b) => orderWeight(a) - orderWeight(b));
+  }
+
+  private processCSSContent(content: string, filePath: string, inventory: any): string {
+    // Fix relative paths in CSS
+    let processedCSS = content;
+    
+    // Fix @import statements
+    processedCSS = processedCSS.replace(
+      /@import\s+(?:url\()?['"]?([^'"\)]+)['"]?\)?/g,
+      (match, importPath) => {
+        if (importPath.startsWith('http') || importPath.startsWith('//')) {
+          return match; // Keep external imports
+        }
+        
+        // Convert relative paths to WordPress theme paths
+        const normalizedPath = this.normalizeAssetPath(importPath, filePath);
+        return `@import url('${normalizedPath}')`;
+      }
+    );
+    
+    // Fix url() references for assets
+    processedCSS = processedCSS.replace(
+      /url\(['"]?([^'"\)]+)['"]?\)/g,
+      (match, urlPath) => {
+        if (urlPath.startsWith('http') || urlPath.startsWith('//') || 
+            urlPath.startsWith('data:')) {
+          return match; // Keep external and data URLs
+        }
+        
+        // Convert relative paths to WordPress theme paths
+        const normalizedPath = this.normalizeAssetPath(urlPath, filePath);
+        return `url('${normalizedPath}')`;
+      }
+    );
+    
+    return processedCSS;
+  }
+
+  private determineJSOrder(zip: JSZip, jsFiles: string[], scripts: any[]): string[] {
+    // Determine JS loading order based on:
+    // 1. Framework JS first (jQuery, React, Vue, etc.)
+    // 2. Library JS (plugins, utilities)
+    // 3. Component JS
+    // 4. Main application JS
+    // 5. Page-specific JS last
+    
+    const orderWeight = (filename: string): number => {
+      const name = filename.toLowerCase();
+      
+      // Framework JS - highest priority
+      if (name.includes('jquery') || name.includes('react') || 
+          name.includes('vue') || name.includes('angular')) return 1;
+      
+      // Vendor/library JS
+      if (name.includes('vendor') || name.includes('lib') || 
+          name.includes('plugin') || name.includes('min.js')) return 2;
+      
+      // Bootstrap and UI framework JS
+      if (name.includes('bootstrap') || name.includes('foundation') || 
+          name.includes('materialize')) return 3;
+      
+      // Main/app JS
+      if (name.includes('main') || name.includes('app') || 
+          name.includes('index')) return 4;
+      
+      // Component JS
+      if (name.includes('component') || name.includes('module')) return 5;
+      
+      // Page-specific JS
+      if (name.includes('page') || name.includes('script')) return 6;
+      
+      return 5; // Default
+    };
+    
+    return jsFiles.sort((a, b) => orderWeight(a) - orderWeight(b));
+  }
+
+  private processJSContent(content: string, filePath: string, inventory: any): string {
+    // Process JavaScript to preserve functionality and fix paths
+    let processedJS = content;
+    
+    // Fix relative path references in JS
+    processedJS = processedJS.replace(
+      /['"]([^'"]+\.(css|js|json|html))['\"]/g,
+      (match, resourcePath) => {
+        if (resourcePath.startsWith('http') || resourcePath.startsWith('//')) {
+          return match; // Keep external references
+        }
+        
+        // Convert relative paths to WordPress theme paths
+        const normalizedPath = this.normalizeAssetPath(resourcePath, filePath);
+        return `'${normalizedPath}'`;
+      }
+    );
+    
+    // Add WordPress compatibility wrapper if needed
+    if (this.needsWordPressWrapper(content)) {
+      processedJS = this.wrapForWordPress(processedJS);
+    }
+    
+    return processedJS;
+  }
+
+  private normalizeAssetPath(assetPath: string, contextFile: string): string {
+    // Convert relative paths to WordPress theme-compatible paths
+    const contextDir = path.dirname(contextFile);
+    let normalizedPath = assetPath;
+    
+    // Remove leading './' if present
+    normalizedPath = normalizedPath.replace(/^\.\//, '');
+    
+    // Handle '../' references
+    let upLevels = 0;
+    while (normalizedPath.startsWith('../')) {
+      upLevels++;
+      normalizedPath = normalizedPath.substring(3);
+    }
+    
+    // Build the final path relative to theme root
+    if (upLevels > 0) {
+      const contextParts = contextDir.split('/').filter(p => p);
+      const targetParts = contextParts.slice(0, Math.max(0, contextParts.length - upLevels));
+      normalizedPath = [...targetParts, normalizedPath].join('/');
+    } else if (contextDir && contextDir !== '.') {
+      normalizedPath = `${contextDir}/${normalizedPath}`;
+    }
+    
+    // Ensure WordPress compatibility
+    return `<?php echo get_template_directory_uri(); ?>/${normalizedPath}`;
+  }
+
+  private needsWordPressWrapper(content: string): boolean {
+    // Check if JS needs WordPress compatibility wrapper
+    return content.includes('$(document).ready') || 
+           content.includes('DOMContentLoaded') ||
+           content.includes('window.onload');
+  }
+
+  private wrapForWordPress(content: string): string {
+    // Wrap JS content for WordPress compatibility
+    return `
+(function($) {
+  'use strict';
+  
+  // WordPress-compatible initialization
+  $(document).ready(function() {
+    ${content}
+  });
+  
+})(jQuery);
+`;
+  }
+
+  // Enhanced URL parsing helper methods
+  private extractAssetReferences($: cheerio.CheerioAPI, baseUrl: string): string[] {
+    const assets: string[] = [];
+    
+    // Extract image sources
+    $('img[src]').each((_, img) => {
+      const src = $(img).attr('src');
+      if (src) {
+        try {
+          const imgUrl = new URL(src, baseUrl).toString();
+          assets.push(imgUrl);
+        } catch (e) {
+          // Invalid URL, skip
+        }
+      }
+    });
+    
+    // Extract background images from CSS
+    $('[style*="background"]').each((_, el) => {
+      const style = $(el).attr('style') || '';
+      const urlMatches = style.match(/url\(['"]?([^'"\)]+)['"]?\)/g);
+      if (urlMatches) {
+        urlMatches.forEach(match => {
+          const url = match.replace(/url\(['"]?([^'"\)]+)['"]?\)/, '$1');
+          try {
+            const fullUrl = new URL(url, baseUrl).toString();
+            assets.push(fullUrl);
+          } catch (e) {
+            // Invalid URL, skip
+          }
+        });
+      }
+    });
+    
+    return assets;
+  }
+
+  private async discoverLinkedPages($: cheerio.CheerioAPI, baseUrl: string): Promise<any[]> {
+    const linkedPages: any[] = [];
+    const processedUrls = new Set<string>();
+    
+    $('a[href]').each((_, link) => {
+      const href = $(link).attr('href');
+      if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+        try {
+          const linkUrl = new URL(href, baseUrl);
+          
+          // Only process pages from the same domain
+          if (linkUrl.hostname === new URL(baseUrl).hostname && !processedUrls.has(linkUrl.href)) {
+            processedUrls.add(linkUrl.href);
+            
+            const pageName = linkUrl.pathname.split('/').pop() || 'page';
+            const title = $(link).text().trim() || pageName;
+            
+            linkedPages.push({
+              filename: `${pageName}.html`,
+              title: title,
+              path: linkUrl.pathname,
+              content: '', // Would need to fetch for full content
+              isBlogLike: this.isLinkBlogLike($(link)),
+              links: []
+            });
+          }
+        } catch (e) {
+          // Invalid URL, skip
+        }
+      }
+    });
+    
+    return linkedPages;
+  }
+
+  private isLinkBlogLike($link: cheerio.Cheerio<any>): boolean {
+    const href = $link.attr('href') || '';
+    const text = $link.text().toLowerCase();
+    const classes = $link.attr('class') || '';
+    
+    return href.includes('/blog/') || 
+           href.includes('/post/') || 
+           href.includes('/article/') ||
+           text.includes('blog') || 
+           text.includes('post') ||
+           classes.includes('blog') ||
+           classes.includes('post');
+  }
+
+  private isImageAsset(url: string): boolean {
+    return /\.(jpg|jpeg|png|gif|svg|webp|ico)$/i.test(url);
+  }
+
+  private isFontAsset(url: string): boolean {
+    return /\.(woff|woff2|ttf|otf|eot)$/i.test(url);
+  }
+
+  private isVideoAsset(url: string): boolean {
+    return /\.(mp4|webm|avi|mov|mkv)$/i.test(url);
+  }
+
+  private extractCSSInfo($: cheerio.CheerioAPI): CSSInfo[] {
+    const cssInfo: CSSInfo[] = [];
+    let order = 0;
+    
+    // External CSS files
+    $('link[rel="stylesheet"]').each((_, link) => {
+      const href = $(link).attr('href');
+      const media = $(link).attr('media');
+      if (href) {
+        cssInfo.push({
+          content: '',
+          href,
+          media,
+          order: order++,
+          inline: false
+        });
+      }
+    });
+    
+    // Inline styles
+    $('style').each((_, style) => {
+      const content = $(style).html() || '';
+      const media = $(style).attr('media');
+      if (content.trim()) {
+        cssInfo.push({
+          content,
+          media,
+          order: order++,
+          inline: true
+        });
+      }
+    });
+    
+    return cssInfo;
+  }
+
+  private extractScriptInfo($: cheerio.CheerioAPI): ScriptInfo[] {
+    const scripts: ScriptInfo[] = [];
+    let order = 0;
+    
+    $('script').each((_, script) => {
+      const $script = $(script);
+      const src = $script.attr('src');
+      const type = $script.attr('type');
+      const defer = $script.attr('defer') !== undefined;
+      const async = $script.attr('async') !== undefined;
+      const content = $script.html() || '';
+      
+      // Determine location based on position in document
+      const location = $script.closest('head').length > 0 ? 'head' : 
+                      $script.closest('body').length > 0 ? 'body' : 'footer';
+      
+      scripts.push({
+        content,
+        src,
+        type,
+        defer,
+        async,
+        module: type === 'module',
+        order: order++,
+        location: location as 'head' | 'body' | 'footer'
+      });
+    });
+    
+    return scripts;
+  }
+
+  private extractAllForms($: cheerio.CheerioAPI): FormInfo[] {
+    const forms: FormInfo[] = [];
+    
+    $('form').each((_, form) => {
+      const formInfo = this.extractFormInfo($(form));
+      if (formInfo) {
+        forms.push(formInfo);
+      }
+    });
+    
+    return forms;
+  }
+
+  private extractNavigationFromPage($: cheerio.CheerioAPI): NavigationInfo | null {
+    const navSelectors = ['nav', '.nav', '.navbar', '.navigation', '.menu', 'header nav'];
+    
+    for (const selector of navSelectors) {
+      const $nav = $(selector).first();
+      if ($nav.length > 0) {
+        const markup = $nav.prop('outerHTML') || '';
+        const structure = this.parseNavigationStructure($nav);
+        
+        return {
+          markup,
+          structure
+        };
+      }
+    }
+    
+    return null;
+  }
+
+  private parseNavigationStructure($nav: cheerio.Cheerio<any>): NavigationInfo['structure'] {
+    const structure: NavigationInfo['structure'] = [];
+    
+    $nav.find('a').each((_, link) => {
+      const $link = cheerio.load(link)('a').first();
+      const text = $link.text().trim();
+      const href = $link.attr('href') || '';
+      
+      if (text && href) {
+        structure.push({
+          text,
+          href,
+          children: [] // Could be expanded to handle nested menus
+        });
+      }
+    });
+    
+    return structure;
+  }
+
+  private detectPageHazards($: cheerio.CheerioAPI): string[] {
+    const hazards: string[] = [];
+    
+    // Check for potentially problematic elements
+    if ($('iframe').length > 0) {
+      hazards.push('Embedded iframes detected - may need manual review');
+    }
+    
+    if ($('object, embed').length > 0) {
+      hazards.push('Flash/Object embeds detected - may not work in modern browsers');
+    }
+    
+    if ($('[onclick], [onload], [onsubmit]').length > 0) {
+      hazards.push('Inline event handlers detected - should be converted to modern JS');
+    }
+    
+    if ($('script').filter((_, script) => {
+      const content = cheerio.load(script)('script').html() || '';
+      return content.includes('document.write');
+    }).length > 0) {
+      hazards.push('document.write() usage detected - may cause issues');
+    }
+    
+    return hazards;
+  }
+
+  private buildSitemapFromLinks($: cheerio.CheerioAPI, linkedPages: any[]): Record<string, string[]> {
+    const sitemap: Record<string, string[]> = {};
+    
+    // Build sitemap from current page links
+    const currentPageLinks: string[] = [];
+    $('a[href]').each((_, link) => {
+      const href = $(link).attr('href');
+      if (href && !href.startsWith('http') && !href.startsWith('#') && 
+          !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+        currentPageLinks.push(href);
+      }
+    });
+    
+    sitemap['index.html'] = currentPageLinks;
+    
+    // Add linked pages to sitemap
+    linkedPages.forEach(page => {
+      sitemap[page.filename] = page.links || [];
+    });
+    
+    return sitemap;
   }
 }
