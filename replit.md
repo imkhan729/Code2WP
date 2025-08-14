@@ -1,6 +1,12 @@
 # Overview
 
-This is an HTML to WordPress theme converter application that allows users to upload ZIP files containing HTML websites or provide URLs to analyze existing websites. The system parses the HTML structure, extracts CSS and JavaScript assets, and automatically generates WordPress theme files. The application features a modern React frontend with real-time conversion progress tracking, live preview capabilities, and a conversion history dashboard.
+This is an HTML to WordPress theme converter application that allows users to upload ZIP files containing HTML websites or provide URLs to analyze existing websites. The system parses the HTML structure, extracts CSS and JavaScript assets, and automatically generates WordPress theme files. The application features a modern React frontend with real-time conversion progress tracking, embedded live preview capabilities, and a conversion history dashboard.
+
+## Recent Changes (August 14, 2025)
+- **Fixed Live Preview Issue**: Resolved "No Preview Available" error by implementing proper file extraction system and embedded preview functionality
+- **Added Embedded Preview Component**: Created responsive preview with device testing (desktop/tablet/mobile), refresh, fullscreen, and new window options
+- **Enhanced Homepage**: Added live preview section that displays directly on homepage instead of opening new windows
+- **Improved Sample Data System**: Fixed ID mismatches between conversions and extracted files for consistent preview functionality
 
 # User Preferences
 
