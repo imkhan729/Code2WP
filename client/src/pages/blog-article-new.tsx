@@ -91,6 +91,20 @@ export default function BlogArticle() {
           { id: "faq", title: "Frequently Asked Questions" },
           { id: "conclusion", title: "Conclusion & Next Steps" }
         ];
+      case "wordpress-theme-development-trends-2025":
+        return [
+          { id: "evolution", title: "The Evolution of WordPress Themes" },
+          { id: "top-trends", title: "Top WordPress Theme Development Trends for 2025" },
+          { id: "fse-dominance", title: "Full Site Editing (FSE) Dominance" },
+          { id: "block-themes", title: "Block-Based Themes as Standard" },
+          { id: "ai-design", title: "AI-Powered Design Assistance" },
+          { id: "performance-first", title: "Performance-First Development" },
+          { id: "dark-mode", title: "Dark Mode & Adaptive Design" },
+          { id: "best-practices", title: "Best Practices in Theme Development" },
+          { id: "future-outlook", title: "The Future of WordPress Themes" },
+          { id: "faq", title: "Frequently Asked Questions" },
+          { id: "conclusion", title: "Conclusion" }
+        ];
       default:
         return [];
     }
@@ -342,6 +356,313 @@ export default function BlogArticle() {
           </div>
         );
       
+      case "wordpress-theme-development-trends-2025":
+        const trendsFAQ = [
+          {
+            question: "What is Full Site Editing (FSE) in WordPress?",
+            answer: "Full Site Editing allows users to customize every part of their WordPress site—headers, footers, sidebars, and templates—using the block editor, without needing to write code. It's a revolutionary feature that democratizes web design."
+          },
+          {
+            question: "Are traditional PHP themes obsolete?",
+            answer: "Not entirely, but they are being phased out. Block-based themes are now the standard for new development due to their flexibility and integration with Gutenberg. However, existing PHP themes still function perfectly."
+          },
+          {
+            question: "How do I make my theme SEO-friendly?",
+            answer: "Use semantic HTML, optimize for Core Web Vitals, support schema markup, ensure mobile responsiveness, and avoid render-blocking resources. Focus on clean code structure and fast loading times."
+          },
+          {
+            question: "What is the role of AI in theme development?",
+            answer: "AI assists in generating design layouts, optimizing performance, suggesting accessibility improvements, and even writing code snippets—speeding up development and enhancing creativity while maintaining high quality standards."
+          },
+          {
+            question: "Should I learn block theme development in 2025?",
+            answer: "Absolutely. Block themes are the future of WordPress. Learning theme.json, block patterns, and FSE is essential for staying competitive in the modern web development landscape."
+          },
+          {
+            question: "How important is accessibility in theme development?",
+            answer: "Extremely important. Accessible themes ensure your site is usable by everyone, including people with disabilities, and help avoid legal risks while improving SEO and user experience."
+          }
+        ];
+
+        return (
+          <div>
+            <h2 id="evolution" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">The Evolution of WordPress Themes</h2>
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              WordPress themes have come a long way since the early 2000s. What started as simple templates with basic PHP files has transformed into dynamic, block-driven, and highly customizable experiences.
+            </p>
+            
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              The introduction of the <a href="https://wordpress.org/gutenberg/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Gutenberg block editor</a> in 2018 was a game-changer. It laid the foundation for block-based content creation, and by 2025, this philosophy has extended to full theme development.
+            </p>
+
+            <blockquote className="border-l-4 border-purple-500 bg-purple-50 p-6 my-6 italic text-gray-700">
+              "With WordPress 6.x and beyond, Full Site Editing (FSE) has matured into a robust framework, allowing users to customize every part of their site without touching a single line of code—while still offering developers the flexibility to extend and customize."
+            </blockquote>
+
+            <h2 id="top-trends" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Top WordPress Theme Development Trends for 2025</h2>
+
+            <div className="space-y-8 mb-12">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-8">
+                <h3 className="text-2xl font-bold text-blue-800 mb-4 flex items-center">
+                  <Zap className="w-6 h-6 mr-3" />
+                  1. Full Site Editing (FSE) Dominance
+                </h3>
+                <p className="text-blue-700 mb-4 leading-relaxed">
+                  Full Site Editing is no longer a novelty—it's the standard. In 2025, most new themes are built with FSE in mind, using block-based templates and patterns to offer unparalleled customization.
+                </p>
+                <p className="text-blue-700 mb-4 leading-relaxed">
+                  FSE allows users to edit headers, footers, sidebars, and even global styles directly from the WordPress editor. Themes like <a href="https://wordpress.org/themes/twentytwentyfive/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Twenty Twenty-Five</a> showcase how powerful FSE can be.
+                </p>
+                <div className="bg-white rounded-lg p-4 border border-blue-200">
+                  <h4 className="font-bold text-blue-800 mb-2">Why it matters:</h4>
+                  <ul className="space-y-1 text-blue-700">
+                    <li>• Empowers non-developers to fully customize their site</li>
+                    <li>• Reduces dependency on page builders</li>
+                    <li>• Streamlines theme development with reusable block patterns</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-8">
+                <h3 className="text-2xl font-bold text-green-800 mb-4 flex items-center">
+                  <BookOpen className="w-6 h-6 mr-3" />
+                  2. Block-Based Themes as Standard
+                </h3>
+                <p className="text-green-700 mb-4 leading-relaxed">
+                  Traditional PHP-based themes are being phased out in favor of block themes. These themes are built using .html templates and use the <code className="bg-gray-100 px-2 py-1 rounded text-sm">theme.json</code> file to manage global styles.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-white rounded-lg p-4 border border-green-200">
+                    <h4 className="font-bold text-green-800 mb-2">Key Advantages:</h4>
+                    <ul className="space-y-1 text-green-700 text-sm">
+                      <li>• Consistent design system across the site</li>
+                      <li>• Better version control and collaboration</li>
+                      <li>• Native support for global styles and duotone filters</li>
+                    </ul>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 border border-green-200">
+                    <h4 className="font-bold text-green-800 mb-2">Learn More:</h4>
+                    <p className="text-green-700 text-sm mb-2">
+                      Check out our <a href="/blog/ultimate-guide-html-to-wordpress-2025" className="text-green-600 hover:text-green-800 font-medium underline decoration-green-300 hover:decoration-green-500">complete conversion guide</a> for practical examples.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-8">
+                <h3 className="text-2xl font-bold text-purple-800 mb-4 flex items-center">
+                  <Star className="w-6 h-6 mr-3" />
+                  3. AI-Powered Design Assistance
+                </h3>
+                <p className="text-purple-700 mb-4 leading-relaxed">
+                  AI is no longer just for content creation. In 2025, AI tools are integrated into theme development workflows to assist with design suggestions, color palette generation, and code generation.
+                </p>
+                <div className="bg-white rounded-lg p-4 border border-purple-200">
+                  <h4 className="font-bold text-purple-800 mb-2">Real-world Applications:</h4>
+                  <ul className="space-y-2 text-purple-700">
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>AI-generated block patterns based on niche (e.g., "restaurant menu layout")</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Smart color contrast checkers for accessibility</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span>Predictive performance optimization</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-8">
+                <h3 className="text-2xl font-bold text-orange-800 mb-4 flex items-center">
+                  <TrendingUp className="w-6 h-6 mr-3" />
+                  4. Performance-First Development
+                </h3>
+                <p className="text-orange-700 mb-4 leading-relaxed">
+                  With <a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-800 font-medium underline decoration-orange-300 hover:decoration-orange-500">Google's Core Web Vitals</a> now a critical ranking factor, performance is non-negotiable. In 2025, themes are built with speed as a priority.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-white rounded-lg p-4 border border-orange-200">
+                    <h4 className="font-bold text-orange-800 mb-2">Modern Techniques:</h4>
+                    <ul className="space-y-1 text-orange-700 text-sm">
+                      <li>• Native lazy loading (loading="lazy")</li>
+                      <li>• CSS containment for layout isolation</li>
+                      <li>• Minimal inline CSS and deferred JavaScript</li>
+                      <li>• Built-in support for WebP and AVIF formats</li>
+                    </ul>
+                  </div>
+                  <div className="bg-white rounded-lg p-4 border border-orange-200">
+                    <p className="text-orange-700 text-sm italic">
+                      "Themes that bloat sites with unnecessary scripts or heavy animations are being replaced by lightweight, performance-optimized alternatives."
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h2 id="best-practices" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Best Practices in Theme Development for 2025</h2>
+
+            <div className="space-y-6 mb-12">
+              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">1. Semantic HTML & Clean Code</h3>
+                <p className="text-gray-700 mb-4">
+                  Well-structured HTML is the foundation of any great theme. Use semantic elements like <code className="bg-gray-100 px-2 py-1 rounded text-sm">&lt;header&gt;</code>, <code className="bg-gray-100 px-2 py-1 rounded text-sm">&lt;main&gt;</code>, <code className="bg-gray-100 px-2 py-1 rounded text-sm">&lt;article&gt;</code>, and <code className="bg-gray-100 px-2 py-1 rounded text-sm">&lt;nav&gt;</code> to improve SEO and accessibility.
+                </p>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-gray-700 text-sm">
+                    <strong>Pro Tip:</strong> Avoid inline styles and excessive divs. Keep your code clean, commented, and organized for easier maintenance and collaboration.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">2. Mobile-First Responsive Design</h3>
+                <p className="text-gray-700 mb-4">
+                  Over 60% of web traffic comes from mobile devices. In 2025, mobile-first design is not optional—it's essential.
+                </p>
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <p className="text-blue-700 text-sm">
+                    Use fluid grids, flexible images, and CSS media queries to ensure your theme looks great on all screen sizes. Test on real devices, not just emulators.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">3. Optimized for Core Web Vitals</h3>
+                <p className="text-gray-700 mb-4">
+                  Google's Core Web Vitals (LCP, FID, CLS) are critical for SEO. Optimize your theme to:
+                </p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="bg-green-50 rounded-lg p-4 border border-green-200 text-center">
+                    <div className="text-2xl font-bold text-green-600 mb-2">2.5s</div>
+                    <div className="text-sm text-green-700">LCP Target</div>
+                  </div>
+                  <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200 text-center">
+                    <div className="text-2xl font-bold text-yellow-600 mb-2">0.1</div>
+                    <div className="text-sm text-yellow-700">CLS Target</div>
+                  </div>
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200 text-center">
+                    <div className="text-2xl font-bold text-blue-600 mb-2">100ms</div>
+                    <div className="text-sm text-blue-700">FID Target</div>
+                  </div>
+                </div>
+                <p className="text-gray-700 text-sm mt-4">
+                  Use tools like <a href="https://developers.google.com/web/tools/lighthouse" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Lighthouse</a>, <a href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">PageSpeed Insights</a>, and <a href="https://www.webpagetest.org/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WebPageTest</a> to audit performance.
+                </p>
+              </div>
+            </div>
+
+            <h2 id="future-outlook" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">The Future of WordPress Themes: What's Next?</h2>
+            
+            <div className="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-8 mb-8">
+              <h3 className="text-xl font-bold text-indigo-800 mb-4">Looking Beyond 2025</h3>
+              <p className="text-indigo-700 mb-4">
+                The future of WordPress theme development is leaning toward even more innovative approaches:
+              </p>
+              <div className="grid md:grid-cols-2 gap-6">
+                <ul className="space-y-3 text-indigo-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span>AI-generated themes based on user input</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span>Voice-optimized interfaces for hands-free editing</span>
+                  </li>
+                </ul>
+                <ul className="space-y-3 text-indigo-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span>3D and immersive web experiences using WebGL</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span>Decentralized themes on blockchain platforms</span>
+                  </li>
+                </ul>
+              </div>
+              <p className="text-indigo-700 text-sm mt-4 italic">
+                While these may seem futuristic, early prototypes already exist. The key for developers is to stay adaptable and prioritize user experience above all.
+              </p>
+            </div>
+
+            <div id="faq" className="scroll-mt-20">
+              <FAQSection faqData={trendsFAQ} />
+            </div>
+
+            <h2 id="conclusion" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Conclusion</h2>
+            <p className="text-gray-700 mb-4 leading-relaxed">
+              WordPress theme development in 2025 is defined by innovation, inclusivity, and performance. The rise of Full Site Editing, block-based themes, AI assistance, and accessibility-first design has transformed how we build and experience websites.
+            </p>
+            
+            <div className="bg-gradient-to-r from-purple-50 to-orange-50 border border-purple-200 rounded-xl p-8 my-8">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">🎯 Key Takeaways</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <ul className="space-y-3 text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span><strong>Embrace FSE:</strong> Full Site Editing is the future</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span><strong>Performance First:</strong> Speed is non-negotiable</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span><strong>Accessibility Matters:</strong> Design for everyone</span>
+                  </li>
+                </ul>
+                <ul className="space-y-3 text-gray-700">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span><strong>AI Integration:</strong> Leverage intelligent tools</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span><strong>Block-Based:</strong> Move beyond traditional PHP</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <span><strong>Mobile-First:</strong> Start with small screens</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              As a developer or designer, embracing these trends isn't just about staying relevant—it's about building better, faster, and more inclusive digital experiences. The future of WordPress is bright, and the tools are more powerful than ever.
+            </p>
+            
+            <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+              <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <BookOpen className="w-5 h-5 mr-2 text-blue-600" />
+                Related Resources & Further Reading
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Internal Resources:</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Ultimate HTML to WordPress Guide</a></li>
+                    <li><a href="/blog/ai-vs-manual-wordpress-conversion" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual Conversion Methods</a></li>
+                    <li><a href="/documentation" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">External Resources:</h4>
+                  <ul className="space-y-2 text-sm">
+                    <li><a href="https://developer.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Handbook</a></li>
+                    <li><a href="https://fullsiteediting.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Full Site Editing Resources</a></li>
+                    <li><a href="https://make.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Review Team</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return <p>Content not available.</p>;
     }
