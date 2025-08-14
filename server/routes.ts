@@ -371,21 +371,97 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Enhanced route for serving any HTML page with better pattern matching
-  app.get("/api/conversions/:id/*", async (req, res) => {
-    const wildcard = (req.params as any)[0]; // Get the wildcard part
-    
-    // Only handle HTML files, let assets route handle other files
-    if (!wildcard.endsWith('.html')) {
-      return res.status(404).json({ message: "Only HTML files supported on this route" });
-    }
+  // Get original files for preview (CSS, JS, images) - MUST come before wildcard HTML route
+  app.get("/api/conversions/:id/assets/*", async (req, res) => {
     try {
       const conversion = await storage.getConversion(req.params.id);
       if (!conversion) {
         return res.status(404).json({ message: "Conversion not found" });
       }
 
-      const filename = wildcard; // Use the full wildcard (already includes .html)
+      const assetPath = (req.params as any)[0]; // Get the wildcard part
+      const files = await storage.getFilesByConversionId(conversion.id);
+      const file = files[0]; // Get the main uploaded file
+
+      if (!file) {
+        return res.status(404).json({ message: "Original files not found" });
+      }
+
+      // Extract and serve assets from the original ZIP
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      let fullAssetPath = path.join(extractPath, assetPath);
+
+      // Try different possible paths if the direct path doesn't exist
+      if (!await fs.pathExists(fullAssetPath)) {
+        // Try looking in common subdirectories
+        const possiblePaths = [
+          path.join(extractPath, 'assets', assetPath),
+          path.join(extractPath, 'css', assetPath),
+          path.join(extractPath, 'js', assetPath),
+          path.join(extractPath, 'images', assetPath),
+          path.join(extractPath, 'img', assetPath),
+          path.join(extractPath, 'fonts', assetPath)
+        ];
+
+        for (const possiblePath of possiblePaths) {
+          if (await fs.pathExists(possiblePath)) {
+            fullAssetPath = possiblePath;
+            break;
+          }
+        }
+      }
+
+      if (await fs.pathExists(fullAssetPath)) {
+        const stat = await fs.stat(fullAssetPath);
+        if (stat.isFile()) {
+          // Set appropriate content type based on file extension
+          const ext = path.extname(assetPath).toLowerCase();
+          const contentTypes: { [key: string]: string } = {
+            '.css': 'text/css',
+            '.js': 'application/javascript',
+            '.png': 'image/png',
+            '.jpg': 'image/jpeg',
+            '.jpeg': 'image/jpeg',
+            '.gif': 'image/gif',
+            '.svg': 'image/svg+xml',
+            '.ico': 'image/x-icon',
+            '.woff': 'font/woff',
+            '.woff2': 'font/woff2',
+            '.ttf': 'font/ttf',
+            '.eot': 'application/vnd.ms-fontobject',
+            '.webp': 'image/webp'
+          };
+
+          if (contentTypes[ext]) {
+            res.setHeader('Content-Type', contentTypes[ext]);
+          }
+
+          // Set cache headers for assets
+          res.setHeader('Cache-Control', 'public, max-age=3600');
+          res.sendFile(fullAssetPath);
+        } else {
+          res.status(404).send('Asset is a directory, not a file');
+        }
+      } else {
+        res.status(404).send(`Asset not found: ${assetPath}`);
+      }
+    } catch (error) {
+      console.error('Asset serving error:', error);
+      res.status(500).send(`Failed to serve asset: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  });
+
+  // Enhanced route for serving any HTML page with better pattern matching
+  app.get("/api/conversions/:id/*.html", async (req, res) => {
+    const wildcard = (req.params as any)[0]; // Get the wildcard part
+    const filename = wildcard + '.html';
+    
+    try {
+      const conversion = await storage.getConversion(req.params.id);
+      if (!conversion) {
+        return res.status(404).json({ message: "Conversion not found" });
+      }
+
       const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
       
       // Find the HTML file in the extracted directory
@@ -467,86 +543,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           </body>
         </html>
       `);
-    }
-  });
-
-  // Get original files for preview (CSS, JS, images)
-  app.get("/api/conversions/:id/assets/*", async (req, res) => {
-    try {
-      const conversion = await storage.getConversion(req.params.id);
-      if (!conversion) {
-        return res.status(404).json({ message: "Conversion not found" });
-      }
-
-      const assetPath = (req.params as any)[0]; // Get the wildcard part
-      const files = await storage.getFilesByConversionId(conversion.id);
-      const file = files[0]; // Get the main uploaded file
-
-      if (!file) {
-        return res.status(404).json({ message: "Original files not found" });
-      }
-
-      // Extract and serve assets from the original ZIP
-      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
-      let fullAssetPath = path.join(extractPath, assetPath);
-
-      // Try different possible paths if the direct path doesn't exist
-      if (!await fs.pathExists(fullAssetPath)) {
-        // Try looking in common subdirectories
-        const possiblePaths = [
-          path.join(extractPath, 'assets', assetPath),
-          path.join(extractPath, 'css', assetPath),
-          path.join(extractPath, 'js', assetPath),
-          path.join(extractPath, 'images', assetPath),
-          path.join(extractPath, 'img', assetPath),
-          path.join(extractPath, 'fonts', assetPath)
-        ];
-
-        for (const possiblePath of possiblePaths) {
-          if (await fs.pathExists(possiblePath)) {
-            fullAssetPath = possiblePath;
-            break;
-          }
-        }
-      }
-
-      if (await fs.pathExists(fullAssetPath)) {
-        const stat = await fs.stat(fullAssetPath);
-        if (stat.isFile()) {
-          // Set appropriate content type based on file extension
-          const ext = path.extname(assetPath).toLowerCase();
-          const contentTypes: { [key: string]: string } = {
-            '.css': 'text/css',
-            '.js': 'application/javascript',
-            '.png': 'image/png',
-            '.jpg': 'image/jpeg',
-            '.jpeg': 'image/jpeg',
-            '.gif': 'image/gif',
-            '.svg': 'image/svg+xml',
-            '.ico': 'image/x-icon',
-            '.woff': 'font/woff',
-            '.woff2': 'font/woff2',
-            '.ttf': 'font/ttf',
-            '.eot': 'application/vnd.ms-fontobject',
-            '.webp': 'image/webp'
-          };
-
-          if (contentTypes[ext]) {
-            res.setHeader('Content-Type', contentTypes[ext]);
-          }
-
-          // Set cache headers for assets
-          res.setHeader('Cache-Control', 'public, max-age=3600');
-          res.sendFile(fullAssetPath);
-        } else {
-          res.status(404).send('Asset is a directory, not a file');
-        }
-      } else {
-        res.status(404).send(`Asset not found: ${assetPath}`);
-      }
-    } catch (error) {
-      console.error('Asset serving error:', error);
-      res.status(500).send(`Failed to serve asset: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   });
 
