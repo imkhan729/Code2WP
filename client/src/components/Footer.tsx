@@ -44,9 +44,23 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-gray-300 hover:text-white hover:underline transition-colors duration-200">
+                <a 
+                  href="/" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/';
+                    // Small delay to ensure page loads before scrolling
+                    setTimeout(() => {
+                      const uploadSection = document.getElementById('upload-section');
+                      if (uploadSection) {
+                        uploadSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }, 100);
+                  }}
+                  className="text-gray-300 hover:text-white hover:underline transition-colors duration-200 cursor-pointer"
+                >
                   Convert Now
-                </Link>
+                </a>
               </li>
               <li>
                 <a 
