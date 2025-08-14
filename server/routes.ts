@@ -776,15 +776,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       console.log(`Conversion found: ${conversion.name}`);
 
-      const files = await storage.getFilesByConversionId(conversion.id);
-      console.log(`Files found: ${files.length}`);
-      const file = files[0]; // Get the main uploaded file
+      // For URL conversions, we don't have uploaded files, only extracted content
+      if (conversion.type === 'file') {
+        const files = await storage.getFilesByConversionId(conversion.id);
+        console.log(`Files found: ${files.length}`);
+        const file = files[0]; // Get the main uploaded file
 
-      if (!file) {
-        console.log(`No files found for conversion: ${conversion.id}`);
-        return res.status(404).json({ message: "Original files not found" });
+        if (!file) {
+          console.log(`No files found for conversion: ${conversion.id}`);
+          return res.status(404).json({ message: "Original files not found" });
+        }
+        console.log(`Using file: ${file.filename}`);
+      } else {
+        console.log(`URL conversion - no uploaded files, using extracted content directly`);
       }
-      console.log(`Using file: ${file.filename}`);
       
       console.log(`Searching for asset at: ${assetPath}`);
 
@@ -1054,6 +1059,90 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Function to download assets for URL conversions
+  async function downloadAssetsForUrlConversion(baseUrl: string, extractPath: string, analysis: any) {
+    try {
+      const downloadedAssets = new Set<string>();
+      
+      // Create directories for different asset types
+      await fs.ensureDir(path.join(extractPath, 'styles'));
+      await fs.ensureDir(path.join(extractPath, 'scripts'));
+      await fs.ensureDir(path.join(extractPath, 'images'));
+      await fs.ensureDir(path.join(extractPath, 'assets'));
+      
+      // Download CSS files
+      if (analysis.assets?.other) {
+        for (const assetUrl of analysis.assets.other) {
+          if (downloadedAssets.has(assetUrl)) continue;
+          
+          try {
+            const url = new URL(assetUrl, baseUrl);
+            const response = await fetch(url.toString(), {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+              }
+            });
+            
+            if (response.ok) {
+              const content = await response.arrayBuffer();
+              const urlPath = new URL(assetUrl, baseUrl).pathname;
+              const filename = path.basename(urlPath) || 'asset';
+              
+              let targetDir = 'assets';
+              if (assetUrl.includes('.css') || response.headers.get('content-type')?.includes('text/css')) {
+                targetDir = 'styles';
+              } else if (assetUrl.includes('.js') || response.headers.get('content-type')?.includes('javascript')) {
+                targetDir = 'scripts';
+              } else if (assetUrl.match(/\.(png|jpg|jpeg|gif|svg|webp|ico)$/i) || response.headers.get('content-type')?.includes('image/')) {
+                targetDir = 'images';
+              }
+              
+              const targetPath = path.join(extractPath, targetDir, filename);
+              await fs.writeFile(targetPath, Buffer.from(content));
+              downloadedAssets.add(assetUrl);
+              console.log(`Downloaded asset: ${filename} to ${targetDir}/`);
+            }
+          } catch (error) {
+            console.log(`Failed to download asset ${assetUrl}:`, error instanceof Error ? error.message : 'Unknown error');
+          }
+        }
+      }
+      
+      // Download image assets specifically
+      if (analysis.assets?.images) {
+        for (const imageUrl of analysis.assets.images) {
+          if (downloadedAssets.has(imageUrl)) continue;
+          
+          try {
+            const url = new URL(imageUrl, baseUrl);
+            const response = await fetch(url.toString(), {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+              }
+            });
+            
+            if (response.ok) {
+              const content = await response.arrayBuffer();
+              const urlPath = new URL(imageUrl, baseUrl).pathname;
+              const filename = path.basename(urlPath) || 'image';
+              
+              const targetPath = path.join(extractPath, 'images', filename);
+              await fs.writeFile(targetPath, Buffer.from(content));
+              downloadedAssets.add(imageUrl);
+              console.log(`Downloaded image: ${filename}`);
+            }
+          } catch (error) {
+            console.log(`Failed to download image ${imageUrl}:`, error instanceof Error ? error.message : 'Unknown error');
+          }
+        }
+      }
+      
+      console.log(`Downloaded ${downloadedAssets.size} assets for URL conversion`);
+    } catch (error) {
+      console.error('Error downloading assets:', error);
+    }
+  }
+
   // Background processing function
   async function processConversion(conversionId: string, source: string, type: 'file' | 'url') {
     try {
@@ -1081,6 +1170,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Create a preview structure for URL-based conversions
         const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversionId);
         await fs.ensureDir(extractPath);
+        
+        // Download and save assets
+        await storage.updateConversion(conversionId, { progress: 40 });
+        console.log('Assets found in analysis:', parsedWebsite.analysis?.assets);
+        await downloadAssetsForUrlConversion(source, extractPath, parsedWebsite.analysis);
         
         // Save the main HTML content for preview
         await fs.writeFile(path.join(extractPath, 'index.html'), parsedWebsite.html);
