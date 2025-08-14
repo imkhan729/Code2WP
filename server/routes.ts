@@ -691,12 +691,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       );
 
-      // Enhanced rewriting for all types of internal links
+      // Enhanced rewriting for all types of internal links (but skip assets which were already handled)
       htmlContent = htmlContent.replace(
         /href=["']([^"']+)["']/gi,
         (match, linkPath) => {
           // Skip external links (http/https) and fragments (#)
           if (linkPath.startsWith('http') || linkPath.startsWith('mailto:') || linkPath.startsWith('tel:')) {
+            return match;
+          }
+          
+          // Skip already converted API paths to avoid double conversion
+          if (linkPath.includes('/api/conversions/')) {
+            return match;
+          }
+          
+          // Skip asset files (CSS, JS, images) as they were already processed above
+          if (linkPath.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp)$/i)) {
             return match;
           }
           
