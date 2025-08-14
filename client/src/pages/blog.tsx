@@ -164,7 +164,7 @@ export default function Blog() {
       category: "Troubleshooting",
       author: "Technical Lead",
       tags: ["Troubleshooting", "Problems", "Solutions"],
-      slug: "troubleshooting-complex-html-wordpress-conversions",
+      slug: "troubleshooting-complex-html-to-wordpress-conversions",
       views: "5.4K"
     },
     {
