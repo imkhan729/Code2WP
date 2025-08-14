@@ -9,7 +9,7 @@ export async function createSampleData() {
       // Ensure extracted files exist for the first conversion
       const firstConversion = existingConversions[0];
       const extractPath = `temp/extracted/${firstConversion.id}`;
-      const fs = require('fs-extra');
+      const { default: fs } = await import('fs-extra');
       
       if (!await fs.pathExists(extractPath)) {
         console.log(`Creating extracted files for ${firstConversion.id}`);
@@ -168,16 +168,17 @@ export async function createSampleData() {
     console.log(`Sample conversion ID: ${fixedId}`);
     
     // Ensure extracted files exist for the first conversion as well
-    const fs = require('fs-extra');
-    const firstConversion = await storage.getAllConversions();
-    if (firstConversion.length > 0) {
-      const extractPath = `temp/extracted/${firstConversion[0].id}`;
-      if (!await fs.pathExists(extractPath)) {
-        console.log(`Creating extracted files for ${firstConversion[0].id}`);
-        await fs.ensureDir(extractPath);
-        await fs.copy('temp/sample-site', extractPath);
+    import('fs-extra').then(async (fs) => {
+      const firstConversion = await storage.getAllConversions();
+      if (firstConversion.length > 0) {
+        const extractPath = `temp/extracted/${firstConversion[0].id}`;
+        if (!await fs.pathExists(extractPath)) {
+          console.log(`Creating extracted files for ${firstConversion[0].id}`);
+          await fs.ensureDir(extractPath);
+          await fs.copy('temp/sample-site', extractPath);
+        }
       }
-    }
+    });
     
   } catch (error) {
     console.error("Error creating sample data:", error);
