@@ -7,6 +7,7 @@ import { AdvancedWordPressGenerator } from "./services/advancedWordPressGenerato
 import { insertConversionSchema } from "@shared/schema";
 import fs from "fs-extra";
 import path from "path";
+import JSZip from "jszip";
 
 // Extend Express Request type to include multer file
 interface RequestWithFile extends Request {
@@ -16,6 +17,40 @@ interface RequestWithFile extends Request {
 export async function registerRoutes(app: Express): Promise<Server> {
   const htmlParser = new HtmlParser();
   const wpGenerator = new AdvancedWordPressGenerator();
+
+  // Helper function to extract ZIP files for preview system
+  async function extractZipForPreview(conversionId: string, zipPath: string) {
+    try {
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversionId);
+      await fs.ensureDir(extractPath);
+      
+      const zipData = await fs.readFile(zipPath);
+      const zip = await JSZip.loadAsync(zipData);
+      
+      // Extract all files
+      for (const [filePath, file] of Object.entries(zip.files)) {
+        if (!file.dir) {
+          const fullPath = path.join(extractPath, filePath);
+          await fs.ensureDir(path.dirname(fullPath));
+          
+          if (filePath.match(/\.(html|css|js|txt|json|xml)$/i)) {
+            // Text files
+            const content = await file.async('text');
+            await fs.writeFile(fullPath, content);
+          } else {
+            // Binary files (images, fonts, etc.)
+            const content = await file.async('nodebuffer');
+            await fs.writeFile(fullPath, content);
+          }
+        }
+      }
+      
+      console.log(`Extracted ZIP to: ${extractPath}`);
+    } catch (error) {
+      console.error('Error extracting ZIP for preview:', error);
+      throw error;
+    }
+  }
 
   // Get all conversions
   app.get("/api/conversions", async (req, res) => {
@@ -366,6 +401,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let parsedWebsite;
       
       if (type === 'file') {
+        // Extract ZIP file for preview system
+        await storage.updateConversion(conversionId, { progress: 20 });
+        await extractZipForPreview(conversionId, source);
+        
         // Parse ZIP file
         await storage.updateConversion(conversionId, { progress: 30 });
         parsedWebsite = await htmlParser.parseFromZip(source);
