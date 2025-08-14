@@ -298,24 +298,24 @@ export default function BlogArticle() {
         ];
         
         return `
-          <h2 id="introduction" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Introduction: Why This Guide Matters</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">In 2025, the landscape of web development has evolved dramatically. With <a href="https://w3techs.com/technologies/details/cm-wordpress" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress powering 43.2% of all websites</a> globally, converting static HTML sites to dynamic WordPress themes has become essential for businesses seeking scalability, SEO benefits, and easier content management.</p>
+          <h2 id="introduction" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Introduction: Why This Guide Matters</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">In 2025, the landscape of web development has evolved dramatically. With <a href="https://w3techs.com/technologies/details/cm-wordpress" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress powering 43.2% of all websites</a> globally, converting static HTML sites to dynamic WordPress themes has become essential for businesses seeking scalability, SEO benefits, and easier content management.</p>
           
-          <blockquote class="border-l-4 border-blue-500 bg-blue-50 p-6 my-6 italic text-gray-700">
+          <blockquote className="border-l-4 border-blue-500 bg-blue-50 p-6 my-6 italic text-gray-700">
             "The shift from static HTML to dynamic WordPress isn't just a technical upgrade—it's a strategic business decision that can transform how you manage and grow your online presence." 
-            <cite class="block mt-2 text-sm text-gray-600">— Sarah Chen, WordPress Expert</cite>
+            <cite className="block mt-2 text-sm text-gray-600">— Sarah Chen, WordPress Expert</cite>
           </blockquote>
 
-          <h2 id="why-convert" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Why Convert HTML to WordPress in 2025?</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">The digital landscape demands websites that are not just visually appealing but also functional, scalable, and easy to maintain. Here's why WordPress conversion has become a strategic necessity:</p>
+          <h2 id="why-convert" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Why Convert HTML to WordPress in 2025?</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">The digital landscape demands websites that are not just visually appealing but also functional, scalable, and easy to maintain. Here's why WordPress conversion has become a strategic necessity:</p>
 
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6">
-              <h3 class="text-xl font-bold text-purple-800 mb-4 flex items-center">
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-purple-800 mb-4 flex items-center">
                 <Zap className="w-5 h-5 mr-2" />
                 Business Benefits
               </h3>
-              <ul class="space-y-2 text-purple-700">
+              <ul className="space-y-2 text-purple-700">
                 <li>• Reduced maintenance costs (60-80% savings)</li>
                 <li>• Faster content updates (minutes vs hours)</li>
                 <li>• Better SEO performance (+40% organic traffic)</li>
@@ -323,12 +323,12 @@ export default function BlogArticle() {
                 <li>• Scalable growth without technical barriers</li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
-              <h3 class="text-xl font-bold text-orange-800 mb-4 flex items-center">
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
+              <h3 className="text-xl font-bold text-orange-800 mb-4 flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2" />
                 Technical Advantages
               </h3>
-              <ul class="space-y-2 text-orange-700">
+              <ul className="space-y-2 text-orange-700">
                 <li>• Dynamic content management system</li>
                 <li>• Access to 60,000+ plugins ecosystem</li>
                 <li>• Built-in security updates and patches</li>
@@ -338,67 +338,67 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <h2 id="conversion-methods" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI vs Manual Conversion Methods</h2>
+          <h2 id="conversion-methods" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI vs Manual Conversion Methods</h2>
           
-          <div class="overflow-x-auto mb-8">
-            <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="overflow-x-auto mb-8">
+            <table className="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
               <thead>
-                <tr class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                  <th class="px-6 py-4 text-left font-bold">Comparison Factor</th>
-                  <th class="px-6 py-4 text-left font-bold">AI-Powered Conversion</th>
-                  <th class="px-6 py-4 text-left font-bold">Manual Conversion</th>
-                  <th class="px-6 py-4 text-left font-bold">Hybrid Approach</th>
+                <tr className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                  <th className="px-6 py-4 text-left font-bold">Comparison Factor</th>
+                  <th className="px-6 py-4 text-left font-bold">AI-Powered Conversion</th>
+                  <th className="px-6 py-4 text-left font-bold">Manual Conversion</th>
+                  <th className="px-6 py-4 text-left font-bold">Hybrid Approach</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-200">
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Time Investment</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">5-15 minutes</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">15-60+ hours</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">2-8 hours</td>
+              <tbody className="divide-y divide-gray-200">
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Time Investment</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">5-15 minutes</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">15-60+ hours</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">2-8 hours</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Cost Range</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">$20-200</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">$750-7,500+</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">$200-1,500</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Cost Range</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">$20-200</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">$750-7,500+</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">$200-1,500</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Skill Level Required</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Beginner</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">Expert</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Intermediate</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Skill Level Required</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Beginner</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">Expert</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Intermediate</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Customization Flexibility</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Standard</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Unlimited</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Customization Flexibility</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Standard</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Unlimited</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">High</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Error Rate</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">2-5%</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">10-20%</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">1-3%</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Error Rate</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">2-5%</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">10-20%</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">1-3%</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">SEO Optimization</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Automatic</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Manual Setup</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Optimized</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">SEO Optimization</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Automatic</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Manual Setup</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Optimized</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <h2 id="preparation" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Pre-Conversion Preparation & Planning</h2>
+          <h2 id="preparation" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Pre-Conversion Preparation & Planning</h2>
           
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">Essential Preparation Checklist</h3>
-          <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 mb-6">
-            <div class="grid md:grid-cols-2 gap-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">Essential Preparation Checklist</h3>
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 mb-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 class="font-bold text-green-800 mb-3">✅ Technical Preparation</h4>
-                <ul class="space-y-2 text-green-700">
+                <h4 className="font-bold text-green-800 mb-3">✅ Technical Preparation</h4>
+                <ul className="space-y-2 text-green-700">
                   <li>• Audit HTML/CSS code for compatibility</li>
                   <li>• Validate all internal and external links</li>
                   <li>• Optimize images and media files</li>
@@ -407,8 +407,8 @@ export default function BlogArticle() {
                 </ul>
               </div>
               <div>
-                <h4 class="font-bold text-blue-800 mb-3">📋 Content Preparation</h4>
-                <ul class="space-y-2 text-blue-700">
+                <h4 className="font-bold text-blue-800 mb-3">📋 Content Preparation</h4>
+                <ul className="space-y-2 text-blue-700">
                   <li>• Organize content hierarchy and structure</li>
                   <li>• Prepare SEO metadata and descriptions</li>
                   <li>• Plan WordPress menu structure</li>
@@ -419,13 +419,13 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <h2 id="ai-conversion" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI-Powered Conversion Process</h2>
+          <h2 id="ai-conversion" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI-Powered Conversion Process</h2>
           
-          <div class="space-y-8">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
-              <h3 class="text-xl font-bold text-purple-600 mb-4">🚀 Step 1: Upload & Analysis</h3>
-              <p class="text-gray-700 mb-4">Our AI engine performs comprehensive analysis of your HTML structure, identifying components, layouts, and assets.</p>
-              <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+          <div className="space-y-8">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-purple-600 mb-4">🚀 Step 1: Upload & Analysis</h3>
+              <p className="text-gray-700 mb-4">Our AI engine performs comprehensive analysis of your HTML structure, identifying components, layouts, and assets.</p>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
                 <li>Automatic file structure detection and organization</li>
                 <li>CSS framework identification (Bootstrap, Foundation, etc.)</li>
                 <li>JavaScript library detection and compatibility checking</li>
@@ -434,13 +434,13 @@ export default function BlogArticle() {
               </ul>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
-              <h3 class="text-xl font-bold text-blue-600 mb-4">⚙️ Step 2: WordPress Generation</h3>
-              <p class="text-gray-700 mb-4">The AI automatically generates WordPress-compatible PHP templates following best practices.</p>
-              <div class="grid md:grid-cols-2 gap-4">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-blue-600 mb-4">⚙️ Step 2: WordPress Generation</h3>
+              <p className="text-gray-700 mb-4">The AI automatically generates WordPress-compatible PHP templates following best practices.</p>
+              <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <h4 class="font-semibold text-gray-900 mb-2">Generated Files:</h4>
-                  <ul class="text-sm text-gray-700 space-y-1">
+                  <h4 className="font-semibold text-gray-900 mb-2">Generated Files:</h4>
+                  <ul className="text-sm text-gray-700 space-y-1">
                     <li>• header.php - Site header and navigation</li>
                     <li>• footer.php - Site footer and scripts</li>
                     <li>• index.php - Main template file</li>
@@ -450,8 +450,8 @@ export default function BlogArticle() {
                   </ul>
                 </div>
                 <div>
-                  <h4 class="font-semibold text-gray-900 mb-2">Advanced Features:</h4>
-                  <ul class="text-sm text-gray-700 space-y-1">
+                  <h4 className="font-semibold text-gray-900 mb-2">Advanced Features:</h4>
+                  <ul className="text-sm text-gray-700 space-y-1">
                     <li>• Custom post types integration</li>
                     <li>• WordPress Customizer support</li>
                     <li>• Widget areas and sidebars</li>
@@ -463,10 +463,10 @@ export default function BlogArticle() {
               </div>
             </div>
 
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
-              <h3 class="text-xl font-bold text-orange-600 mb-4">🎯 Step 3: Optimization & Testing</h3>
-              <p class="text-gray-700 mb-4">Final optimization ensures peak performance and WordPress compatibility.</p>
-              <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
+              <h3 className="text-xl font-bold text-orange-600 mb-4">🎯 Step 3: Optimization & Testing</h3>
+              <p className="text-gray-700 mb-4">Final optimization ensures peak performance and WordPress compatibility.</p>
+              <ul className="list-disc list-inside space-y-2 text-gray-700 ml-4">
                 <li>Code minification and compression for faster loading</li>
                 <li>Image optimization and WebP conversion</li>
                 <li>Cross-browser compatibility testing</li>
@@ -477,203 +477,203 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <h2 id="pros-cons" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Pros & Cons Analysis</h2>
+          <h2 id="pros-cons" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Pros & Cons Analysis</h2>
           
           <!-- AI-Powered Conversion Pros & Cons -->
-          <div class="grid md:grid-cols-2 gap-6 my-8">
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <h4 class="text-xl font-bold text-green-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 className="text-xl font-bold text-green-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
                 Pros of AI-Powered Conversion
               </h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Lightning-fast conversion (5-15 minutes)</span>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Lightning-fast conversion (5-15 minutes)</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">No coding skills required</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">No coding skills required</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Consistent, error-free output</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Consistent, error-free output</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Built-in SEO optimization</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Built-in SEO optimization</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Automatic responsive design preservation</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Automatic responsive design preservation</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Cost-effective for most projects</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Cost-effective for most projects</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">24/7 availability and instant results</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">24/7 availability and instant results</span>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-red-50 to-rose-50 border border-red-200 rounded-xl p-6">
-              <h4 class="text-xl font-bold text-red-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <div className="bg-gradient-to-br from-red-50 to-rose-50 border border-red-200 rounded-xl p-6">
+              <h4 className="text-xl font-bold text-red-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
                 Cons of AI-Powered Conversion
               </h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Limited customization during conversion</span>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Limited customization during conversion</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">May require post-conversion adjustments</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">May require post-conversion adjustments</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Complex JavaScript might need manual review</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Complex JavaScript might need manual review</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Subscription cost for regular use</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Subscription cost for regular use</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Less control over specific implementation details</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Less control over specific implementation details</span>
                 </li>
               </ul>
             </div>
           </div>
           
           <!-- Manual Conversion Pros & Cons -->
-          <div class="grid md:grid-cols-2 gap-6 my-8">
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <h4 class="text-xl font-bold text-green-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <div className="grid md:grid-cols-2 gap-6 my-8">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 className="text-xl font-bold text-green-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
                 Pros of Manual Conversion
               </h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Complete control over every aspect</span>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Complete control over every aspect</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Unlimited customization possibilities</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Unlimited customization possibilities</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Optimal performance optimization</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Optimal performance optimization</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Custom functionality implementation</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Custom functionality implementation</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Deep WordPress integration</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Deep WordPress integration</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Learning experience for developers</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Learning experience for developers</span>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-red-50 to-rose-50 border border-red-200 rounded-xl p-6">
-              <h4 class="text-xl font-bold text-red-800 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <div className="bg-gradient-to-br from-red-50 to-rose-50 border border-red-200 rounded-xl p-6">
+              <h4 className="text-xl font-bold text-red-800 mb-4 flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
                 </svg>
                 Cons of Manual Conversion
               </h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Extremely time-consuming (15-60+ hours)</span>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Extremely time-consuming (15-60+ hours)</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Requires advanced PHP/WordPress skills</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Requires advanced PHP/WordPress skills</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">High risk of errors and bugs</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">High risk of errors and bugs</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Expensive if hiring developers</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Expensive if hiring developers</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-red-700">Ongoing maintenance complexity</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-red-700">Ongoing maintenance complexity</span>
                 </li>
               </ul>
             </div>
           </div>
           
-          <div id="faq" class="scroll-mt-20">
+          <div id="faq" className="scroll-mt-20">
             <!-- FAQ section will be rendered by React component -->
           </div>`;
 
-          <h2 id="conclusion" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Conclusion & Next Steps</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Converting HTML to WordPress in 2025 is no longer a question of "if" but "how." With AI-powered tools like <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">Code2WP</a> making the process accessible to everyone, businesses can now transform their static websites into dynamic, SEO-optimized WordPress sites in minutes rather than months.</p>
+          <h2 id="conclusion" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Conclusion & Next Steps</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">Converting HTML to WordPress in 2025 is no longer a question of "if" but "how." With AI-powered tools like <a href="/" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">Code2WP</a> making the process accessible to everyone, businesses can now transform their static websites into dynamic, SEO-optimized WordPress sites in minutes rather than months.</p>
           
-          <div class="bg-gradient-to-r from-purple-50 to-orange-50 border border-purple-200 rounded-xl p-8 my-8">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">🎯 Your Next Steps</h3>
-            <ol class="space-y-3 text-gray-700">
-              <li class="flex items-start">
-                <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+          <div className="bg-gradient-to-r from-purple-50 to-orange-50 border border-purple-200 rounded-xl p-8 my-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">🎯 Your Next Steps</h3>
+            <ol className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
                 <span><strong>Prepare your HTML files</strong> - Organize and optimize your website files</span>
               </li>
-              <li class="flex items-start">
-                <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+              <li className="flex items-start">
+                <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
                 <span><strong>Choose your conversion method</strong> - AI for speed, manual for control, or hybrid for balance</span>
               </li>
-              <li class="flex items-start">
-                <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+              <li className="flex items-start">
+                <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
                 <span><strong>Start your conversion</strong> - Upload to Code2WP or begin manual development</span>
               </li>
-              <li class="flex items-start">
-                <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>
+              <li className="flex items-start">
+                <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>
                 <span><strong>Test and optimize</strong> - Review the converted theme and make necessary adjustments</span>
               </li>
-              <li class="flex items-start">
-                <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">5</span>
+              <li className="flex items-start">
+                <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">5</span>
                 <span><strong>Launch and maintain</strong> - Deploy your new WordPress site and establish maintenance routines</span>
               </li>
             </ol>
           </div>
           
-          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
               <BookOpen className="w-5 h-5 mr-2 text-blue-600" />
               Related Resources & Further Reading
             </h3>
-            <div class="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <h4 class="font-semibold text-gray-900 mb-2">Internal Resources:</h4>
-                <ul class="space-y-2 text-sm">
-                  <li><a href="/blog/wordpress-theme-development-trends-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
-                  <li><a href="/blog/ai-vs-manual-wordpress-conversion" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual Conversion Comparison</a></li>
-                  <li><a href="/blog/wordpress-theme-performance-optimization" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Performance Optimization Guide</a></li>
-                  <li><a href="/documentation" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+                <h4 className="font-semibold text-gray-900 mb-2">Internal Resources:</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="/blog/wordpress-theme-development-trends-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
+                  <li><a href="/blog/ai-vs-manual-wordpress-conversion" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual Conversion Comparison</a></li>
+                  <li><a href="/blog/wordpress-theme-performance-optimization" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Performance Optimization Guide</a></li>
+                  <li><a href="/documentation" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
                 </ul>
               </div>
               <div>
-                <h4 class="font-semibold text-gray-900 mb-2">External Resources:</h4>
-                <ul class="space-y-2 text-sm">
-                  <li><a href="https://wordpress.org/documentation/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Official WordPress Documentation</a></li>
-                  <li><a href="https://developer.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Guide</a></li>
-                  <li><a href="https://codex.wordpress.org/Theme_Development" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Codex - Theme Development</a></li>
-                  <li><a href="https://make.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Review Team</a></li>
+                <h4 className="font-semibold text-gray-900 mb-2">External Resources:</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="https://wordpress.org/documentation/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Official WordPress Documentation</a></li>
+                  <li><a href="https://developer.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Guide</a></li>
+                  <li><a href="https://codex.wordpress.org/Theme_Development" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Codex - Theme Development</a></li>
+                  <li><a href="https://make.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Review Team</a></li>
                 </ul>
               </div>
             </div>
@@ -682,107 +682,107 @@ export default function BlogArticle() {
       
       case "wordpress-theme-development-trends-2025":
         return `
-          <h2 id="ai-revolution" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI-Powered Development Revolution</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">The WordPress ecosystem is experiencing a transformation driven by artificial intelligence. AI-powered development tools like <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">Code2WP</a> are changing how we approach theme creation, offering unprecedented speed and consistency. According to <a href="https://trends.builtwith.com/websitelist/wordpress" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">recent data</a>, WordPress continues to dominate the CMS market with over 455 million websites.</p>
+          <h2 id="ai-revolution" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">AI-Powered Development Revolution</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">The WordPress ecosystem is experiencing a transformation driven by artificial intelligence. AI-powered development tools like <a href="/" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">Code2WP</a> are changing how we approach theme creation, offering unprecedented speed and consistency. According to <a href="https://trends.builtwith.com/websitelist/wordpress" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">recent data</a>, WordPress continues to dominate the CMS market with over 455 million websites.</p>
           
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Key AI Innovations</h3>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-3">Key AI Innovations</h3>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Automated code generation from design files</li>
             <li>Smart asset optimization and compression</li>
             <li>Intelligent layout detection and conversion</li>
             <li>Built-in SEO optimization and schema markup</li>
           </ul>
 
-          <h2 id="fse-maturity" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Full Site Editing Maturity</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">WordPress's <a href="https://wordpress.org/gutenberg/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Full Site Editing (FSE)</a> has reached maturity with WordPress 6.0+, making block-based themes the new standard for modern WordPress development. This represents a significant shift from traditional <a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">PHP-based theme development</a>.</p>
+          <h2 id="fse-maturity" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Full Site Editing Maturity</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">WordPress's <a href="https://wordpress.org/gutenberg/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Full Site Editing (FSE)</a> has reached maturity with WordPress 6.0+, making block-based themes the new standard for modern WordPress development. This represents a significant shift from traditional <a href="/blog/ultimate-guide-html-to-wordpress-2025" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">PHP-based theme development</a>.</p>
           
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">FSE Features</h3>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-3">FSE Features</h3>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Template parts for reusable components</li>
             <li>Global styles for consistent design</li>
             <li>Pattern libraries for common layouts</li>
             <li>Visual editing without code knowledge</li>
           </ul>
 
-          <h2 id="performance-first" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance-First Development</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed"><a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google's Core Web Vitals</a> have become crucial ranking factors, making performance optimization a priority in theme development. Sites that load faster than 3 seconds have significantly better user engagement and <a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">search rankings</a>.</p>
+          <h2 id="performance-first" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance-First Development</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed"><a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google's Core Web Vitals</a> have become crucial ranking factors, making performance optimization a priority in theme development. Sites that load faster than 3 seconds have significantly better user engagement and <a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">search rankings</a>.</p>
           
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Optimization Techniques</h3>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-3">Optimization Techniques</h3>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Critical CSS inlining for faster loading</li>
             <li>Progressive image loading with WebP/AVIF formats</li>
             <li>Code splitting for JavaScript optimization</li>
             <li>Service workers for intelligent caching</li>
           </ul>
 
-          <h2 id="accessibility" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Accessibility-First Design</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Accessibility is no longer optional but a legal and ethical requirement. Modern themes must comply with <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WCAG 2.2 standards</a> from the ground up. The <a href="https://www.ada.gov/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Americans with Disabilities Act (ADA)</a> requires digital accessibility compliance.</p>
+          <h2 id="accessibility" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Accessibility-First Design</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">Accessibility is no longer optional but a legal and ethical requirement. Modern themes must comply with <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WCAG 2.2 standards</a> from the ground up. The <a href="https://www.ada.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Americans with Disabilities Act (ADA)</a> requires digital accessibility compliance.</p>
 
-          <h2 id="mobile-pwa" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Mobile-First and PWA Features</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">With <a href="https://www.statista.com/statistics/277125/share-of-website-traffic-coming-from-mobile-devices/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">mobile traffic exceeding desktop</a>, themes must prioritize mobile experience and incorporate <a href="https://web.dev/progressive-web-apps/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Progressive Web App features</a> for app-like functionality.</p>
+          <h2 id="mobile-pwa" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Mobile-First and PWA Features</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">With <a href="https://www.statista.com/statistics/277125/share-of-website-traffic-coming-from-mobile-devices/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">mobile traffic exceeding desktop</a>, themes must prioritize mobile experience and incorporate <a href="https://web.dev/progressive-web-apps/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Progressive Web App features</a> for app-like functionality.</p>
 
-          <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 my-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">💡 Pro Tip</h3>
-            <p class="text-gray-700 text-sm">Start your next WordPress project with an <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI-powered conversion</a> to incorporate all these modern trends automatically. This saves weeks of development time while ensuring best practices are followed.</p>
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 my-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">💡 Pro Tip</h3>
+            <p className="text-gray-700 text-sm">Start your next WordPress project with an <a href="/" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI-powered conversion</a> to incorporate all these modern trends automatically. This saves weeks of development time while ensuring best practices are followed.</p>
           </div>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">The WordPress theme development landscape in 2025 is characterized by AI integration, performance optimization, and accessibility focus. Developers who embrace these trends while maintaining code quality will create themes that meet both current standards and future needs.</p>
+          <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">The WordPress theme development landscape in 2025 is characterized by AI integration, performance optimization, and accessibility focus. Developers who embrace these trends while maintaining code quality will create themes that meet both current standards and future needs.</p>
           
-          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
-            <ul class="space-y-2">
-              <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Conversion Guide</a></li>
-              <li><a href="/blog/ai-vs-manual-wordpress-conversion" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual Conversion Comparison</a></li>
-              <li><a href="/features" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Code2WP Features Overview</a></li>
-              <li><a href="https://wordpress.org/news/category/releases/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Latest WordPress Updates</a></li>
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
+            <ul className="space-y-2">
+              <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Conversion Guide</a></li>
+              <li><a href="/blog/ai-vs-manual-wordpress-conversion" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">AI vs Manual Conversion Comparison</a></li>
+              <li><a href="/features" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Code2WP Features Overview</a></li>
+              <li><a href="https://wordpress.org/news/category/releases/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Latest WordPress Updates</a></li>
             </ul>
           </div>
         `;
 
       case "ai-vs-manual-wordpress-conversion":
         return `
-          <h2 id="understanding" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Understanding Both Approaches</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">The landscape of WordPress theme development has been transformed by AI-powered conversion tools, but traditional manual methods still have their place. Understanding when to use each approach is crucial for project success. With <a href="https://hostingtribunal.com/blog/wordpress-statistics/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress powering 43% of all websites</a>, choosing the right conversion method can significantly impact development efficiency.</p>
+          <h2 id="understanding" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Understanding Both Approaches</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">The landscape of WordPress theme development has been transformed by AI-powered conversion tools, but traditional manual methods still have their place. Understanding when to use each approach is crucial for project success. With <a href="https://hostingtribunal.com/blog/wordpress-statistics/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress powering 43% of all websites</a>, choosing the right conversion method can significantly impact development efficiency.</p>
           
-          <h2 id="comparison" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Detailed Comparison</h2>
+          <h2 id="comparison" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Detailed Comparison</h2>
           
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Time Investment</h3>
-          <p class="font-bold text-gray-900 mt-6 mb-3">Manual Conversion:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-3">Time Investment</h3>
+          <p className="font-bold text-gray-900 mt-6 mb-3">Manual Conversion:</p>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Simple site: 15-25 hours</li>
             <li>Medium complexity: 30-50 hours</li>
             <li>Complex site: 60+ hours</li>
             <li>Additional testing and debugging time</li>
           </ul>
 
-          <p class="font-bold text-gray-900 mt-6 mb-3">AI Conversion:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <p className="font-bold text-gray-900 mt-6 mb-3">AI Conversion:</p>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Any complexity: 5-15 minutes</li>
             <li>Immediate preview available</li>
             <li>Ready for installation instantly</li>
             <li>Minimal setup time required</li>
           </ul>
 
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-3">Cost Analysis</h3>
-          <p class="font-bold text-gray-900 mt-6 mb-3">Manual Conversion Costs:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-3">Cost Analysis</h3>
+          <p className="font-bold text-gray-900 mt-6 mb-3">Manual Conversion Costs:</p>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Developer time: $50-150/hour</li>
             <li>Development tools and software</li>
             <li>Testing environment setup</li>
             <li>Total: $750-7,500+ per project</li>
           </ul>
 
-          <p class="font-bold text-gray-900 mt-6 mb-3">AI Conversion Costs:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <p className="font-bold text-gray-900 mt-6 mb-3">AI Conversion Costs:</p>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Conversion tool subscription</li>
             <li>Minimal customization time</li>
             <li>Reduced testing requirements</li>
             <li>Total: $20-200 per project</li>
           </ul>
 
-          <h2 id="when-manual" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">When to Choose Manual Conversion</h2>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h2 id="when-manual" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">When to Choose Manual Conversion</h2>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Complex custom functionality requirements</li>
             <li>Unique design implementations</li>
             <li>Advanced WordPress features integration</li>
@@ -790,8 +790,8 @@ export default function BlogArticle() {
             <li>E-commerce customizations</li>
           </ul>
 
-          <h2 id="when-ai" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">When to Choose AI Conversion</h2>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h2 id="when-ai" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">When to Choose AI Conversion</h2>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li>Standard business websites</li>
             <li>Tight deadlines and quick turnaround</li>
             <li>Budget constraints</li>
@@ -799,44 +799,44 @@ export default function BlogArticle() {
             <li>Rapid prototyping needs</li>
           </ul>
 
-          <h2 id="hybrid" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Hybrid Approach: Best of Both Worlds</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Many successful projects use a hybrid approach: start with <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI conversion</a> for the foundation, then add manual customizations as needed. This approach is recommended by <a href="https://developer.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress developers</a> for balancing speed and customization.</p>
+          <h2 id="hybrid" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Hybrid Approach: Best of Both Worlds</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">Many successful projects use a hybrid approach: start with <a href="/" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI conversion</a> for the foundation, then add manual customizations as needed. This approach is recommended by <a href="https://developer.wordpress.org/themes/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress developers</a> for balancing speed and customization.</p>
 
-          <div class="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 my-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">⚡ Quick Comparison Table</h3>
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm">
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 my-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">⚡ Quick Comparison Table</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr class="border-b">
-                    <th class="text-left py-2">Factor</th>
-                    <th class="text-left py-2">AI Conversion</th>
-                    <th class="text-left py-2">Manual Conversion</th>
+                  <tr className="border-b">
+                    <th className="text-left py-2">Factor</th>
+                    <th className="text-left py-2">AI Conversion</th>
+                    <th className="text-left py-2">Manual Conversion</th>
                   </tr>
                 </thead>
-                <tbody class="space-y-2">
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 font-medium">Time</td>
-                    <td class="py-2">5-15 minutes</td>
-                    <td class="py-2">15-60+ hours</td>
+                <tbody className="space-y-2">
+                  <tr className="border-b border-gray-100">
+                    <td className="py-2 font-medium">Time</td>
+                    <td className="py-2">5-15 minutes</td>
+                    <td className="py-2">15-60+ hours</td>
                   </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 font-medium">Cost</td>
-                    <td class="py-2">$20-200</td>
-                    <td class="py-2">$750-7,500+</td>
+                  <tr className="border-b border-gray-100">
+                    <td className="py-2 font-medium">Cost</td>
+                    <td className="py-2">$20-200</td>
+                    <td className="py-2">$750-7,500+</td>
                   </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 font-medium">Skill Level</td>
-                    <td class="py-2">Beginner</td>
-                    <td class="py-2">Advanced</td>
+                  <tr className="border-b border-gray-100">
+                    <td className="py-2 font-medium">Skill Level</td>
+                    <td className="py-2">Beginner</td>
+                    <td className="py-2">Advanced</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Decision Framework</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Consider these factors when choosing your approach:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700 mb-6">
+          <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">Decision Framework</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">Consider these factors when choosing your approach:</p>
+          <ul className="list-disc list-inside space-y-2 text-gray-700 mb-6">
             <li><strong>Timeline:</strong> Days vs weeks vs months</li>
             <li><strong>Budget:</strong> Hundreds vs thousands of dollars</li>
             <li><strong>Functionality:</strong> Standard vs custom requirements</li>
@@ -844,16 +844,16 @@ export default function BlogArticle() {
             <li><strong>Scalability:</strong> One-time vs ongoing development</li>
           </ul>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">The choice between AI and manual WordPress conversion depends on your specific project requirements, constraints, and goals. For maximum efficiency, consider starting with <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI conversion</a> and adding manual customizations as needed.</p>
+          <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">The choice between AI and manual WordPress conversion depends on your specific project requirements, constraints, and goals. For maximum efficiency, consider starting with <a href="/" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI conversion</a> and adding manual customizations as needed.</p>
           
-          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
-            <ul class="space-y-2">
-              <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Guide</a></li>
-              <li><a href="/blog/wordpress-theme-development-trends-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
-              <li><a href="/documentation" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
-              <li><a href="https://codex.wordpress.org/Theme_Development" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Guide</a></li>
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">Related Resources</h3>
+            <ul className="space-y-2">
+              <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Guide</a></li>
+              <li><a href="/blog/wordpress-theme-development-trends-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
+              <li><a href="/documentation" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+              <li><a href="https://codex.wordpress.org/Theme_Development" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Development Guide</a></li>
             </ul>
           </div>
         `;
@@ -861,115 +861,115 @@ export default function BlogArticle() {
       case "wordpress-theme-performance-optimization":
 
         return `
-          <h2 id="performance-fundamentals" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance Fundamentals</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">In today's fast-paced digital world, website performance is not just a luxury—it's a necessity. Whether you're running a blog, an online store, or a corporate site, your WordPress theme plays a critical role in determining how quickly your pages load, how smoothly users interact with your content, and how well your site ranks in search engines.</p>
+          <h2 id="performance-fundamentals" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance Fundamentals</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">In today's fast-paced digital world, website performance is not just a luxury—it's a necessity. Whether you're running a blog, an online store, or a corporate site, your WordPress theme plays a critical role in determining how quickly your pages load, how smoothly users interact with your content, and how well your site ranks in search engines.</p>
           
-          <blockquote class="border-l-4 border-blue-500 bg-blue-50 p-6 my-6 italic text-gray-700">
+          <blockquote className="border-l-4 border-blue-500 bg-blue-50 p-6 my-6 italic text-gray-700">
             "A slow website frustrates visitors, increases bounce rates, and hurts SEO. On the flip side, a well-optimized WordPress theme can significantly enhance user experience, improve conversion rates, and boost your search engine visibility."
-            <cite class="block mt-2 text-sm text-gray-600">— Alex Thompson, Performance Engineer</cite>
+            <cite className="block mt-2 text-sm text-gray-600">— Alex Thompson, Performance Engineer</cite>
           </blockquote>
 
-          <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <div class="text-2xl font-bold text-green-600 mb-2">&lt; 2s</div>
-              <h3 class="text-lg font-bold text-green-800 mb-2">Target Load Time</h3>
-              <p class="text-green-700 text-sm">Visitors expect pages to load in under 2 seconds. Every additional second increases bounce rate significantly.</p>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <div className="text-2xl font-bold text-green-600 mb-2">&lt; 2s</div>
+              <h3 className="text-lg font-bold text-green-800 mb-2">Target Load Time</h3>
+              <p className="text-green-700 text-sm">Visitors expect pages to load in under 2 seconds. Every additional second increases bounce rate significantly.</p>
             </div>
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-              <div class="text-2xl font-bold text-blue-600 mb-2">7%</div>
-              <h3 class="text-lg font-bold text-blue-800 mb-2">Conversion Impact</h3>
-              <p class="text-blue-700 text-sm">Even a 1-second delay can reduce conversions by up to 7%, according to <a href="https://blog.kissmetrics.com/loading-time/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline">research studies</a>.</p>
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <div className="text-2xl font-bold text-blue-600 mb-2">7%</div>
+              <h3 className="text-lg font-bold text-blue-800 mb-2">Conversion Impact</h3>
+              <p className="text-blue-700 text-sm">Even a 1-second delay can reduce conversions by up to 7%, according to <a href="https://blog.kissmetrics.com/loading-time/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">research studies</a>.</p>
             </div>
-            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
-              <div class="text-2xl font-bold text-purple-600 mb-2">60%</div>
-              <h3 class="text-lg font-bold text-purple-800 mb-2">Mobile Traffic</h3>
-              <p class="text-purple-700 text-sm">Over 60% of web traffic comes from mobile devices, making responsive performance essential.</p>
+            <div className="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
+              <div className="text-2xl font-bold text-purple-600 mb-2">60%</div>
+              <h3 className="text-lg font-bold text-purple-800 mb-2">Mobile Traffic</h3>
+              <p className="text-purple-700 text-sm">Over 60% of web traffic comes from mobile devices, making responsive performance essential.</p>
             </div>
           </div>
 
-          <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Theme Performance Matters</h3>
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
+          <h3 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Theme Performance Matters</h3>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div>
-              <h4 class="text-lg font-semibold text-gray-900 mb-3">Business Impact</h4>
-              <ul class="space-y-2 text-gray-700">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">Business Impact</h4>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span><strong>User Experience:</strong> Faster sites keep visitors engaged and reduce bounce rates</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span><strong>SEO Rankings:</strong> Google uses page speed as a <a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">ranking factor</a></span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>SEO Rankings:</strong> Google uses page speed as a <a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">ranking factor</a></span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span><strong>Conversion Rates:</strong> Faster sites convert better and generate more revenue</span>
                 </li>
               </ul>
             </div>
             <div>
-              <h4 class="text-lg font-semibold text-gray-900 mb-3">Technical Benefits</h4>
-              <ul class="space-y-2 text-gray-700">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">Technical Benefits</h4>
+              <ul className="space-y-2 text-gray-700">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span><strong>Server Resources:</strong> Optimized themes use less CPU and memory</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span><strong>Bandwidth Costs:</strong> Smaller page sizes reduce hosting expenses</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span><strong>Scalability:</strong> Efficient code handles traffic spikes better</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <h2 id="core-web-vitals" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Core Web Vitals Optimization</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Google's <a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Core Web Vitals</a> are essential metrics that measure real-world user experience. These metrics directly impact your search rankings and user satisfaction.</p>
+          <h2 id="core-web-vitals" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Core Web Vitals Optimization</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Google's <a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Core Web Vitals</a> are essential metrics that measure real-world user experience. These metrics directly impact your search rankings and user satisfaction.</p>
 
-          <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
                 Largest Contentful Paint (LCP)
               </h4>
-              <div class="text-2xl font-bold text-blue-600 mb-2">&lt; 2.5s</div>
-              <p class="text-gray-600 text-sm mb-4">Measures loading performance. The largest content element should render within 2.5 seconds.</p>
-              <div class="bg-blue-50 p-3 rounded-lg">
-                <p class="text-blue-800 text-xs font-medium">Optimization: Optimize images, improve server response times, eliminate render-blocking resources</p>
+              <div className="text-2xl font-bold text-blue-600 mb-2">&lt; 2.5s</div>
+              <p className="text-gray-600 text-sm mb-4">Measures loading performance. The largest content element should render within 2.5 seconds.</p>
+              <div className="bg-blue-50 p-3 rounded-lg">
+                <p className="text-blue-800 text-xs font-medium">Optimization: Optimize images, improve server response times, eliminate render-blocking resources</p>
               </div>
             </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
                 First Input Delay (FID)
               </h4>
-              <div class="text-2xl font-bold text-green-600 mb-2">&lt; 100ms</div>
-              <p class="text-gray-600 text-sm mb-4">Measures interactivity. First user interaction should respond within 100 milliseconds.</p>
-              <div class="bg-green-50 p-3 rounded-lg">
-                <p class="text-green-800 text-xs font-medium">Optimization: Minimize JavaScript execution time, break up long tasks, use web workers</p>
+              <div className="text-2xl font-bold text-green-600 mb-2">&lt; 100ms</div>
+              <p className="text-gray-600 text-sm mb-4">Measures interactivity. First user interaction should respond within 100 milliseconds.</p>
+              <div className="bg-green-50 p-3 rounded-lg">
+                <p className="text-green-800 text-xs font-medium">Optimization: Minimize JavaScript execution time, break up long tasks, use web workers</p>
               </div>
             </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
                 Cumulative Layout Shift (CLS)
               </h4>
-              <div class="text-2xl font-bold text-purple-600 mb-2">&lt; 0.1</div>
-              <p class="text-gray-600 text-sm mb-4">Measures visual stability. Unexpected layout shifts should be minimized.</p>
-              <div class="bg-purple-50 p-3 rounded-lg">
-                <p class="text-purple-800 text-xs font-medium">Optimization: Set dimensions for media, avoid inserting content above existing content</p>
+              <div className="text-2xl font-bold text-purple-600 mb-2">&lt; 0.1</div>
+              <p className="text-gray-600 text-sm mb-4">Measures visual stability. Unexpected layout shifts should be minimized.</p>
+              <div className="bg-purple-50 p-3 rounded-lg">
+                <p className="text-purple-800 text-xs font-medium">Optimization: Set dimensions for media, avoid inserting content above existing content</p>
               </div>
             </div>
           </div>
 
-          <h2 id="caching-strategies" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Advanced Caching Strategies</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Browser caching stores static files locally on a visitor's device, meaning returning visitors load pages faster because their browser doesn't need to re-download everything.</p>
+          <h2 id="caching-strategies" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Advanced Caching Strategies</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Browser caching stores static files locally on a visitor's device, meaning returning visitors load pages faster because their browser doesn't need to re-download everything.</p>
 
-          <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8">
-            <h4 class="text-lg font-bold text-gray-900 mb-4">Apache .htaccess Caching Rules</h4>
-            <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;IfModule mod_expires.c&gt;
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8">
+            <h4 className="text-lg font-bold text-gray-900 mb-4">Apache .htaccess Caching Rules</h4>
+            <pre className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;IfModule mod_expires.c&gt;
   ExpiresActive On
   ExpiresByType image/jpg "access plus 1 year"
   ExpiresByType image/jpeg "access plus 1 year"
@@ -985,104 +985,104 @@ export default function BlogArticle() {
 &lt;/IfModule&gt;</code></pre>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-blue-800 mb-4">Recommended Caching Plugins</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-blue-800 mb-4">Recommended Caching Plugins</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800">WP Rocket</strong>
-                    <p class="text-blue-700 text-sm">Premium plugin with comprehensive optimization features</p>
+                    <strong className="text-blue-800">WP Rocket</strong>
+                    <p className="text-blue-700 text-sm">Premium plugin with comprehensive optimization features</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800">WP Super Cache</strong>
-                    <p class="text-blue-700 text-sm">Free plugin from Automattic, reliable and easy to use</p>
+                    <strong className="text-blue-800">WP Super Cache</strong>
+                    <p className="text-blue-700 text-sm">Free plugin from Automattic, reliable and easy to use</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800">LiteSpeed Cache</strong>
-                    <p class="text-blue-700 text-sm">High-performance caching for LiteSpeed servers</p>
+                    <strong className="text-blue-800">LiteSpeed Cache</strong>
+                    <p className="text-blue-700 text-sm">High-performance caching for LiteSpeed servers</p>
                   </div>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-green-800 mb-4">Caching Best Practices</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Enable page caching for all static content</span>
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-green-800 mb-4">Caching Best Practices</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Enable page caching for all static content</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Use object caching for database queries</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Use object caching for database queries</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Implement browser caching with long expiry times</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Implement browser caching with long expiry times</span>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                  <span class="text-green-700">Clear cache automatically after content updates</span>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span className="text-green-700">Clear cache automatically after content updates</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <h2 id="image-optimization" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Image Optimization Techniques</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Images are often the largest assets on a webpage. Optimizing them is one of the fastest ways to improve performance. Modern image optimization goes beyond just compression.</p>
+          <h2 id="image-optimization" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Image Optimization Techniques</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Images are often the largest assets on a webpage. Optimizing them is one of the fastest ways to improve performance. Modern image optimization goes beyond just compression.</p>
 
-          <div class="overflow-x-auto mb-8">
-            <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="overflow-x-auto mb-8">
+            <table className="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
               <thead>
-                <tr class="bg-gradient-to-r from-purple-600 to-orange-500 text-white">
-                  <th class="px-6 py-4 text-left font-bold">Image Format</th>
-                  <th class="px-6 py-4 text-left font-bold">Best Use Case</th>
-                  <th class="px-6 py-4 text-left font-bold">Compression</th>
-                  <th class="px-6 py-4 text-left font-bold">Browser Support</th>
+                <tr className="bg-gradient-to-r from-purple-600 to-orange-500 text-white">
+                  <th className="px-6 py-4 text-left font-bold">Image Format</th>
+                  <th className="px-6 py-4 text-left font-bold">Best Use Case</th>
+                  <th className="px-6 py-4 text-left font-bold">Compression</th>
+                  <th className="px-6 py-4 text-left font-bold">Browser Support</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-200">
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">WebP</td>
-                  <td class="px-6 py-4 text-gray-700">Modern replacement for JPEG/PNG</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">30% smaller than JPEG</td>
-                  <td class="px-6 py-4 text-blue-600 font-medium">95%+ (modern browsers)</td>
+              <tbody className="divide-y divide-gray-200">
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">WebP</td>
+                  <td className="px-6 py-4 text-gray-700">Modern replacement for JPEG/PNG</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">30% smaller than JPEG</td>
+                  <td className="px-6 py-4 text-blue-600 font-medium">95%+ (modern browsers)</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">AVIF</td>
-                  <td class="px-6 py-4 text-gray-700">Next-gen format for best compression</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">50% smaller than JPEG</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">75%+ (newer browsers)</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">AVIF</td>
+                  <td className="px-6 py-4 text-gray-700">Next-gen format for best compression</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">50% smaller than JPEG</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">75%+ (newer browsers)</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">JPEG</td>
-                  <td class="px-6 py-4 text-gray-700">Photographs and complex images</td>
-                  <td class="px-6 py-4 text-blue-600 font-medium">Good compression</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">100% (universal)</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">JPEG</td>
+                  <td className="px-6 py-4 text-gray-700">Photographs and complex images</td>
+                  <td className="px-6 py-4 text-blue-600 font-medium">Good compression</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">100% (universal)</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">PNG</td>
-                  <td class="px-6 py-4 text-gray-700">Graphics with transparency</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">Larger file sizes</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">100% (universal)</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">PNG</td>
+                  <td className="px-6 py-4 text-gray-700">Graphics with transparency</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">Larger file sizes</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">100% (universal)</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">Advanced Image Optimization Techniques</h3>
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-white border border-gray-200 rounded-xl p-6">
-              <h4 class="text-lg font-semibold text-gray-900 mb-3">Responsive Images</h4>
-              <p class="text-gray-700 mb-4 text-sm">Use srcset attributes so browsers load appropriately sized images:</p>
-              <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;img src="image-800w.jpg"
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">Advanced Image Optimization Techniques</h3>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">Responsive Images</h4>
+              <p className="text-gray-700 mb-4 text-sm">Use srcset attributes so browsers load appropriately sized images:</p>
+              <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;img src="image-800w.jpg"
      srcset="image-400w.jpg 400w,
              image-800w.jpg 800w,
              image-1200w.jpg 1200w"
@@ -1091,23 +1091,23 @@ export default function BlogArticle() {
             1200px"
      alt="Optimized image" /&gt;</code></pre>
             </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-6">
-              <h4 class="text-lg font-semibold text-gray-900 mb-3">Lazy Loading</h4>
-              <p class="text-gray-700 mb-4 text-sm">Defer offscreen images until they're needed:</p>
-              <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;img src="image.jpg"
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-3">Lazy Loading</h4>
+              <p className="text-gray-700 mb-4 text-sm">Defer offscreen images until they're needed:</p>
+              <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;img src="image.jpg"
      loading="lazy"
      alt="Lazy loaded image" /&gt;</code></pre>
-              <p class="text-gray-600 text-xs mt-2">Native lazy loading is supported in modern browsers and automatically delays image loading until they enter the viewport.</p>
+              <p className="text-gray-600 text-xs mt-2">Native lazy loading is supported in modern browsers and automatically delays image loading until they enter the viewport.</p>
             </div>
           </div>
 
-          <h2 id="code-optimization" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Code & Database Optimization</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Clean, efficient code is the backbone of a high-performing theme. Here's how to ensure your theme's code is optimized for speed and maintainability.</p>
+          <h2 id="code-optimization" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Code & Database Optimization</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Clean, efficient code is the backbone of a high-performing theme. Here's how to ensure your theme's code is optimized for speed and maintainability.</p>
 
-          <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-red-800 mb-4">HTML Optimization</h4>
-              <ul class="space-y-2 text-red-700 text-sm">
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-red-800 mb-4">HTML Optimization</h4>
+              <ul className="space-y-2 text-red-700 text-sm">
                 <li>• Use valid W3C compliant markup</li>
                 <li>• Reduce DOM complexity and nesting</li>
                 <li>• Avoid inline CSS and JavaScript</li>
@@ -1115,9 +1115,9 @@ export default function BlogArticle() {
                 <li>• Minimize redundant code and elements</li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-blue-800 mb-4">CSS Optimization</h4>
-              <ul class="space-y-2 text-blue-700 text-sm">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-blue-800 mb-4">CSS Optimization</h4>
+              <ul className="space-y-2 text-blue-700 text-sm">
                 <li>• Minify and compress CSS files</li>
                 <li>• Remove unused CSS declarations</li>
                 <li>• Use efficient selectors</li>
@@ -1125,9 +1125,9 @@ export default function BlogArticle() {
                 <li>• Avoid @import statements</li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-green-800 mb-4">JavaScript Optimization</h4>
-              <ul class="space-y-2 text-green-700 text-sm">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-green-800 mb-4">JavaScript Optimization</h4>
+              <ul className="space-y-2 text-green-700 text-sm">
                 <li>• Minify and defer non-critical scripts</li>
                 <li>• Use async loading where possible</li>
                 <li>• Eliminate render-blocking JavaScript</li>
@@ -1137,13 +1137,13 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">Database Optimization</h3>
-          <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
-            <h4 class="text-lg font-bold text-yellow-800 mb-4">Database Performance Tips</h4>
-            <div class="grid md:grid-cols-2 gap-6">
+          <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">Database Optimization</h3>
+          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+            <h4 className="text-lg font-bold text-yellow-800 mb-4">Database Performance Tips</h4>
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h5 class="font-semibold text-yellow-800 mb-2">Query Optimization</h5>
-                <ul class="space-y-1 text-yellow-700 text-sm">
+                <h5 className="font-semibold text-yellow-800 mb-2">Query Optimization</h5>
+                <ul className="space-y-1 text-yellow-700 text-sm">
                   <li>• Use proper database indexes</li>
                   <li>• Limit database queries per page</li>
                   <li>• Use WP_Query efficiently</li>
@@ -1151,8 +1151,8 @@ export default function BlogArticle() {
                 </ul>
               </div>
               <div>
-                <h5 class="font-semibold text-yellow-800 mb-2">Database Maintenance</h5>
-                <ul class="space-y-1 text-yellow-700 text-sm">
+                <h5 className="font-semibold text-yellow-800 mb-2">Database Maintenance</h5>
+                <ul className="space-y-1 text-yellow-700 text-sm">
                   <li>• Remove unused plugins and themes</li>
                   <li>• Clean up post revisions and spam</li>
                   <li>• Optimize database tables regularly</li>
@@ -1162,43 +1162,43 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <h2 id="cdn-setup" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">CDN Setup & Configuration</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">A Content Delivery Network (CDN) stores your site's static files on servers around the world. When a user visits your site, they download assets from the nearest server, reducing latency and improving load times globally.</p>
+          <h2 id="cdn-setup" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">CDN Setup & Configuration</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">A Content Delivery Network (CDN) stores your site's static files on servers around the world. When a user visits your site, they download assets from the nearest server, reducing latency and improving load times globally.</p>
 
-          <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div class="w-4 h-4 bg-orange-500 rounded mr-2"></div>
-                <a href="https://www.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Cloudflare</a>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div className="w-4 h-4 bg-orange-500 rounded mr-2"></div>
+                <a href="https://www.cloudflare.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Cloudflare</a>
               </h4>
-              <div class="text-sm text-gray-600 mb-3">Free & Paid Plans</div>
-              <ul class="space-y-2 text-gray-700 text-sm">
+              <div className="text-sm text-gray-600 mb-3">Free & Paid Plans</div>
+              <ul className="space-y-2 text-gray-700 text-sm">
                 <li>• Global network of 200+ data centers</li>
                 <li>• Built-in security and DDoS protection</li>
                 <li>• Advanced caching rules and optimization</li>
                 <li>• Free SSL certificates included</li>
               </ul>
             </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div class="w-4 h-4 bg-blue-500 rounded mr-2"></div>
-                <a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Amazon CloudFront</a>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div className="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+                <a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Amazon CloudFront</a>
               </h4>
-              <div class="text-sm text-gray-600 mb-3">Pay-as-you-go</div>
-              <ul class="space-y-2 text-gray-700 text-sm">
+              <div className="text-sm text-gray-600 mb-3">Pay-as-you-go</div>
+              <ul className="space-y-2 text-gray-700 text-sm">
                 <li>• Integration with AWS ecosystem</li>
                 <li>• Advanced analytics and reporting</li>
                 <li>• Real-time logs and monitoring</li>
                 <li>• Scalable for enterprise needs</li>
               </ul>
             </div>
-            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <div class="w-4 h-4 bg-purple-500 rounded mr-2"></div>
-                <a href="https://www.stackpath.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">StackPath</a>
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div className="w-4 h-4 bg-purple-500 rounded mr-2"></div>
+                <a href="https://www.stackpath.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">StackPath</a>
               </h4>
-              <div class="text-sm text-gray-600 mb-3">Developer-focused</div>
-              <ul class="space-y-2 text-gray-700 text-sm">
+              <div className="text-sm text-gray-600 mb-3">Developer-focused</div>
+              <ul className="space-y-2 text-gray-700 text-sm">
                 <li>• Edge computing capabilities</li>
                 <li>• WebAssembly support</li>
                 <li>• Advanced image optimization</li>
@@ -1207,354 +1207,354 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <h2 id="monitoring" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance Monitoring Tools</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Regular monitoring helps you identify performance bottlenecks and track improvements over time. Use these tools to maintain optimal theme performance.</p>
+          <h2 id="monitoring" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance Monitoring Tools</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Regular monitoring helps you identify performance bottlenecks and track improvements over time. Use these tools to maintain optimal theme performance.</p>
 
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-blue-800 mb-4">Free Monitoring Tools</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-blue-800 mb-4">Free Monitoring Tools</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800"><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google PageSpeed Insights</a></strong>
-                    <p class="text-blue-700 text-sm">Core Web Vitals and performance recommendations</p>
+                    <strong className="text-blue-800"><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google PageSpeed Insights</a></strong>
+                    <p className="text-blue-700 text-sm">Core Web Vitals and performance recommendations</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800"><a href="https://gtmetrix.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">GTmetrix</a></strong>
-                    <p class="text-blue-700 text-sm">Detailed performance reports and waterfall charts</p>
+                    <strong className="text-blue-800"><a href="https://gtmetrix.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">GTmetrix</a></strong>
+                    <p className="text-blue-700 text-sm">Detailed performance reports and waterfall charts</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800"><a href="https://tools.pingdom.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Pingdom</a></strong>
-                    <p class="text-blue-700 text-sm">Website speed tests from multiple locations</p>
+                    <strong className="text-blue-800"><a href="https://tools.pingdom.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Pingdom</a></strong>
+                    <p className="text-blue-700 text-sm">Website speed tests from multiple locations</p>
                   </div>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-purple-800 mb-4">Advanced Monitoring</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+            <div className="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-purple-800 mb-4">Advanced Monitoring</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-purple-800">Chrome DevTools</strong>
-                    <p class="text-purple-700 text-sm">Lighthouse audits and performance profiling</p>
+                    <strong className="text-purple-800">Chrome DevTools</strong>
+                    <p className="text-purple-700 text-sm">Lighthouse audits and performance profiling</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-purple-800">WebPageTest</strong>
-                    <p class="text-purple-700 text-sm">Advanced testing with custom scenarios</p>
+                    <strong className="text-purple-800">WebPageTest</strong>
+                    <p className="text-purple-700 text-sm">Advanced testing with custom scenarios</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-purple-800">New Relic / DataDog</strong>
-                    <p class="text-purple-700 text-sm">Real user monitoring and application performance</p>
+                    <strong className="text-purple-800">New Relic / DataDog</strong>
+                    <p className="text-purple-700 text-sm">Real user monitoring and application performance</p>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
 
-          <h2 id="optimization-checklist" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Complete Optimization Checklist</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Use this comprehensive checklist to ensure you've covered all aspects of WordPress theme performance optimization.</p>
+          <h2 id="optimization-checklist" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Complete Optimization Checklist</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Use this comprehensive checklist to ensure you've covered all aspects of WordPress theme performance optimization.</p>
 
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-green-800 mb-4">Theme & Code</h4>
-              <ul class="space-y-2">
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-green-600" disabled />
-                  <span class="text-green-700 text-sm">Choose lightweight, performance-focused theme</span>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-green-800 mb-4">Theme & Code</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-green-600" disabled />
+                  <span className="text-green-700 text-sm">Choose lightweight, performance-focused theme</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-green-600" disabled />
-                  <span class="text-green-700 text-sm">Remove unused theme features and plugins</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-green-600" disabled />
+                  <span className="text-green-700 text-sm">Remove unused theme features and plugins</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-green-600" disabled />
-                  <span class="text-green-700 text-sm">Optimize HTML structure and reduce DOM size</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-green-600" disabled />
+                  <span className="text-green-700 text-sm">Optimize HTML structure and reduce DOM size</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-green-600" disabled />
-                  <span class="text-green-700 text-sm">Minify CSS and JavaScript files</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-green-600" disabled />
+                  <span className="text-green-700 text-sm">Minify CSS and JavaScript files</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-green-600" disabled />
-                  <span class="text-green-700 text-sm">Implement critical CSS inlining</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-green-600" disabled />
+                  <span className="text-green-700 text-sm">Implement critical CSS inlining</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-green-600" disabled />
-                  <span class="text-green-700 text-sm">Use child theme for customizations</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-green-600" disabled />
+                  <span className="text-green-700 text-sm">Use child theme for customizations</span>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-blue-800 mb-4">Images & Media</h4>
-              <ul class="space-y-2">
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
-                  <span class="text-blue-700 text-sm">Optimize and compress all images</span>
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-blue-800 mb-4">Images & Media</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-blue-600" disabled />
+                  <span className="text-blue-700 text-sm">Optimize and compress all images</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
-                  <span class="text-blue-700 text-sm">Use modern formats (WebP, AVIF)</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-blue-600" disabled />
+                  <span className="text-blue-700 text-sm">Use modern formats (WebP, AVIF)</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
-                  <span class="text-blue-700 text-sm">Implement responsive images with srcset</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-blue-600" disabled />
+                  <span className="text-blue-700 text-sm">Implement responsive images with srcset</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
-                  <span class="text-blue-700 text-sm">Enable lazy loading for images</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-blue-600" disabled />
+                  <span className="text-blue-700 text-sm">Enable lazy loading for images</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
-                  <span class="text-blue-700 text-sm">Set appropriate image dimensions</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-blue-600" disabled />
+                  <span className="text-blue-700 text-sm">Set appropriate image dimensions</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
-                  <span class="text-blue-700 text-sm">Optimize video and multimedia content</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-blue-600" disabled />
+                  <span className="text-blue-700 text-sm">Optimize video and multimedia content</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-orange-800 mb-4">Caching & CDN</h4>
-              <ul class="space-y-2">
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
-                  <span class="text-orange-700 text-sm">Configure browser caching rules</span>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-orange-800 mb-4">Caching & CDN</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-orange-600" disabled />
+                  <span className="text-orange-700 text-sm">Configure browser caching rules</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
-                  <span class="text-orange-700 text-sm">Set up page caching plugin</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-orange-600" disabled />
+                  <span className="text-orange-700 text-sm">Set up page caching plugin</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
-                  <span class="text-orange-700 text-sm">Enable object caching</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-orange-600" disabled />
+                  <span className="text-orange-700 text-sm">Enable object caching</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
-                  <span class="text-orange-700 text-sm">Implement CDN for static assets</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-orange-600" disabled />
+                  <span className="text-orange-700 text-sm">Implement CDN for static assets</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
-                  <span class="text-orange-700 text-sm">Configure database query caching</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-orange-600" disabled />
+                  <span className="text-orange-700 text-sm">Configure database query caching</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
-                  <span class="text-orange-700 text-sm">Test cache effectiveness</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-orange-600" disabled />
+                  <span className="text-orange-700 text-sm">Test cache effectiveness</span>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-purple-800 mb-4">Monitoring & Maintenance</h4>
-              <ul class="space-y-2">
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
-                  <span class="text-purple-700 text-sm">Run initial performance audit</span>
+            <div className="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-purple-800 mb-4">Monitoring & Maintenance</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-purple-600" disabled />
+                  <span className="text-purple-700 text-sm">Run initial performance audit</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
-                  <span class="text-purple-700 text-sm">Monitor Core Web Vitals regularly</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-purple-600" disabled />
+                  <span className="text-purple-700 text-sm">Monitor Core Web Vitals regularly</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
-                  <span class="text-purple-700 text-sm">Set up uptime monitoring</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-purple-600" disabled />
+                  <span className="text-purple-700 text-sm">Set up uptime monitoring</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
-                  <span class="text-purple-700 text-sm">Schedule regular performance tests</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-purple-600" disabled />
+                  <span className="text-purple-700 text-sm">Schedule regular performance tests</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
-                  <span class="text-purple-700 text-sm">Keep WordPress and plugins updated</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-purple-600" disabled />
+                  <span className="text-purple-700 text-sm">Keep WordPress and plugins updated</span>
                 </li>
-                <li class="flex items-center">
-                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
-                  <span class="text-purple-700 text-sm">Optimize database regularly</span>
+                <li className="flex items-center">
+                  <input type="checkbox" className="mr-3 text-purple-600" disabled />
+                  <span className="text-purple-700 text-sm">Optimize database regularly</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <h2 id="performance-table" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Optimization Techniques Comparison</h2>
-          <div class="overflow-x-auto mb-8">
-            <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+          <h2 id="performance-table" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Optimization Techniques Comparison</h2>
+          <div className="overflow-x-auto mb-8">
+            <table className="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
               <thead>
-                <tr class="bg-gradient-to-r from-purple-600 to-orange-500 text-white">
-                  <th class="px-6 py-4 text-left font-bold">Optimization Technique</th>
-                  <th class="px-6 py-4 text-left font-bold">Impact Level</th>
-                  <th class="px-6 py-4 text-left font-bold">Implementation Difficulty</th>
-                  <th class="px-6 py-4 text-left font-bold">Time Investment</th>
-                  <th class="px-6 py-4 text-left font-bold">Cost</th>
+                <tr className="bg-gradient-to-r from-purple-600 to-orange-500 text-white">
+                  <th className="px-6 py-4 text-left font-bold">Optimization Technique</th>
+                  <th className="px-6 py-4 text-left font-bold">Impact Level</th>
+                  <th className="px-6 py-4 text-left font-bold">Implementation Difficulty</th>
+                  <th className="px-6 py-4 text-left font-bold">Time Investment</th>
+                  <th className="px-6 py-4 text-left font-bold">Cost</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-gray-200">
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Image Optimization</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Easy</td>
-                  <td class="px-6 py-4 text-blue-600 font-medium">1-2 hours</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Free</td>
+              <tbody className="divide-y divide-gray-200">
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Image Optimization</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">High</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Easy</td>
+                  <td className="px-6 py-4 text-blue-600 font-medium">1-2 hours</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Free</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Caching Setup</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
-                  <td class="px-6 py-4 text-blue-600 font-medium">2-4 hours</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">$0-100</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Caching Setup</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">High</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td className="px-6 py-4 text-blue-600 font-medium">2-4 hours</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">$0-100</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">CDN Implementation</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Easy</td>
-                  <td class="px-6 py-4 text-blue-600 font-medium">1 hour</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">$0-50/mo</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">CDN Implementation</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">High</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Easy</td>
+                  <td className="px-6 py-4 text-blue-600 font-medium">1 hour</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">$0-50/mo</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Theme Code Optimization</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">Hard</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">8-20 hours</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">$500-2000</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Theme Code Optimization</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">Hard</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">8-20 hours</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">$500-2000</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Database Optimization</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
-                  <td class="px-6 py-4 text-blue-600 font-medium">2-6 hours</td>
-                  <td class="px-6 py-4 text-green-600 font-medium">Free</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Database Optimization</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td className="px-6 py-4 text-blue-600 font-medium">2-6 hours</td>
+                  <td className="px-6 py-4 text-green-600 font-medium">Free</td>
                 </tr>
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 font-semibold text-gray-900">Critical CSS Inlining</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">Hard</td>
-                  <td class="px-6 py-4 text-red-600 font-medium">4-8 hours</td>
-                  <td class="px-6 py-4 text-yellow-600 font-medium">$200-500</td>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">Critical CSS Inlining</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">Hard</td>
+                  <td className="px-6 py-4 text-red-600 font-medium">4-8 hours</td>
+                  <td className="px-6 py-4 text-yellow-600 font-medium">$200-500</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <h2 id="tools-resources" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Tools & Resources</h2>
-          <div class="grid md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-blue-800 mb-4">Essential Performance Tools</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+          <h2 id="tools-resources" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Tools & Resources</h2>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-blue-800 mb-4">Essential Performance Tools</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800"><a href="https://tinypng.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">TinyPNG</a></strong>
-                    <p class="text-blue-700 text-sm">Smart PNG and JPEG compression</p>
+                    <strong className="text-blue-800"><a href="https://tinypng.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">TinyPNG</a></strong>
+                    <p className="text-blue-700 text-sm">Smart PNG and JPEG compression</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800"><a href="https://imageoptim.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">ImageOptim</a></strong>
-                    <p class="text-blue-700 text-sm">Lossless image optimization for Mac</p>
+                    <strong className="text-blue-800"><a href="https://imageoptim.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">ImageOptim</a></strong>
+                    <p className="text-blue-700 text-sm">Lossless image optimization for Mac</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-blue-800"><a href="https://www.photopea.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Photopea</a></strong>
-                    <p class="text-blue-700 text-sm">Free online photo editor with export optimization</p>
+                    <strong className="text-blue-800"><a href="https://www.photopea.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Photopea</a></strong>
+                    <p className="text-blue-700 text-sm">Free online photo editor with export optimization</p>
                   </div>
                 </li>
               </ul>
             </div>
-            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-              <h4 class="text-lg font-bold text-green-800 mb-4">WordPress Optimization Plugins</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 className="text-lg font-bold text-green-800 mb-4">WordPress Optimization Plugins</h4>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-green-800"><a href="https://wp-rocket.me/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WP Rocket</a></strong>
-                    <p class="text-green-700 text-sm">Premium all-in-one performance plugin</p>
+                    <strong className="text-green-800"><a href="https://wp-rocket.me/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WP Rocket</a></strong>
+                    <p className="text-green-700 text-sm">Premium all-in-one performance plugin</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-green-800"><a href="https://wordpress.org/plugins/autoptimize/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Autoptimize</a></strong>
-                    <p class="text-green-700 text-sm">Free CSS, JS, and HTML optimization</p>
+                    <strong className="text-green-800"><a href="https://wordpress.org/plugins/autoptimize/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Autoptimize</a></strong>
+                    <p className="text-green-700 text-sm">Free CSS, JS, and HTML optimization</p>
                   </div>
                 </li>
-                <li class="flex items-start">
-                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                <li className="flex items-start">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <div>
-                    <strong class="text-green-800"><a href="https://wordpress.org/plugins/smush/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Smush</a></strong>
-                    <p class="text-green-700 text-sm">Image compression and optimization</p>
+                    <strong className="text-green-800"><a href="https://wordpress.org/plugins/smush/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Smush</a></strong>
+                    <p className="text-green-700 text-sm">Image compression and optimization</p>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div id="faq" class="scroll-mt-20">
+          <div id="faq" className="scroll-mt-20">
             ${FAQSection({ faqData: performanceFAQ }).props.children}
           </div>
 
-          <h2 id="action-plan" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Implementation Action Plan</h2>
-          <p class="text-gray-700 mb-6 leading-relaxed">Follow this step-by-step action plan to optimize your WordPress theme performance effectively and efficiently.</p>
+          <h2 id="action-plan" className="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Implementation Action Plan</h2>
+          <p className="text-gray-700 mb-6 leading-relaxed">Follow this step-by-step action plan to optimize your WordPress theme performance effectively and efficiently.</p>
 
-          <div class="bg-gradient-to-r from-purple-50 to-orange-50 border border-purple-200 rounded-xl p-8 my-8">
-            <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+          <div className="bg-gradient-to-r from-purple-50 to-orange-50 border border-purple-200 rounded-xl p-8 my-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
               🚀 Your Performance Optimization Roadmap
             </h3>
-            <div class="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-4">Phase 1: Quick Wins (1-2 days)</h4>
-                <ol class="space-y-3 text-gray-700">
-                  <li class="flex items-start">
-                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Phase 1: Quick Wins (1-2 days)</h4>
+                <ol className="space-y-3 text-gray-700">
+                  <li className="flex items-start">
+                    <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
                     <span><strong>Run performance audit</strong> - Use PageSpeed Insights and GTmetrix</span>
                   </li>
-                  <li class="flex items-start">
-                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                  <li className="flex items-start">
+                    <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
                     <span><strong>Optimize images</strong> - Compress and convert to WebP format</span>
                   </li>
-                  <li class="flex items-start">
-                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                  <li className="flex items-start">
+                    <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
                     <span><strong>Set up caching</strong> - Install and configure caching plugin</span>
                   </li>
-                  <li class="flex items-start">
-                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>
+                  <li className="flex items-start">
+                    <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>
                     <span><strong>Enable CDN</strong> - Configure Cloudflare or similar service</span>
                   </li>
                 </ol>
               </div>
               <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-4">Phase 2: Advanced Optimization (1-2 weeks)</h4>
-                <ol class="space-y-3 text-gray-700">
-                  <li class="flex items-start">
-                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">5</span>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Phase 2: Advanced Optimization (1-2 weeks)</h4>
+                <ol className="space-y-3 text-gray-700">
+                  <li className="flex items-start">
+                    <span className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">5</span>
                     <span><strong>Code optimization</strong> - Minify CSS/JS and implement critical CSS</span>
                   </li>
-                  <li class="flex items-start">
-                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">6</span>
+                  <li className="flex items-start">
+                    <span className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">6</span>
                     <span><strong>Database cleanup</strong> - Optimize tables and remove unused data</span>
                   </li>
-                  <li class="flex items-start">
-                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">7</span>
+                  <li className="flex items-start">
+                    <span className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">7</span>
                     <span><strong>Theme review</strong> - Remove unused features and plugins</span>
                   </li>
-                  <li class="flex items-start">
-                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">8</span>
+                  <li className="flex items-start">
+                    <span className="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">8</span>
                     <span><strong>Monitoring setup</strong> - Implement ongoing performance tracking</span>
                   </li>
                 </ol>
@@ -1562,43 +1562,43 @@ export default function BlogArticle() {
             </div>
           </div>
 
-          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+          <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
               📚 Related Resources & Further Reading
             </h3>
-            <div class="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 class="font-semibold text-gray-900 mb-2">Internal Resources:</h4>
-                <ul class="space-y-2 text-sm">
-                  <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Conversion Guide</a></li>
-                  <li><a href="/blog/wordpress-theme-development-trends-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
-                  <li><a href="/blog/seo-mastery-converted-wordpress-themes" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">SEO Mastery for WordPress Themes</a></li>
-                  <li><a href="/documentation" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+                <h4 className="font-semibold text-gray-900 mb-2">Internal Resources:</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Conversion Guide</a></li>
+                  <li><a href="/blog/wordpress-theme-development-trends-2025" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
+                  <li><a href="/blog/seo-mastery-converted-wordpress-themes" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">SEO Mastery for WordPress Themes</a></li>
+                  <li><a href="/documentation" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
                 </ul>
               </div>
               <div>
-                <h4 class="font-semibold text-gray-900 mb-2">External Resources:</h4>
-                <ul class="space-y-2 text-sm">
-                  <li><a href="https://web.dev/fast/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google Web.dev Performance Guide</a></li>
-                  <li><a href="https://developer.wordpress.org/themes/advanced-topics/performance/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Performance</a></li>
-                  <li><a href="https://gtmetrix.com/wordpress-optimization-guide.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">GTmetrix WordPress Guide</a></li>
-                  <li><a href="https://kinsta.com/blog/wordpress-performance/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Kinsta Performance Tips</a></li>
+                <h4 className="font-semibold text-gray-900 mb-2">External Resources:</h4>
+                <ul className="space-y-2 text-sm">
+                  <li><a href="https://web.dev/fast/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google Web.dev Performance Guide</a></li>
+                  <li><a href="https://developer.wordpress.org/themes/advanced-topics/performance/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Performance</a></li>
+                  <li><a href="https://gtmetrix.com/wordpress-optimization-guide.html" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">GTmetrix WordPress Guide</a></li>
+                  <li><a href="https://kinsta.com/blog/wordpress-performance/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Kinsta Performance Tips</a></li>
                 </ul>
               </div>
             </div>
           </div>
 
-          <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 my-8">
-            <h3 class="text-lg font-bold text-gray-900 mb-3">💡 Pro Performance Tip</h3>
-            <p class="text-gray-700 text-sm">Start your next WordPress project with an <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI-powered conversion from Code2WP</a>. Our conversion engine automatically implements many performance best practices, including optimized code structure, responsive images, and clean CSS/JavaScript output. This gives you a solid foundation to build upon, saving weeks of manual optimization work.</p>
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 my-8">
+            <h3 className="text-lg font-bold text-gray-900 mb-3">💡 Pro Performance Tip</h3>
+            <p className="text-gray-700 text-sm">Start your next WordPress project with an <a href="/" className="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI-powered conversion from Code2WP</a>. Our conversion engine automatically implements many performance best practices, including optimized code structure, responsive images, and clean CSS/JavaScript output. This gives you a solid foundation to build upon, saving weeks of manual optimization work.</p>
           </div>
 
-          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
-          <p class="text-gray-700 mb-4 leading-relaxed">Optimizing your WordPress theme isn't about chasing the latest design trends—it's about building a solid, efficient foundation for your website. By focusing on clean code, image optimization, smart caching, and minimalism, you can dramatically improve your site's speed and user experience.</p>
+          <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
+          <p className="text-gray-700 mb-4 leading-relaxed">Optimizing your WordPress theme isn't about chasing the latest design trends—it's about building a solid, efficient foundation for your website. By focusing on clean code, image optimization, smart caching, and minimalism, you can dramatically improve your site's speed and user experience.</p>
           
-          <p class="text-gray-700 mb-6 leading-relaxed">Start with an audit, apply the techniques in this guide, and monitor your progress. Small changes add up to big results. A fast, reliable WordPress theme doesn't just impress visitors—it helps you rank higher, convert better, and grow your online presence.</p>
+          <p className="text-gray-700 mb-6 leading-relaxed">Start with an audit, apply the techniques in this guide, and monitor your progress. Small changes add up to big results. A fast, reliable WordPress theme doesn't just impress visitors—it helps you rank higher, convert better, and grow your online presence.</p>
           
-          <p class="text-gray-700 mb-4 leading-relaxed"><strong>Take the time to optimize your theme today, and you'll enjoy the benefits for years to come.</strong></p>
+          <p className="text-gray-700 mb-4 leading-relaxed"><strong>Take the time to optimize your theme today, and you'll enjoy the benefits for years to come.</strong></p>
         `;
 
       default:
