@@ -1482,8 +1482,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       });
 
-      // Generate WordPress theme
-      const themeName = parsedWebsite.analysis.pages[0]?.title?.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() || `converted-theme-${conversionId}`;
+      // Generate WordPress theme with safe filename
+      let themeName = parsedWebsite.analysis.pages[0]?.title?.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() || `converted-theme-${conversionId}`;
+      
+      // Limit theme name to prevent filesystem errors (max 50 characters)
+      if (themeName.length > 50) {
+        themeName = themeName.substring(0, 50).replace(/-+$/, ''); // Remove trailing dashes
+      }
+      
+      // Ensure it doesn't end with dash and add unique suffix
+      themeName = themeName.replace(/-+$/, '') + `-${conversionId.substring(0, 8)}`;
+      
       const themeResult = await wpGenerator.generateTheme(parsedWebsite, themeName);
 
       // Save generated theme
