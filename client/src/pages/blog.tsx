@@ -4,6 +4,7 @@ import { Calendar, Clock, ArrowRight, User, Tag, TrendingUp, Star, BookOpen, Zap
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import blogFeaturedImage from "@assets/Code2WP Blog_1755172145582.webp";
+import { BlogThumbnails } from "@/components/blog-thumbnails";
 
 export default function Blog() {
   const featuredPost = {
@@ -363,31 +364,24 @@ export default function Blog() {
             </div>
             
             <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
-              {blogPosts.map((post) => (
+              {blogPosts.map((post) => {
+                // Map post category to thumbnail
+                const getThumbnail = (category: string) => {
+                  switch (category.toLowerCase()) {
+                    case 'performance': return BlogThumbnails.performance;
+                    case 'advanced': return BlogThumbnails.trends;
+                    case 'comparison': return BlogThumbnails.comparison;
+                    case 'seo': return BlogThumbnails.seo;
+                    case 'troubleshooting': return BlogThumbnails.troubleshooting;
+                    case 'design': return BlogThumbnails.mobile;
+                    default: return BlogThumbnails.trends;
+                  }
+                };
+
+                return (
                 <article key={post.id} className="group bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-2xl hover:scale-[1.03] transition-all duration-500">
-                  <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-orange-500/10 group-hover:from-purple-600/30 group-hover:to-orange-500/30 transition-all duration-500"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent group-hover:from-black/40 transition-all duration-500"></div>
-                    
-                    {/* Category badge with improved design */}
-                    <div className="absolute top-4 left-4">
-                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/95 backdrop-blur-sm text-gray-800 font-semibold text-sm shadow-lg group-hover:bg-white transition-colors duration-300">
-                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                        {post.category}
-                      </div>
-                    </div>
-                    
-                    {/* View count badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-black/20 backdrop-blur-sm text-white text-xs font-medium">
-                        <Eye className="w-3 h-3 mr-1" />
-                        {post.views}
-                      </div>
-                    </div>
-                    
-                    {/* Animated background elements */}
-                    <div className="absolute bottom-4 left-4 w-16 h-16 bg-white/10 rounded-full blur-lg animate-pulse group-hover:scale-110 transition-transform duration-700"></div>
-                    <div className="absolute top-8 right-8 w-12 h-12 bg-orange-400/20 rounded-full blur-lg animate-bounce group-hover:animate-pulse transition-all duration-700"></div>
+                  <div className="aspect-video relative overflow-hidden">
+                    {getThumbnail(post.category)}
                   </div>
                   
                   <div className="p-6">
@@ -432,7 +426,8 @@ export default function Blog() {
                     </Link>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </div>
 
