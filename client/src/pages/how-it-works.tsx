@@ -236,7 +236,7 @@ export default function HowItWorks() {
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold"
+                    className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold bg-[#8378ff]"
                   >
                     Explore Features
                   </Button>
