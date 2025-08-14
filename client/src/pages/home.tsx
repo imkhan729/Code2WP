@@ -4,6 +4,7 @@ import FileUpload from "@/components/FileUpload";
 import UrlInput from "@/components/UrlInput";
 import EmbeddedPreview from "@/components/EmbeddedPreview";
 import RecentConversions from "@/components/RecentConversions";
+import ProcessingSteps from "@/components/ProcessingSteps";
 import SEOHead from "@/components/seo-head";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -179,70 +180,12 @@ export default function Home() {
               </div>
               
               <div className="space-y-3">
-                <div className="flex items-center text-sm text-gray-700">
-                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-green-500' : 'bg-blue-400'}`}></div>
-                  Files extracted successfully
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-yellow-500 animate-pulse' : 'bg-purple-400'}`}></div>
-                  Parsing HTML structure...
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-orange-500 animate-pulse' : 'bg-orange-400'}`}></div>
-                  Converting to WordPress theme
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-green-500 animate-pulse' : 'bg-green-400'}`}></div>
-                  Optimizing assets
-                </div>
-                
-                {hasActiveConversion ? (
-                  <div className="mt-6">
-                    {/* Beautiful Loading Spinner */}
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="relative w-16 h-16">
-                        <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
-                        <div className="absolute inset-0 rounded-full border-4 border-yellow-500 border-t-transparent animate-spin"></div>
-                        <div className="absolute inset-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 flex items-center justify-center">
-                          <div className="w-6 h-6 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse"></div>
-                        </div>
-                      </div>
-                      
-                      <div className="text-center">
-                        <div className="text-sm font-medium text-gray-900 mb-2">Processing your website...</div>
-                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse" style={{width: '45%'}}></div>
-                        </div>
-                        <div className="text-right text-xs text-gray-500 mt-1">Converting...</div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mt-6">
-                    {/* Standby Beautiful Animation */}
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="relative w-16 h-16">
-                        <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
-                        <div className="absolute inset-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 flex items-center justify-center">
-                          <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-60"></div>
-                        </div>
-                      </div>
-                      
-                      <div className="text-center">
-                        <div className="text-sm font-medium text-gray-700 mb-2">Ready to process</div>
-                        <div className="w-full bg-gray-200 rounded-full h-3">
-                          <div className="h-full bg-gradient-to-r from-gray-300 to-gray-400 rounded-full" style={{width: '0%'}}></div>
-                        </div>
-                        <div className="text-center text-xs text-gray-500 mt-1">Waiting for upload...</div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <ProcessingSteps conversionId={currentConversion} />
               </div>
             </div>
 
             {/* Step 3: Download Theme */}
-            <div className={`bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative transition-all duration-300 hover:shadow-xl ${!recentCompleted ? 'opacity-60' : ''}`}>
+            <div className={`bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative transition-all duration-300 hover:shadow-xl`}>
               <div className="flex items-center mb-6">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mr-4 ${
                   recentCompleted ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white' : 'bg-gray-300 text-gray-600'
@@ -256,26 +199,36 @@ export default function Home() {
                 <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
                   <div className="text-3xl">📦</div>
                 </div>
-                <p className="text-gray-600 mb-6">
-                  Your WordPress theme will be ready for download once processing is complete.
-                </p>
                 
                 {recentCompleted ? (
-                  <Button 
-                    className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 text-lg font-medium"
-                    onClick={() => downloadTheme(recentCompleted.id, recentCompleted.name)}
-                    data-testid="download-theme"
-                  >
-                    Download Theme
-                  </Button>
+                  <>
+                    <p className="text-green-600 mb-6 font-medium">
+                      ✅ Your WordPress theme is ready for download!
+                    </p>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 text-lg font-medium"
+                      onClick={() => downloadTheme(recentCompleted.id, recentCompleted.name)}
+                      data-testid="download-theme-ready"
+                    >
+                      Download Theme
+                    </Button>
+                  </>
                 ) : (
-                  <Button 
-                    disabled 
-                    className="w-full py-3 text-lg font-medium"
-                    data-testid="download-theme-disabled"
-                  >
-                    Download Theme
-                  </Button>
+                  <>
+                    <p className="text-gray-600 mb-6">
+                      Your WordPress theme will be ready for download once processing is complete.
+                    </p>
+                    <Button 
+                      disabled 
+                      className="w-full py-3 text-lg font-medium opacity-50 cursor-not-allowed"
+                      data-testid="download-theme-not-ready"
+                    >
+                      Download Theme
+                    </Button>
+                    <div className="mt-3 text-sm text-gray-500" data-testid="download-status">
+                      ⏳ Processing in progress...
+                    </div>
+                  </>
                 )}
               </div>
             </div>
