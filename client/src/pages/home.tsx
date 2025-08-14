@@ -70,7 +70,7 @@ export default function Home() {
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
             Built to make you extraordinarily productive. Our converter is the best way to transform HTML to WordPress themes with AI.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex justify-center">
             <Button 
               size="lg" 
               className="bg-white text-purple-900 hover:bg-purple-100 hover:text-purple-700 active:bg-purple-200 active:text-purple-800 px-8 py-3 text-lg font-medium border-2 border-white shadow-lg transition-all duration-200"
@@ -81,27 +81,9 @@ export default function Home() {
                   block: 'start' 
                 });
               }}
-              data-testid="get-started-button"
+              data-testid="convert-now-button"
             >
-              Get Started Free
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-white border-2 text-white hover:bg-white hover:text-purple-900 px-8 py-3 text-lg font-medium transition-all duration-200 shadow-lg"
-              onClick={() => {
-                setShowAdvancedView(true);
-                // Scroll to examples section if it exists
-                setTimeout(() => {
-                  document.getElementById('examples-section')?.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start' 
-                  });
-                }, 100);
-              }}
-              data-testid="view-examples-button"
-            >
-              View Examples
+              Convert Now
             </Button>
           </div>
         </div>
