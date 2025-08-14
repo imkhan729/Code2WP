@@ -858,6 +858,749 @@ export default function BlogArticle() {
           </div>
         `;
 
+      case "wordpress-theme-performance-optimization":
+
+        return `
+          <h2 id="performance-fundamentals" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance Fundamentals</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">In today's fast-paced digital world, website performance is not just a luxury—it's a necessity. Whether you're running a blog, an online store, or a corporate site, your WordPress theme plays a critical role in determining how quickly your pages load, how smoothly users interact with your content, and how well your site ranks in search engines.</p>
+          
+          <blockquote class="border-l-4 border-blue-500 bg-blue-50 p-6 my-6 italic text-gray-700">
+            "A slow website frustrates visitors, increases bounce rates, and hurts SEO. On the flip side, a well-optimized WordPress theme can significantly enhance user experience, improve conversion rates, and boost your search engine visibility."
+            <cite class="block mt-2 text-sm text-gray-600">— Alex Thompson, Performance Engineer</cite>
+          </blockquote>
+
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <div class="text-2xl font-bold text-green-600 mb-2">&lt; 2s</div>
+              <h3 class="text-lg font-bold text-green-800 mb-2">Target Load Time</h3>
+              <p class="text-green-700 text-sm">Visitors expect pages to load in under 2 seconds. Every additional second increases bounce rate significantly.</p>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <div class="text-2xl font-bold text-blue-600 mb-2">7%</div>
+              <h3 class="text-lg font-bold text-blue-800 mb-2">Conversion Impact</h3>
+              <p class="text-blue-700 text-sm">Even a 1-second delay can reduce conversions by up to 7%, according to <a href="https://blog.kissmetrics.com/loading-time/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline">research studies</a>.</p>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
+              <div class="text-2xl font-bold text-purple-600 mb-2">60%</div>
+              <h3 class="text-lg font-bold text-purple-800 mb-2">Mobile Traffic</h3>
+              <p class="text-purple-700 text-sm">Over 60% of web traffic comes from mobile devices, making responsive performance essential.</p>
+            </div>
+          </div>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Theme Performance Matters</h3>
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900 mb-3">Business Impact</h4>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>User Experience:</strong> Faster sites keep visitors engaged and reduce bounce rates</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>SEO Rankings:</strong> Google uses page speed as a <a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">ranking factor</a></span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>Conversion Rates:</strong> Faster sites convert better and generate more revenue</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900 mb-3">Technical Benefits</h4>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>Server Resources:</strong> Optimized themes use less CPU and memory</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>Bandwidth Costs:</strong> Smaller page sizes reduce hosting expenses</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span><strong>Scalability:</strong> Efficient code handles traffic spikes better</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="core-web-vitals" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Core Web Vitals Optimization</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Google's <a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Core Web Vitals</a> are essential metrics that measure real-world user experience. These metrics directly impact your search rankings and user satisfaction.</p>
+
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                Largest Contentful Paint (LCP)
+              </h4>
+              <div class="text-2xl font-bold text-blue-600 mb-2">&lt; 2.5s</div>
+              <p class="text-gray-600 text-sm mb-4">Measures loading performance. The largest content element should render within 2.5 seconds.</p>
+              <div class="bg-blue-50 p-3 rounded-lg">
+                <p class="text-blue-800 text-xs font-medium">Optimization: Optimize images, improve server response times, eliminate render-blocking resources</p>
+              </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                First Input Delay (FID)
+              </h4>
+              <div class="text-2xl font-bold text-green-600 mb-2">&lt; 100ms</div>
+              <p class="text-gray-600 text-sm mb-4">Measures interactivity. First user interaction should respond within 100 milliseconds.</p>
+              <div class="bg-green-50 p-3 rounded-lg">
+                <p class="text-green-800 text-xs font-medium">Optimization: Minimize JavaScript execution time, break up long tasks, use web workers</p>
+              </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div class="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                Cumulative Layout Shift (CLS)
+              </h4>
+              <div class="text-2xl font-bold text-purple-600 mb-2">&lt; 0.1</div>
+              <p class="text-gray-600 text-sm mb-4">Measures visual stability. Unexpected layout shifts should be minimized.</p>
+              <div class="bg-purple-50 p-3 rounded-lg">
+                <p class="text-purple-800 text-xs font-medium">Optimization: Set dimensions for media, avoid inserting content above existing content</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 id="caching-strategies" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Advanced Caching Strategies</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Browser caching stores static files locally on a visitor's device, meaning returning visitors load pages faster because their browser doesn't need to re-download everything.</p>
+
+          <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8">
+            <h4 class="text-lg font-bold text-gray-900 mb-4">Apache .htaccess Caching Rules</h4>
+            <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;IfModule mod_expires.c&gt;
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/pdf "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/x-javascript "access plus 1 month"
+  ExpiresByType application/x-shockwave-flash "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresDefault "access plus 2 days"
+&lt;/IfModule&gt;</code></pre>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-blue-800 mb-4">Recommended Caching Plugins</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800">WP Rocket</strong>
+                    <p class="text-blue-700 text-sm">Premium plugin with comprehensive optimization features</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800">WP Super Cache</strong>
+                    <p class="text-blue-700 text-sm">Free plugin from Automattic, reliable and easy to use</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800">LiteSpeed Cache</strong>
+                    <p class="text-blue-700 text-sm">High-performance caching for LiteSpeed servers</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-green-800 mb-4">Caching Best Practices</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span class="text-green-700">Enable page caching for all static content</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span class="text-green-700">Use object caching for database queries</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span class="text-green-700">Implement browser caching with long expiry times</span>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <span class="text-green-700">Clear cache automatically after content updates</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="image-optimization" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Image Optimization Techniques</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Images are often the largest assets on a webpage. Optimizing them is one of the fastest ways to improve performance. Modern image optimization goes beyond just compression.</p>
+
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+              <thead>
+                <tr class="bg-gradient-to-r from-purple-600 to-orange-500 text-white">
+                  <th class="px-6 py-4 text-left font-bold">Image Format</th>
+                  <th class="px-6 py-4 text-left font-bold">Best Use Case</th>
+                  <th class="px-6 py-4 text-left font-bold">Compression</th>
+                  <th class="px-6 py-4 text-left font-bold">Browser Support</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">WebP</td>
+                  <td class="px-6 py-4 text-gray-700">Modern replacement for JPEG/PNG</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">30% smaller than JPEG</td>
+                  <td class="px-6 py-4 text-blue-600 font-medium">95%+ (modern browsers)</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">AVIF</td>
+                  <td class="px-6 py-4 text-gray-700">Next-gen format for best compression</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">50% smaller than JPEG</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">75%+ (newer browsers)</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">JPEG</td>
+                  <td class="px-6 py-4 text-gray-700">Photographs and complex images</td>
+                  <td class="px-6 py-4 text-blue-600 font-medium">Good compression</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">100% (universal)</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">PNG</td>
+                  <td class="px-6 py-4 text-gray-700">Graphics with transparency</td>
+                  <td class="px-6 py-4 text-red-600 font-medium">Larger file sizes</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">100% (universal)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">Advanced Image Optimization Techniques</h3>
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white border border-gray-200 rounded-xl p-6">
+              <h4 class="text-lg font-semibold text-gray-900 mb-3">Responsive Images</h4>
+              <p class="text-gray-700 mb-4 text-sm">Use srcset attributes so browsers load appropriately sized images:</p>
+              <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;img src="image-800w.jpg"
+     srcset="image-400w.jpg 400w,
+             image-800w.jpg 800w,
+             image-1200w.jpg 1200w"
+     sizes="(max-width: 600px) 400px,
+            (max-width: 900px) 800px,
+            1200px"
+     alt="Optimized image" /&gt;</code></pre>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-6">
+              <h4 class="text-lg font-semibold text-gray-900 mb-3">Lazy Loading</h4>
+              <p class="text-gray-700 mb-4 text-sm">Defer offscreen images until they're needed:</p>
+              <pre class="bg-gray-100 p-3 rounded text-xs overflow-x-auto"><code>&lt;img src="image.jpg"
+     loading="lazy"
+     alt="Lazy loaded image" /&gt;</code></pre>
+              <p class="text-gray-600 text-xs mt-2">Native lazy loading is supported in modern browsers and automatically delays image loading until they enter the viewport.</p>
+            </div>
+          </div>
+
+          <h2 id="code-optimization" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Code & Database Optimization</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Clean, efficient code is the backbone of a high-performing theme. Here's how to ensure your theme's code is optimized for speed and maintainability.</p>
+
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-red-800 mb-4">HTML Optimization</h4>
+              <ul class="space-y-2 text-red-700 text-sm">
+                <li>• Use valid W3C compliant markup</li>
+                <li>• Reduce DOM complexity and nesting</li>
+                <li>• Avoid inline CSS and JavaScript</li>
+                <li>• Implement semantic HTML5 elements</li>
+                <li>• Minimize redundant code and elements</li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-blue-800 mb-4">CSS Optimization</h4>
+              <ul class="space-y-2 text-blue-700 text-sm">
+                <li>• Minify and compress CSS files</li>
+                <li>• Remove unused CSS declarations</li>
+                <li>• Use efficient selectors</li>
+                <li>• Implement critical CSS inlining</li>
+                <li>• Avoid @import statements</li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-green-800 mb-4">JavaScript Optimization</h4>
+              <ul class="space-y-2 text-green-700 text-sm">
+                <li>• Minify and defer non-critical scripts</li>
+                <li>• Use async loading where possible</li>
+                <li>• Eliminate render-blocking JavaScript</li>
+                <li>• Bundle and compress JS files</li>
+                <li>• Remove unused JavaScript libraries</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">Database Optimization</h3>
+          <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+            <h4 class="text-lg font-bold text-yellow-800 mb-4">Database Performance Tips</h4>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h5 class="font-semibold text-yellow-800 mb-2">Query Optimization</h5>
+                <ul class="space-y-1 text-yellow-700 text-sm">
+                  <li>• Use proper database indexes</li>
+                  <li>• Limit database queries per page</li>
+                  <li>• Use WP_Query efficiently</li>
+                  <li>• Implement object caching</li>
+                </ul>
+              </div>
+              <div>
+                <h5 class="font-semibold text-yellow-800 mb-2">Database Maintenance</h5>
+                <ul class="space-y-1 text-yellow-700 text-sm">
+                  <li>• Remove unused plugins and themes</li>
+                  <li>• Clean up post revisions and spam</li>
+                  <li>• Optimize database tables regularly</li>
+                  <li>• Use database optimization plugins</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h2 id="cdn-setup" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">CDN Setup & Configuration</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">A Content Delivery Network (CDN) stores your site's static files on servers around the world. When a user visits your site, they download assets from the nearest server, reducing latency and improving load times globally.</p>
+
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div class="w-4 h-4 bg-orange-500 rounded mr-2"></div>
+                <a href="https://www.cloudflare.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Cloudflare</a>
+              </h4>
+              <div class="text-sm text-gray-600 mb-3">Free & Paid Plans</div>
+              <ul class="space-y-2 text-gray-700 text-sm">
+                <li>• Global network of 200+ data centers</li>
+                <li>• Built-in security and DDoS protection</li>
+                <li>• Advanced caching rules and optimization</li>
+                <li>• Free SSL certificates included</li>
+              </ul>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div class="w-4 h-4 bg-blue-500 rounded mr-2"></div>
+                <a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Amazon CloudFront</a>
+              </h4>
+              <div class="text-sm text-gray-600 mb-3">Pay-as-you-go</div>
+              <ul class="space-y-2 text-gray-700 text-sm">
+                <li>• Integration with AWS ecosystem</li>
+                <li>• Advanced analytics and reporting</li>
+                <li>• Real-time logs and monitoring</li>
+                <li>• Scalable for enterprise needs</li>
+              </ul>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+              <h4 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                <div class="w-4 h-4 bg-purple-500 rounded mr-2"></div>
+                <a href="https://www.stackpath.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">StackPath</a>
+              </h4>
+              <div class="text-sm text-gray-600 mb-3">Developer-focused</div>
+              <ul class="space-y-2 text-gray-700 text-sm">
+                <li>• Edge computing capabilities</li>
+                <li>• WebAssembly support</li>
+                <li>• Advanced image optimization</li>
+                <li>• Developer-friendly API</li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="monitoring" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Performance Monitoring Tools</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Regular monitoring helps you identify performance bottlenecks and track improvements over time. Use these tools to maintain optimal theme performance.</p>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-blue-800 mb-4">Free Monitoring Tools</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800"><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google PageSpeed Insights</a></strong>
+                    <p class="text-blue-700 text-sm">Core Web Vitals and performance recommendations</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800"><a href="https://gtmetrix.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">GTmetrix</a></strong>
+                    <p class="text-blue-700 text-sm">Detailed performance reports and waterfall charts</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800"><a href="https://tools.pingdom.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Pingdom</a></strong>
+                    <p class="text-blue-700 text-sm">Website speed tests from multiple locations</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-purple-800 mb-4">Advanced Monitoring</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-purple-800">Chrome DevTools</strong>
+                    <p class="text-purple-700 text-sm">Lighthouse audits and performance profiling</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-purple-800">WebPageTest</strong>
+                    <p class="text-purple-700 text-sm">Advanced testing with custom scenarios</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-purple-800">New Relic / DataDog</strong>
+                    <p class="text-purple-700 text-sm">Real user monitoring and application performance</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="optimization-checklist" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Complete Optimization Checklist</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Use this comprehensive checklist to ensure you've covered all aspects of WordPress theme performance optimization.</p>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-green-800 mb-4">Theme & Code</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-green-600" disabled />
+                  <span class="text-green-700 text-sm">Choose lightweight, performance-focused theme</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-green-600" disabled />
+                  <span class="text-green-700 text-sm">Remove unused theme features and plugins</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-green-600" disabled />
+                  <span class="text-green-700 text-sm">Optimize HTML structure and reduce DOM size</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-green-600" disabled />
+                  <span class="text-green-700 text-sm">Minify CSS and JavaScript files</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-green-600" disabled />
+                  <span class="text-green-700 text-sm">Implement critical CSS inlining</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-green-600" disabled />
+                  <span class="text-green-700 text-sm">Use child theme for customizations</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-blue-800 mb-4">Images & Media</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
+                  <span class="text-blue-700 text-sm">Optimize and compress all images</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
+                  <span class="text-blue-700 text-sm">Use modern formats (WebP, AVIF)</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
+                  <span class="text-blue-700 text-sm">Implement responsive images with srcset</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
+                  <span class="text-blue-700 text-sm">Enable lazy loading for images</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
+                  <span class="text-blue-700 text-sm">Set appropriate image dimensions</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-blue-600" disabled />
+                  <span class="text-blue-700 text-sm">Optimize video and multimedia content</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-orange-800 mb-4">Caching & CDN</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
+                  <span class="text-orange-700 text-sm">Configure browser caching rules</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
+                  <span class="text-orange-700 text-sm">Set up page caching plugin</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
+                  <span class="text-orange-700 text-sm">Enable object caching</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
+                  <span class="text-orange-700 text-sm">Implement CDN for static assets</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
+                  <span class="text-orange-700 text-sm">Configure database query caching</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-orange-600" disabled />
+                  <span class="text-orange-700 text-sm">Test cache effectiveness</span>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-purple-800 mb-4">Monitoring & Maintenance</h4>
+              <ul class="space-y-2">
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
+                  <span class="text-purple-700 text-sm">Run initial performance audit</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
+                  <span class="text-purple-700 text-sm">Monitor Core Web Vitals regularly</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
+                  <span class="text-purple-700 text-sm">Set up uptime monitoring</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
+                  <span class="text-purple-700 text-sm">Schedule regular performance tests</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
+                  <span class="text-purple-700 text-sm">Keep WordPress and plugins updated</span>
+                </li>
+                <li class="flex items-center">
+                  <input type="checkbox" class="mr-3 text-purple-600" disabled />
+                  <span class="text-purple-700 text-sm">Optimize database regularly</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h2 id="performance-table" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Optimization Techniques Comparison</h2>
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full border-collapse bg-white rounded-xl shadow-lg overflow-hidden">
+              <thead>
+                <tr class="bg-gradient-to-r from-purple-600 to-orange-500 text-white">
+                  <th class="px-6 py-4 text-left font-bold">Optimization Technique</th>
+                  <th class="px-6 py-4 text-left font-bold">Impact Level</th>
+                  <th class="px-6 py-4 text-left font-bold">Implementation Difficulty</th>
+                  <th class="px-6 py-4 text-left font-bold">Time Investment</th>
+                  <th class="px-6 py-4 text-left font-bold">Cost</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">Image Optimization</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">Easy</td>
+                  <td class="px-6 py-4 text-blue-600 font-medium">1-2 hours</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">Free</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">Caching Setup</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td class="px-6 py-4 text-blue-600 font-medium">2-4 hours</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">$0-100</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">CDN Implementation</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">High</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">Easy</td>
+                  <td class="px-6 py-4 text-blue-600 font-medium">1 hour</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">$0-50/mo</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">Theme Code Optimization</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td class="px-6 py-4 text-red-600 font-medium">Hard</td>
+                  <td class="px-6 py-4 text-red-600 font-medium">8-20 hours</td>
+                  <td class="px-6 py-4 text-red-600 font-medium">$500-2000</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">Database Optimization</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td class="px-6 py-4 text-blue-600 font-medium">2-6 hours</td>
+                  <td class="px-6 py-4 text-green-600 font-medium">Free</td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 font-semibold text-gray-900">Critical CSS Inlining</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">Medium</td>
+                  <td class="px-6 py-4 text-red-600 font-medium">Hard</td>
+                  <td class="px-6 py-4 text-red-600 font-medium">4-8 hours</td>
+                  <td class="px-6 py-4 text-yellow-600 font-medium">$200-500</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="tools-resources" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Tools & Resources</h2>
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-blue-800 mb-4">Essential Performance Tools</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800"><a href="https://tinypng.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">TinyPNG</a></strong>
+                    <p class="text-blue-700 text-sm">Smart PNG and JPEG compression</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800"><a href="https://imageoptim.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">ImageOptim</a></strong>
+                    <p class="text-blue-700 text-sm">Lossless image optimization for Mac</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-blue-800"><a href="https://www.photopea.com/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Photopea</a></strong>
+                    <p class="text-blue-700 text-sm">Free online photo editor with export optimization</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+              <h4 class="text-lg font-bold text-green-800 mb-4">WordPress Optimization Plugins</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-green-800"><a href="https://wp-rocket.me/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WP Rocket</a></strong>
+                    <p class="text-green-700 text-sm">Premium all-in-one performance plugin</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-green-800"><a href="https://wordpress.org/plugins/autoptimize/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Autoptimize</a></strong>
+                    <p class="text-green-700 text-sm">Free CSS, JS, and HTML optimization</p>
+                  </div>
+                </li>
+                <li class="flex items-start">
+                  <div class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div>
+                    <strong class="text-green-800"><a href="https://wordpress.org/plugins/smush/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Smush</a></strong>
+                    <p class="text-green-700 text-sm">Image compression and optimization</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="faq" class="scroll-mt-20">
+            ${FAQSection({ faqData: performanceFAQ }).props.children}
+          </div>
+
+          <h2 id="action-plan" class="text-3xl font-bold text-gray-900 mt-12 mb-6 scroll-mt-20">Implementation Action Plan</h2>
+          <p class="text-gray-700 mb-6 leading-relaxed">Follow this step-by-step action plan to optimize your WordPress theme performance effectively and efficiently.</p>
+
+          <div class="bg-gradient-to-r from-purple-50 to-orange-50 border border-purple-200 rounded-xl p-8 my-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+              🚀 Your Performance Optimization Roadmap
+            </h3>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Phase 1: Quick Wins (1-2 days)</h4>
+                <ol class="space-y-3 text-gray-700">
+                  <li class="flex items-start">
+                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                    <span><strong>Run performance audit</strong> - Use PageSpeed Insights and GTmetrix</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                    <span><strong>Optimize images</strong> - Compress and convert to WebP format</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                    <span><strong>Set up caching</strong> - Install and configure caching plugin</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>
+                    <span><strong>Enable CDN</strong> - Configure Cloudflare or similar service</span>
+                  </li>
+                </ol>
+              </div>
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Phase 2: Advanced Optimization (1-2 weeks)</h4>
+                <ol class="space-y-3 text-gray-700">
+                  <li class="flex items-start">
+                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">5</span>
+                    <span><strong>Code optimization</strong> - Minify CSS/JS and implement critical CSS</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">6</span>
+                    <span><strong>Database cleanup</strong> - Optimize tables and remove unused data</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">7</span>
+                    <span><strong>Theme review</strong> - Remove unused features and plugins</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="bg-orange-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">8</span>
+                    <span><strong>Monitoring setup</strong> - Implement ongoing performance tracking</span>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+              📚 Related Resources & Further Reading
+            </h3>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">Internal Resources:</h4>
+                <ul class="space-y-2 text-sm">
+                  <li><a href="/blog/ultimate-guide-html-to-wordpress-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete HTML to WordPress Conversion Guide</a></li>
+                  <li><a href="/blog/wordpress-theme-development-trends-2025" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Development Trends 2025</a></li>
+                  <li><a href="/blog/seo-mastery-converted-wordpress-themes" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">SEO Mastery for WordPress Themes</a></li>
+                  <li><a href="/documentation" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Complete Documentation</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 mb-2">External Resources:</h4>
+                <ul class="space-y-2 text-sm">
+                  <li><a href="https://web.dev/fast/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Google Web.dev Performance Guide</a></li>
+                  <li><a href="https://developer.wordpress.org/themes/advanced-topics/performance/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">WordPress Theme Performance</a></li>
+                  <li><a href="https://gtmetrix.com/wordpress-optimization-guide.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">GTmetrix WordPress Guide</a></li>
+                  <li><a href="https://kinsta.com/blog/wordpress-performance/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium underline decoration-blue-300 hover:decoration-blue-500">Kinsta Performance Tips</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6 my-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-3">💡 Pro Performance Tip</h3>
+            <p class="text-gray-700 text-sm">Start your next WordPress project with an <a href="/" class="text-purple-600 hover:text-purple-800 font-medium underline decoration-purple-300 hover:decoration-purple-500">AI-powered conversion from Code2WP</a>. Our conversion engine automatically implements many performance best practices, including optimized code structure, responsive images, and clean CSS/JavaScript output. This gives you a solid foundation to build upon, saving weeks of manual optimization work.</p>
+          </div>
+
+          <h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">Conclusion</h2>
+          <p class="text-gray-700 mb-4 leading-relaxed">Optimizing your WordPress theme isn't about chasing the latest design trends—it's about building a solid, efficient foundation for your website. By focusing on clean code, image optimization, smart caching, and minimalism, you can dramatically improve your site's speed and user experience.</p>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">Start with an audit, apply the techniques in this guide, and monitor your progress. Small changes add up to big results. A fast, reliable WordPress theme doesn't just impress visitors—it helps you rank higher, convert better, and grow your online presence.</p>
+          
+          <p class="text-gray-700 mb-4 leading-relaxed"><strong>Take the time to optimize your theme today, and you'll enjoy the benefits for years to come.</strong></p>
+        `;
+
       default:
         return "<p>Content not available.</p>";
     }
