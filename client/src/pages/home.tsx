@@ -2,15 +2,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FileUpload from "@/components/FileUpload";
 import UrlInput from "@/components/UrlInput";
-import ProcessingSteps from "@/components/ProcessingSteps";
-import ProgressBar from "@/components/ProgressBar";
 import EmbeddedPreview from "@/components/EmbeddedPreview";
-
 import RecentConversions from "@/components/RecentConversions";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Code, Link, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Upload, Globe } from "lucide-react";
 
 interface Conversion {
   id: string;
@@ -26,7 +23,7 @@ interface Conversion {
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"upload" | "url">("upload");
   const [currentConversion, setCurrentConversion] = useState<string | null>(null);
-  const [showPreview, setShowPreview] = useState(true);
+  const [showAdvancedView, setShowAdvancedView] = useState(false);
   
   const { data: conversions = [] } = useQuery<Conversion[]>({
     queryKey: ['/api/conversions'],
@@ -35,6 +32,7 @@ export default function Home() {
 
   // Find the most recent completed conversion for auto-preview
   const recentCompleted = conversions.find(c => c.status === 'completed' && c.previewData);
+  const hasActiveConversion = conversions.some(c => c.status === 'processing');
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
@@ -50,155 +48,185 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Live Preview Section - Show if there's a completed conversion */}
-        {recentCompleted && showPreview && (
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-semibold text-gray-900">Live Preview</h3>
-              <Button
-                variant="outline"
-                onClick={() => setShowPreview(false)}
-                className="flex items-center gap-2"
-                data-testid="hide-preview"
-              >
-                <EyeOff className="w-4 h-4" />
-                Hide Preview
-              </Button>
-            </div>
-            <EmbeddedPreview 
-              conversionId={recentCompleted.id}
-              title={recentCompleted.name}
-            />
-          </div>
-        )}
-
-        {/* Show Preview Button if hidden */}
-        {recentCompleted && !showPreview && (
-          <div className="mb-12 text-center">
-            <Button
-              onClick={() => setShowPreview(true)}
-              className="flex items-center gap-2"
-              data-testid="show-preview"
-            >
-              <Eye className="w-4 h-4" />
-              Show Live Preview
-            </Button>
-          </div>
-        )}
-
-        {/* Conversion Workflow */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {/* Step 1: Upload */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">1</div>
-              <h3 className="text-lg font-semibold text-gray-900">Upload or Enter URL</h3>
-            </div>
+        {/* Main Conversion Process - Default View */}
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             
-            {/* Tab Navigation */}
-            <div className="flex border-b border-gray-200 mb-6">
-              <Button
-                variant="ghost"
-                className={`flex items-center px-4 py-2 text-sm font-medium border-b-2 rounded-none ${
-                  activeTab === "upload" 
-                    ? "border-primary text-primary" 
-                    : "border-transparent text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setActiveTab("upload")}
-              >
-                <Code className="w-4 h-4 mr-2" />
-                Upload Files
-              </Button>
-              <Button
-                variant="ghost"
-                className={`flex items-center px-4 py-2 text-sm font-medium border-b-2 rounded-none ${
-                  activeTab === "url" 
-                    ? "border-primary text-primary" 
-                    : "border-transparent text-gray-500 hover:text-gray-700"
-                }`}
-                onClick={() => setActiveTab("url")}
-              >
-                <Link className="w-4 h-4 mr-2" />
-                Enter URL
-              </Button>
+            {/* Step 1: Upload or Enter URL */}
+            <div className="bg-white rounded-lg shadow-md p-6 relative">
+              <div className="flex items-center mb-4">
+                <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold mr-3">
+                  1
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Upload or Enter URL</h3>
+              </div>
+              
+              <div className="space-y-4">
+                {/* Tab Selection */}
+                <div className="flex border-b border-gray-200">
+                  <button
+                    onClick={() => setActiveTab("upload")}
+                    className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+                      activeTab === "upload"
+                        ? "border-blue-500 text-blue-600"
+                        : "border-transparent text-gray-500 hover:text-gray-700"
+                    }`}
+                    data-testid="tab-upload"
+                  >
+                    <Upload className="w-4 h-4" />
+                    Upload Files
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("url")}
+                    className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
+                      activeTab === "url"
+                        ? "border-blue-500 text-blue-600"
+                        : "border-transparent text-gray-500 hover:text-gray-700"
+                    }`}
+                    data-testid="tab-url"
+                  >
+                    <Globe className="w-4 h-4" />
+                    Enter URL
+                  </button>
+                </div>
+
+                {/* Content */}
+                {activeTab === "upload" && (
+                  <div className="mt-4">
+                    <FileUpload onConversionStart={setCurrentConversion} />
+                    <p className="text-sm text-gray-500 mt-2">
+                      Supports ZIP files up to 50MB
+                    </p>
+                  </div>
+                )}
+
+                {activeTab === "url" && (
+                  <div className="mt-4">
+                    <UrlInput onConversionStart={setCurrentConversion} />
+                    <p className="text-sm text-gray-500 mt-2">
+                      Enter any website URL to analyze
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Tab Content */}
-            {activeTab === "upload" ? (
-              <FileUpload onConversionStart={setCurrentConversion} />
-            ) : (
-              <UrlInput onConversionStart={setCurrentConversion} />
+            {/* Step 2: Processing */}
+            <div className={`bg-white rounded-lg shadow-md p-6 relative transition-opacity ${!hasActiveConversion ? 'opacity-50' : ''}`}>
+              <div className="flex items-center mb-4">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold mr-3 ${
+                  hasActiveConversion ? 'bg-yellow-500 text-white' : 'bg-gray-300 text-gray-600'
+                }`}>
+                  2
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Processing</h3>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-center text-sm text-gray-600">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                  Files extracted successfully
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-yellow-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                  Parsing HTML structure...
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <div className="w-4 h-4 rounded-full mr-3 bg-gray-300"></div>
+                  Converting to WordPress theme
+                </div>
+                <div className="flex items-center text-sm text-gray-600">
+                  <div className="w-4 h-4 rounded-full mr-3 bg-gray-300"></div>
+                  Optimizing assets
+                </div>
+                
+                {hasActiveConversion && (
+                  <div className="mt-4">
+                    <div className="text-sm text-gray-600 mb-2">Waiting...</div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="bg-blue-500 h-2 rounded-full animate-pulse" style={{width: '45%'}}></div>
+                    </div>
+                    <div className="text-right text-xs text-gray-500 mt-1">0%</div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Step 3: Download Theme */}
+            <div className={`bg-white rounded-lg shadow-md p-6 relative transition-opacity ${!recentCompleted ? 'opacity-50' : ''}`}>
+              <div className="flex items-center mb-4">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold mr-3 ${
+                  recentCompleted ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
+                }`}>
+                  3
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Download Theme</h3>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-6xl mb-4">
+                  ⬅️➡️
+                </div>
+                <p className="text-sm text-gray-600 mb-4">
+                  Your WordPress theme will be ready for download once processing is complete.
+                </p>
+                
+                {recentCompleted ? (
+                  <Button 
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                    data-testid="download-theme"
+                  >
+                    Download Theme
+                  </Button>
+                ) : (
+                  <Button 
+                    disabled 
+                    className="w-full"
+                    data-testid="download-theme-disabled"
+                  >
+                    Download Theme
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Advanced View Toggle */}
+        <div className="text-center mb-8">
+          <Button
+            variant="outline"
+            onClick={() => setShowAdvancedView(!showAdvancedView)}
+            className="flex items-center gap-2 mx-auto"
+            data-testid="toggle-advanced-view"
+          >
+            {showAdvancedView ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {showAdvancedView ? 'Hide Advanced View' : 'Show Advanced View'}
+          </Button>
+        </div>
+
+        {/* Advanced View - Previous functionality */}
+        {showAdvancedView && (
+          <>
+            {/* Live Preview Section */}
+            {recentCompleted && (
+              <div className="mb-12">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-semibold text-gray-900">Live Preview</h3>
+                </div>
+                <EmbeddedPreview 
+                  conversionId={recentCompleted.id}
+                  title={recentCompleted.name}
+                />
+              </div>
             )}
-          </div>
 
-          {/* Step 2: Process */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">2</div>
-              <h3 className="text-lg font-semibold text-gray-900">Processing</h3>
-            </div>
-            
-            <ProcessingSteps conversionId={currentConversion} />
-            <ProgressBar conversionId={currentConversion} />
-          </div>
-
-          {/* Step 3: Download */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center mb-4">
-              <div className="w-8 h-8 bg-gray-300 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">3</div>
-              <h3 className="text-lg font-semibold text-gray-900">Download Theme</h3>
-            </div>
-            
-            <div className="text-center py-8">
-              <Code className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500 mb-6">Your WordPress theme will be ready for download once processing is complete.</p>
-              <Button 
-                disabled={!currentConversion} 
-                variant={currentConversion ? "default" : "secondary"}
-                className="w-full"
-              >
-                Download Theme
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Features Section */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-4">Professional WordPress Conversion</h3>
-          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Our advanced conversion engine analyzes your HTML, CSS, and JavaScript files to create 
-            a fully functional WordPress theme that preserves your design and functionality.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Code className="w-6 h-6 text-blue-600" />
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Smart Analysis</h4>
-              <p className="text-sm text-gray-600">Detects pages, forms, navigation, and assets automatically</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Code className="w-6 h-6 text-green-600" />
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-2">WordPress Ready</h4>
-              <p className="text-sm text-gray-600">Generates proper template hierarchy and functions.php</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <Code className="w-6 h-6 text-purple-600" />
-              </div>
-              <h4 className="font-semibold text-gray-900 mb-2">Design Preserved</h4>
-              <p className="text-sm text-gray-600">Maintains responsive design and interactive elements</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Conversions */}
-        <RecentConversions />
+            {/* Recent Conversions */}
+            <RecentConversions />
+          </>
+        )}
       </main>
-
+      
       <Footer />
     </div>
   );
