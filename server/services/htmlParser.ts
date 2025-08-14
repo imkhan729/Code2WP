@@ -875,27 +875,55 @@ export class HtmlParser {
   private async discoverLinkedPages($: cheerio.CheerioAPI, baseUrl: string): Promise<any[]> {
     const linkedPages: any[] = [];
     const processedUrls = new Set<string>();
+    const maxPages = 20; // Limit to prevent infinite crawling
+    
+    // Collect all potential page URLs first
+    const pageUrls: Array<{url: string, title: string, pageName: string, path: string}> = [];
+    const allLinks: string[] = [];
     
     $('a[href]').each((_, link) => {
       const href = $(link).attr('href');
-      if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:')) {
+      if (href) {
+        allLinks.push(href);
+      }
+      
+      if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !href.startsWith('tel:') && !href.startsWith('javascript:')) {
         try {
           const linkUrl = new URL(href, baseUrl);
           
-          // Only process pages from the same domain
-          if (linkUrl.hostname === new URL(baseUrl).hostname && !processedUrls.has(linkUrl.href)) {
+          // Only process pages from the same domain and likely HTML pages
+          if (linkUrl.hostname === new URL(baseUrl).hostname && 
+              !processedUrls.has(linkUrl.href) &&
+              linkUrl.href !== baseUrl && // Don't re-fetch the main page
+              (linkUrl.pathname.endsWith('.html') || 
+               linkUrl.pathname.endsWith('/') || 
+               !linkUrl.pathname.includes('.') ||
+               linkUrl.pathname.includes('blog') ||
+               linkUrl.pathname.includes('post') ||
+               linkUrl.pathname.includes('article') ||
+               linkUrl.pathname.includes('about') ||
+               linkUrl.pathname.includes('contact') ||
+               linkUrl.pathname.includes('features') ||
+               linkUrl.pathname.includes('download'))) {
+            
             processedUrls.add(linkUrl.href);
             
-            const pageName = linkUrl.pathname.split('/').pop() || 'page';
-            const title = $(link).text().trim() || pageName;
+            let pageName = linkUrl.pathname.split('/').pop() || 'page';
+            if (!pageName || pageName === '' || pageName === '/') {
+              const pathParts = linkUrl.pathname.split('/').filter(p => p);
+              pageName = pathParts[pathParts.length - 1] || 'page';
+            }
+            if (!pageName.endsWith('.html')) {
+              pageName = `${pageName}.html`;
+            }
             
-            linkedPages.push({
-              filename: `${pageName}.html`,
+            const title = $(link).text().trim() || pageName.replace('.html', '');
+            
+            pageUrls.push({
+              url: linkUrl.href,
               title: title,
-              path: linkUrl.pathname,
-              content: '', // Would need to fetch for full content
-              isBlogLike: this.isLinkBlogLike($(link)),
-              links: []
+              pageName: pageName,
+              path: linkUrl.pathname
             });
           }
         } catch (e) {
@@ -904,6 +932,43 @@ export class HtmlParser {
       }
     });
     
+    console.log(`Found ${allLinks.length} total links, ${pageUrls.length} potential pages to fetch`);
+    console.log('All links found:', allLinks.slice(0, 10)); // Show first 10 links
+    console.log('Pages to fetch:', pageUrls.map(p => p.url));
+    
+    // Now fetch the content for each page (limited to maxPages)
+    for (const pageInfo of pageUrls.slice(0, maxPages)) {
+      try {
+        console.log(`Fetching linked page: ${pageInfo.url}`);
+        const response = await fetch(pageInfo.url, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          }
+        });
+        
+        if (response.ok) {
+          const pageContent = await response.text();
+          const page$ = cheerio.load(pageContent);
+          
+          linkedPages.push({
+            filename: pageInfo.pageName,
+            title: page$('title').text() || pageInfo.title,
+            path: pageInfo.path,
+            content: pageContent,
+            isBlogLike: this.detectBlogLike(page$),
+            links: this.extractInternalLinks(page$, pageInfo.pageName)
+          });
+          
+          console.log(`Successfully fetched: ${pageInfo.pageName} (${pageContent.length} chars)`);
+        } else {
+          console.log(`Failed to fetch ${pageInfo.url}: ${response.status}`);
+        }
+      } catch (e) {
+        console.log(`Error fetching ${pageInfo.url}:`, e instanceof Error ? e.message : 'Unknown error');
+      }
+    }
+    
+    console.log(`Discovered and fetched ${linkedPages.length} additional pages`);
     return linkedPages;
   }
 

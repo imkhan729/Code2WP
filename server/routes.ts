@@ -1059,6 +1059,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Function to discover and create common pages that might exist but weren't linked
+  async function discoverAndCreateCommonPages(baseUrl: string, extractPath: string) {
+    const commonPages = [
+      { path: '/blog', filename: 'blog.html' },
+      { path: '/blog.html', filename: 'blog.html' },
+      { path: '/about', filename: 'about.html' },
+      { path: '/about.html', filename: 'about.html' },
+      { path: '/contact', filename: 'contact.html' },
+      { path: '/contact.html', filename: 'contact.html' },
+      { path: '/features', filename: 'features.html' },
+      { path: '/features.html', filename: 'features.html' },
+      { path: '/download', filename: 'download.html' },
+      { path: '/download.html', filename: 'download.html' },
+      { path: '/privacy', filename: 'privacy.html' },
+      { path: '/privacy.html', filename: 'privacy.html' },
+      { path: '/terms', filename: 'terms.html' },
+      { path: '/terms.html', filename: 'terms.html' }
+    ];
+    
+    for (const page of commonPages) {
+      try {
+        const pageUrl = new URL(page.path, baseUrl).toString();
+        console.log(`Attempting to fetch common page: ${pageUrl}`);
+        
+        const response = await fetch(pageUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          }
+        });
+        
+        if (response.ok && response.headers.get('content-type')?.includes('text/html')) {
+          const content = await response.text();
+          
+          // Only save if it's actually a different page (not just a redirect to home)
+          if (content.length > 1000 && !content.includes('meta http-equiv="refresh"')) {
+            const filePath = path.join(extractPath, page.filename);
+            if (!await fs.pathExists(filePath)) { // Don't overwrite existing files
+              await fs.writeFile(filePath, content);
+              console.log(`Successfully created common page: ${page.filename} (${content.length} chars)`);
+            }
+          }
+        }
+      } catch (error) {
+        // Silently continue if page doesn't exist
+      }
+    }
+  }
+
   // Function to download assets for URL conversions
   async function downloadAssetsForUrlConversion(baseUrl: string, extractPath: string, analysis: any) {
     try {
@@ -1180,13 +1228,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await fs.writeFile(path.join(extractPath, 'index.html'), parsedWebsite.html);
         
         // Save additional pages if found
+        await storage.updateConversion(conversionId, { progress: 50 });
         if (parsedWebsite.analysis && parsedWebsite.analysis.pages) {
           for (const page of parsedWebsite.analysis.pages) {
             if (page.content && page.filename !== 'index.html') {
+              console.log(`Saving additional page: ${page.filename} (${page.content.length} chars)`);
               await fs.writeFile(path.join(extractPath, page.filename), page.content);
             }
           }
         }
+        
+        // Also try to discover and create common pages that might exist but weren't found in links
+        await discoverAndCreateCommonPages(source, extractPath);
       }
 
       // Find all HTML pages for navigation
