@@ -653,19 +653,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Read and serve the HTML file
       let htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
       
-      // Get the relative path for asset URL rewriting
-      const relativePath = path.relative(extractPath, htmlFilePath);
-      const basePath = path.dirname(relativePath);
-      
-      // Rewrite asset URLs to use the conversion API
+      // Enhanced asset URL rewriting for universal website support
       htmlContent = htmlContent.replace(
         /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp))["']/gi,
         (match, attr, assetPath) => {
-          let fullAssetPath = assetPath;
-          if (!assetPath.startsWith('http') && !assetPath.startsWith('/')) {
-            fullAssetPath = basePath ? `${basePath}/${assetPath}` : assetPath;
+          // Skip external URLs
+          if (assetPath.startsWith('http') || assetPath.startsWith('//')) {
+            return match;
           }
-          return `${attr}="/api/conversions/${conversion.id}/assets/${fullAssetPath}"`;
+          
+          // Skip already converted API paths to avoid double conversion
+          if (assetPath.includes('/api/conversions/')) {
+            return match;
+          }
+          
+          let finalAssetPath = assetPath;
+          
+          // Universal asset path resolution for all website types
+          if (assetPath.startsWith('/')) {
+            // Absolute paths - remove leading slash for our API
+            finalAssetPath = assetPath.substring(1);
+          } else if (assetPath.startsWith('../')) {
+            // Relative paths going up directories - resolve to root level
+            let resolvedPath = assetPath;
+            while (resolvedPath.startsWith('../')) {
+              resolvedPath = resolvedPath.substring(3);
+            }
+            finalAssetPath = resolvedPath;
+          } else {
+            // Relative paths - for nested pages, assume assets are at root level
+            // This handles the common case where CSS/JS is at the root but referenced from nested pages
+            finalAssetPath = assetPath;
+          }
+          
+          console.log(`Asset rewrite: ${assetPath} -> ${finalAssetPath} (from nested page: ${fullPath})`);
+          return `${attr}="/api/conversions/${conversion.id}/assets/${finalAssetPath}"`;
         }
       );
 
