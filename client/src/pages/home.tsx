@@ -38,27 +38,59 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 font-inter">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Convert HTML to WordPress</h2>
+      {/* Hero Section with Gradient Background */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-purple-900 via-purple-700 to-orange-500">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 opacity-30"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+          <h1 className="text-6xl font-bold text-white mb-6">
+            The AI HTML to WordPress Converter
+          </h1>
+          <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
+            Built to make you extraordinarily productive. Our converter is the best way to transform HTML to WordPress themes with AI.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              size="lg" 
+              className="bg-black text-white hover:bg-gray-800 px-8 py-3 text-lg font-medium"
+              onClick={() => setActiveTab("upload")}
+              data-testid="get-started-button"
+            >
+              Get Started Free
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-white text-white hover:bg-white hover:text-purple-900 px-8 py-3 text-lg font-medium"
+              onClick={() => setShowAdvancedView(true)}
+              data-testid="view-examples-button"
+            >
+              View Examples
+            </Button>
+          </div>
+        </div>
+      </div>
+      
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+        {/* Section Title */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Transform your static HTML, CSS, and JavaScript websites into fully functional WordPress themes. 
-            Preserve design, responsiveness, and functionality.
+            Transform your static websites into dynamic WordPress themes in three simple steps
           </p>
         </div>
 
         {/* Main Conversion Process - Default View */}
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
             
             {/* Step 1: Upload or Enter URL */}
-            <div className="bg-white rounded-lg shadow-md p-6 relative">
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-semibold mr-3">
+            <div className="bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative hover:shadow-xl transition-shadow duration-300">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full flex items-center justify-center font-bold text-lg mr-4">
                   1
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Upload or Enter URL</h3>
+                <h3 className="text-xl font-bold text-gray-900">Upload or Enter URL</h3>
               </div>
               
               <div className="space-y-4">
@@ -112,14 +144,14 @@ export default function Home() {
             </div>
 
             {/* Step 2: Processing */}
-            <div className={`bg-white rounded-lg shadow-md p-6 relative transition-opacity ${!hasActiveConversion ? 'opacity-50' : ''}`}>
-              <div className="flex items-center mb-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold mr-3 ${
-                  hasActiveConversion ? 'bg-yellow-500 text-white' : 'bg-gray-300 text-gray-600'
+            <div className={`bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative transition-all duration-300 hover:shadow-xl ${!hasActiveConversion ? 'opacity-60' : ''}`}>
+              <div className="flex items-center mb-6">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mr-4 ${
+                  hasActiveConversion ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white' : 'bg-gray-300 text-gray-600'
                 }`}>
                   2
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Processing</h3>
+                <h3 className="text-xl font-bold text-gray-900">AI Processing</h3>
               </div>
               
               <div className="space-y-3">
@@ -153,27 +185,27 @@ export default function Home() {
             </div>
 
             {/* Step 3: Download Theme */}
-            <div className={`bg-white rounded-lg shadow-md p-6 relative transition-opacity ${!recentCompleted ? 'opacity-50' : ''}`}>
-              <div className="flex items-center mb-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold mr-3 ${
-                  recentCompleted ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
+            <div className={`bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative transition-all duration-300 hover:shadow-xl ${!recentCompleted ? 'opacity-60' : ''}`}>
+              <div className="flex items-center mb-6">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mr-4 ${
+                  recentCompleted ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white' : 'bg-gray-300 text-gray-600'
                 }`}>
                   3
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">Download Theme</h3>
+                <h3 className="text-xl font-bold text-gray-900">Download Theme</h3>
               </div>
               
               <div className="text-center">
-                <div className="text-6xl mb-4">
-                  ⬅️➡️
+                <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
+                  <div className="text-3xl">📦</div>
                 </div>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-gray-600 mb-6">
                   Your WordPress theme will be ready for download once processing is complete.
                 </p>
                 
                 {recentCompleted ? (
                   <Button 
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                    className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 text-lg font-medium"
                     data-testid="download-theme"
                   >
                     Download Theme
@@ -181,7 +213,7 @@ export default function Home() {
                 ) : (
                   <Button 
                     disabled 
-                    className="w-full"
+                    className="w-full py-3 text-lg font-medium"
                     data-testid="download-theme-disabled"
                   >
                     Download Theme
@@ -192,16 +224,50 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Features Section */}
+        <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-12 mb-16">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Our AI Converter?</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Built with cutting-edge AI technology to deliver professional WordPress themes that maintain your original design
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Upload className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Smart Analysis</h4>
+              <p className="text-gray-600">AI-powered detection of pages, forms, navigation, and assets with 99% accuracy</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Globe className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">WordPress Ready</h4>
+              <p className="text-gray-600">Generates proper template hierarchy, functions.php, and WordPress standards</p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                <Eye className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Design Preserved</h4>
+              <p className="text-gray-600">Maintains responsive design, animations, and all interactive elements</p>
+            </div>
+          </div>
+        </div>
+
         {/* Advanced View Toggle */}
         <div className="text-center mb-8">
           <Button
             variant="outline"
             onClick={() => setShowAdvancedView(!showAdvancedView)}
-            className="flex items-center gap-2 mx-auto"
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-lg border-2 hover:bg-purple-50 hover:border-purple-300"
             data-testid="toggle-advanced-view"
           >
-            {showAdvancedView ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            {showAdvancedView ? 'Hide Advanced View' : 'Show Advanced View'}
+            {showAdvancedView ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {showAdvancedView ? 'Hide Advanced View' : 'Show Advanced View & Live Preview'}
           </Button>
         </div>
 
