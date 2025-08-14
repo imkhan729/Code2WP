@@ -164,18 +164,87 @@ export async function createSampleData() {
       path: "temp/sample-site.zip",
     });
 
+    // Create alight-motion website sample data
+    const alightMotionId = "1d1a60ae-5361-4cb7-bdbd-7f8892028752";
+    const alightMotionConversion = {
+      name: "alight-motion-website-2.zip",
+      type: "file" as const,
+      sourceUrl: null,
+      id: alightMotionId,
+      status: "completed" as const,
+      progress: 100,
+      errorMessage: null,
+      downloadUrl: null,
+      originalFiles: null,
+      previewData: {
+        title: "AlightMotion Premium APK",
+        analysis: {
+          pagesFound: 5,
+          blogPages: 10,
+          formsFound: 0,
+          hasNavigation: true,
+          assetsFound: 25
+        }
+      },
+      analysisReport: {
+        pages: [
+          { title: "AlightMotion Premium APK", url: "index.html", content: "Homepage with hero section and features" },
+          { title: "Blog", url: "blog.html", content: "Blog listing page with multiple articles" },
+          { title: "DMCA", url: "dmca.html", content: "DMCA policy page" },
+          { title: "Privacy Policy", url: "privacy-policy.html", content: "Privacy policy page" },
+          { title: "Terms of Service", url: "terms-of-service.html", content: "Terms of service page" }
+        ],
+        forms: [],
+        navigation: {
+          type: "horizontal",
+          items: ["Home", "About", "Features", "Download", "Blog"]
+        },
+        assets: {
+          css: ["styles.css"],
+          js: ["script.js"],
+          images: ["images/Logo.webp", "images/Alightmotion-Hero-image.webp"]
+        },
+        blogPages: []
+      },
+      diagnosticsReport: null,
+      createdAt: new Date(),
+      completedAt: new Date()
+    };
+
+    // Add to memory storage directly
+    (storage as any).conversions.set(alightMotionId, alightMotionConversion);
+
+    // Create corresponding file for alight-motion
+    await storage.createFile({
+      conversionId: alightMotionId,
+      filename: "alight-motion-website-2.zip",
+      originalName: "alight-motion-website-2.zip", 
+      mimetype: "application/zip",
+      size: 50000,
+      path: "temp/alight-motion-website-2.zip",
+    });
+
     console.log("Sample data created successfully!");
     console.log(`Sample conversion ID: ${fixedId}`);
+    console.log(`Alight Motion conversion ID: ${alightMotionId}`);
     
-    // Ensure extracted files exist for the first conversion as well
+    // Ensure extracted files exist for all conversions
     import('fs-extra').then(async (fs) => {
-      const firstConversion = await storage.getAllConversions();
-      if (firstConversion.length > 0) {
-        const extractPath = `temp/extracted/${firstConversion[0].id}`;
+      const allConversions = await storage.getAllConversions();
+      for (const conversion of allConversions) {
+        const extractPath = `temp/extracted/${conversion.id}`;
         if (!await fs.pathExists(extractPath)) {
-          console.log(`Creating extracted files for ${firstConversion[0].id}`);
+          console.log(`Creating extracted files for ${conversion.id}`);
           await fs.ensureDir(extractPath);
-          await fs.copy('temp/sample-site', extractPath);
+          if (conversion.id === alightMotionId) {
+            // Check if alight-motion files exist and copy them
+            const existingAlightPath = "temp/extracted/1d1a60ae-5361-4cb7-bdbd-7f8892028752";
+            if (await fs.pathExists(existingAlightPath)) {
+              await fs.copy(existingAlightPath, extractPath);
+            }
+          } else {
+            await fs.copy('temp/sample-site', extractPath);
+          }
         }
       }
     });

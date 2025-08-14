@@ -540,12 +540,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Enhanced route to handle nested paths (like /blog/post-name)
-  app.get("/api/conversions/:id/*", async (req, res) => {
+  app.get("/api/conversions/:id/*", async (req, res, next) => {
     const fullPath = (req.params as any)[0]; // Get the wildcard part
     
-    // Skip if it's an asset request or special endpoints
+    // Skip if it's an asset request or special endpoints - let them pass to specific routes
     if (fullPath.includes('.') || fullPath.startsWith('assets/') || fullPath === 'pages' || fullPath === 'preview') {
-      return res.status(404).send('Not found');
+      return next(); // Pass to next route instead of 404
     }
     
     try {
@@ -727,34 +727,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Get original files for preview (CSS, JS, images) - MUST come before wildcard HTML route
   app.get("/api/conversions/:id/assets/*", async (req, res) => {
+    const assetPath = (req.params as any)[0]; // Get the wildcard part
+    console.log(`=== ASSET REQUEST DEBUG ===`);
+    console.log(`Conversion ID: ${req.params.id}`);
+    console.log(`Asset Path: ${assetPath}`);
+    
     try {
       const conversion = await storage.getConversion(req.params.id);
       if (!conversion) {
+        console.log(`Conversion not found for ID: ${req.params.id}`);
         return res.status(404).json({ message: "Conversion not found" });
       }
+      console.log(`Conversion found: ${conversion.name}`);
 
-      const assetPath = (req.params as any)[0]; // Get the wildcard part
       const files = await storage.getFilesByConversionId(conversion.id);
+      console.log(`Files found: ${files.length}`);
       const file = files[0]; // Get the main uploaded file
 
       if (!file) {
+        console.log(`No files found for conversion: ${conversion.id}`);
         return res.status(404).json({ message: "Original files not found" });
       }
+      console.log(`Using file: ${file.filename}`);
+      
+      console.log(`Searching for asset at: ${assetPath}`);
 
       // Extract and serve assets from the original ZIP
       const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      console.log(`Extract path: ${extractPath}`);
       let fullAssetPath = path.join(extractPath, assetPath);
 
       // Try different possible paths if the direct path doesn't exist
       if (!await fs.pathExists(fullAssetPath)) {
+        console.log(`Asset not found at direct path: ${fullAssetPath}, searching recursively...`);
+        
         // Recursively search for the asset in the entire extracted directory
         const findAssetRecursively = async (dir: string, targetFile: string): Promise<string | null> => {
           try {
             const entries = await fs.readdir(dir, { withFileTypes: true });
+            const targetFileName = path.basename(targetFile);
             
-            // First, check if the file exists in the current directory
+            // First, check if the file exists in the current directory (exact match)
             for (const entry of entries) {
-              if (!entry.isDirectory() && entry.name.toLowerCase() === path.basename(targetFile).toLowerCase()) {
+              if (!entry.isDirectory() && entry.name === targetFileName) {
+                console.log(`Found exact match: ${path.join(dir, entry.name)}`);
+                return path.join(dir, entry.name);
+              }
+            }
+            
+            // Then check case-insensitive match
+            for (const entry of entries) {
+              if (!entry.isDirectory() && entry.name.toLowerCase() === targetFileName.toLowerCase()) {
+                console.log(`Found case-insensitive match: ${path.join(dir, entry.name)}`);
                 return path.join(dir, entry.name);
               }
             }
@@ -768,15 +792,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
               }
             }
           } catch (error) {
-            // Directory doesn't exist or can't be read
+            console.log(`Error searching directory ${dir}:`, error);
           }
           return null;
         };
 
+        console.log(`Searching for asset: ${assetPath} in ${extractPath}`);
         const foundAsset = await findAssetRecursively(extractPath, assetPath);
         if (foundAsset) {
+          console.log(`Found asset via recursive search: ${foundAsset}`);
           fullAssetPath = foundAsset;
         } else {
+          console.log(`Asset not found via recursive search, trying common paths...`);
           // Try looking in common subdirectories as fallback
           const possiblePaths = [
             path.join(extractPath, 'assets', assetPath),
@@ -787,11 +814,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
             path.join(extractPath, 'fonts', assetPath),
             path.join(extractPath, 'static', assetPath),
             path.join(extractPath, 'media', assetPath),
-            path.join(extractPath, 'resources', assetPath)
+            path.join(extractPath, 'resources', assetPath),
+            // Add nested directory patterns for this specific case
+            ...await (async () => {
+              try {
+                const subDirs = await fs.readdir(extractPath, { withFileTypes: true });
+                const nestedPaths = [];
+                for (const subDir of subDirs) {
+                  if (subDir.isDirectory()) {
+                    nestedPaths.push(path.join(extractPath, subDir.name, assetPath));
+                    // Check for double-nested directories (like alight-motion-website/alight-motion-website)
+                    const nestedSubDirPath = path.join(extractPath, subDir.name);
+                    try {
+                      const nestedSubDirs = await fs.readdir(nestedSubDirPath, { withFileTypes: true });
+                      for (const nestedSubDir of nestedSubDirs) {
+                        if (nestedSubDir.isDirectory()) {
+                          nestedPaths.push(path.join(extractPath, subDir.name, nestedSubDir.name, assetPath));
+                        }
+                      }
+                    } catch {}
+                  }
+                }
+                return nestedPaths;
+              } catch {
+                return [];
+              }
+            })()
           ];
 
           for (const possiblePath of possiblePaths) {
+            console.log(`Checking possible path: ${possiblePath}`);
             if (await fs.pathExists(possiblePath)) {
+              console.log(`Found asset at: ${possiblePath}`);
               fullAssetPath = possiblePath;
               break;
             }
