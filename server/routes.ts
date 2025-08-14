@@ -41,7 +41,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     };
     
     await findHtmlFiles(extractPath);
-    return [...new Set(htmlPages)]; // Remove duplicates
+    return Array.from(new Set(htmlPages)); // Remove duplicates
   }
 
   // Helper function to extract ZIP files for preview system
@@ -371,15 +371,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Serve other HTML pages from extracted website (e.g., blog.html, about.html)
-  app.get("/api/conversions/:id/:filename.html", async (req, res) => {
+  // Enhanced route for serving any HTML page with better pattern matching
+  app.get("/api/conversions/:id/*", async (req, res) => {
+    const wildcard = (req.params as any)[0]; // Get the wildcard part
+    
+    // Only handle HTML files, let assets route handle other files
+    if (!wildcard.endsWith('.html')) {
+      return res.status(404).json({ message: "Only HTML files supported on this route" });
+    }
     try {
       const conversion = await storage.getConversion(req.params.id);
       if (!conversion) {
         return res.status(404).json({ message: "Conversion not found" });
       }
 
-      const filename = req.params.filename + '.html';
+      const filename = wildcard; // Use the full wildcard (already includes .html)
       const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
       
       // Find the HTML file in the extracted directory

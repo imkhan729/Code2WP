@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Monitor, Tablet, Smartphone, Maximize2, ExternalLink, RefreshCw } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Monitor, Tablet, Smartphone, Maximize2, ExternalLink, RefreshCw, FileText } from "lucide-react";
+import { useQuery } from '@tanstack/react-query';
 
 interface EmbeddedPreviewProps {
   conversionId: string;
@@ -9,11 +11,33 @@ interface EmbeddedPreviewProps {
   onClose?: () => void;
 }
 
+interface PageInfo {
+  name: string;
+  url: string;
+  title: string;
+}
+
 export default function EmbeddedPreview({ conversionId, title, onClose }: EmbeddedPreviewProps) {
   const [device, setDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [currentPage, setCurrentPage] = useState('preview');
 
-  const previewUrl = `/api/conversions/${conversionId}/preview`;
+  // Fetch available pages
+  const { data: pagesData } = useQuery<{pages: PageInfo[]}>({
+    queryKey: [`/api/conversions/${conversionId}/pages`],
+    staleTime: 30000, // Cache for 30 seconds
+  });
+
+  const pages = pagesData?.pages || [];
+  
+  const getPreviewUrl = () => {
+    if (currentPage === 'preview') {
+      return `/api/conversions/${conversionId}/preview`;
+    }
+    return `/api/conversions/${conversionId}/${currentPage}.html`;
+  };
+
+  const previewUrl = getPreviewUrl();
 
   const deviceStyles = {
     desktop: { width: '100%', height: '600px' },
@@ -25,10 +49,18 @@ export default function EmbeddedPreview({ conversionId, title, onClose }: Embedd
     setIsRefreshing(true);
     const iframe = document.getElementById(`preview-${conversionId}`) as HTMLIFrameElement;
     if (iframe) {
-      iframe.src = iframe.src;
+      iframe.src = getPreviewUrl() + '?t=' + Date.now(); // Add timestamp to force refresh
       setTimeout(() => setIsRefreshing(false), 1000);
     }
   };
+
+  // Update iframe when page changes
+  useEffect(() => {
+    const iframe = document.getElementById(`preview-${conversionId}`) as HTMLIFrameElement;
+    if (iframe) {
+      iframe.src = getPreviewUrl();
+    }
+  }, [currentPage, conversionId]);
 
   const handleFullscreen = () => {
     window.open(previewUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
@@ -47,6 +79,23 @@ export default function EmbeddedPreview({ conversionId, title, onClose }: Embedd
             Live Preview {title && `- ${title}`}
           </CardTitle>
           <div className="flex items-center gap-2">
+            {/* Page Selection */}
+            {pages.length > 1 && (
+              <Select value={currentPage} onValueChange={setCurrentPage}>
+                <SelectTrigger className="w-[200px]" data-testid="page-selector">
+                  <SelectValue placeholder="Select page" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="preview">Main Page (index)</SelectItem>
+                  {pages.filter(page => page.name !== 'index').map((page) => (
+                    <SelectItem key={page.name} value={page.name}>
+                      {page.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            
             {/* Device Toggle */}
             <div className="flex border rounded-lg p-1 bg-gray-50">
               <Button
