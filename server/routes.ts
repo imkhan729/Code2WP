@@ -340,14 +340,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       );
 
-      // Rewrite internal HTML page links to use the conversion API
+      // Enhanced rewriting for all types of internal links
       htmlContent = htmlContent.replace(
-        /href=["']([^"']*\.html)["']/gi,
-        (match, htmlPath) => {
-          if (!htmlPath.startsWith('http') && !htmlPath.startsWith('/')) {
-            const pageName = path.basename(htmlPath, '.html');
+        /href=["']([^"']+)["']/gi,
+        (match, linkPath) => {
+          // Skip external links (http/https) and fragments (#)
+          if (linkPath.startsWith('http') || linkPath.startsWith('mailto:') || linkPath.startsWith('tel:')) {
+            return match;
+          }
+          
+          // Handle fragment links (#about, #features, etc.) - keep them as is for same-page navigation
+          if (linkPath.startsWith('#')) {
+            return match;
+          }
+          
+          // Handle .html files
+          if (linkPath.endsWith('.html')) {
+            const pageName = path.basename(linkPath, '.html');
             return `href="/api/conversions/${conversion.id}/${pageName}.html"`;
           }
+          
+          // Handle common navigation paths like /, /blog, /about, etc.
+          if (linkPath === '/' || linkPath === '/index' || linkPath === '/home') {
+            return `href="/api/conversions/${conversion.id}/preview"`;
+          }
+          
+          // Handle other absolute paths by trying to map them to HTML files
+          if (linkPath.startsWith('/')) {
+            const cleanPath = linkPath.slice(1); // Remove leading slash
+            if (cleanPath && !cleanPath.includes('.')) {
+              // Try to find a corresponding HTML file
+              return `href="/api/conversions/${conversion.id}/${cleanPath}.html"`;
+            }
+          }
+          
+          // Handle relative paths that might be pages
+          if (!linkPath.includes('.') && !linkPath.includes('/') && linkPath.length > 0) {
+            return `href="/api/conversions/${conversion.id}/${linkPath}.html"`;
+          }
+          
           return match;
         }
       );
@@ -515,14 +546,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       );
 
-      // Rewrite internal HTML page links to use the conversion API
+      // Enhanced rewriting for all types of internal links (same as preview route)
       htmlContent = htmlContent.replace(
-        /href=["']([^"']*\.html)["']/gi,
-        (match, htmlPath) => {
-          if (!htmlPath.startsWith('http') && !htmlPath.startsWith('/')) {
-            const pageName = path.basename(htmlPath, '.html');
+        /href=["']([^"']+)["']/gi,
+        (match, linkPath) => {
+          // Skip external links (http/https) and fragments (#)
+          if (linkPath.startsWith('http') || linkPath.startsWith('mailto:') || linkPath.startsWith('tel:')) {
+            return match;
+          }
+          
+          // Handle fragment links (#about, #features, etc.) - keep them as is for same-page navigation
+          if (linkPath.startsWith('#')) {
+            return match;
+          }
+          
+          // Handle .html files
+          if (linkPath.endsWith('.html')) {
+            const pageName = path.basename(linkPath, '.html');
             return `href="/api/conversions/${conversion.id}/${pageName}.html"`;
           }
+          
+          // Handle common navigation paths like /, /blog, /about, etc.
+          if (linkPath === '/' || linkPath === '/index' || linkPath === '/home') {
+            return `href="/api/conversions/${conversion.id}/preview"`;
+          }
+          
+          // Handle other absolute paths by trying to map them to HTML files
+          if (linkPath.startsWith('/')) {
+            const cleanPath = linkPath.slice(1); // Remove leading slash
+            if (cleanPath && !cleanPath.includes('.')) {
+              // Try to find a corresponding HTML file
+              return `href="/api/conversions/${conversion.id}/${cleanPath}.html"`;
+            }
+          }
+          
+          // Handle relative paths that might be pages
+          if (!linkPath.includes('.') && !linkPath.includes('/') && linkPath.length > 0) {
+            return `href="/api/conversions/${conversion.id}/${linkPath}.html"`;
+          }
+          
           return match;
         }
       );
