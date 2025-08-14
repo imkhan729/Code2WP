@@ -224,11 +224,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Conversion not found" });
       }
 
-      const files = await storage.getFilesByConversionId(conversion.id);
-      const file = files[0];
-      
-      if (!file) {
-        return res.status(404).json({ message: "Original files not found" });
+      // For URL conversions, we don't have uploaded files, only extracted content
+      // For file conversions, we check for uploaded files
+      if (conversion.type === 'file') {
+        const files = await storage.getFilesByConversionId(conversion.id);
+        const file = files[0];
+        
+        if (!file) {
+          return res.status(404).json({ message: "Original files not found" });
+        }
       }
 
       // Look for the main index.html file in the extracted directory
