@@ -1070,9 +1070,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         await storage.updateConversion(conversionId, { progress: 30 });
         parsedWebsite = await htmlParser.parseFromZip(source);
       } else {
-        // Parse URL
+        // Parse URL - create a simulated ZIP-like structure for consistency
         await storage.updateConversion(conversionId, { progress: 30 });
         parsedWebsite = await htmlParser.parseFromUrl(source);
+        
+        // Create a preview structure for URL-based conversions
+        const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversionId);
+        await fs.ensureDir(extractPath);
+        
+        // Save the main HTML content for preview
+        await fs.writeFile(path.join(extractPath, 'index.html'), parsedWebsite.html);
+        
+        // Save additional pages if found
+        if (parsedWebsite.analysis && parsedWebsite.analysis.pages) {
+          for (const page of parsedWebsite.analysis.pages) {
+            if (page.content && page.filename !== 'index.html') {
+              await fs.writeFile(path.join(extractPath, page.filename), page.content);
+            }
+          }
+        }
       }
 
       // Find all HTML pages for navigation
@@ -1117,6 +1133,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
     } catch (error) {
+      console.error(`Conversion ${conversionId} failed:`, error);
       // Update conversion with error
       await storage.updateConversion(conversionId, {
         status: "failed",

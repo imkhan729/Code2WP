@@ -34,6 +34,28 @@ export default function Home() {
   const recentCompleted = conversions.find(c => c.status === 'completed' && c.previewData);
   const hasActiveConversion = conversions.some(c => c.status === 'processing');
 
+  // Download theme function
+  const downloadTheme = async (conversionId: string, fileName: string) => {
+    try {
+      const response = await fetch(`/api/conversions/${conversionId}/download`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${fileName}-wordpress-theme.zip`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        console.error('Download failed:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
       <Header />
@@ -206,6 +228,7 @@ export default function Home() {
                 {recentCompleted ? (
                   <Button 
                     className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-3 text-lg font-medium"
+                    onClick={() => downloadTheme(recentCompleted.id, recentCompleted.name)}
                     data-testid="download-theme"
                   >
                     Download Theme
