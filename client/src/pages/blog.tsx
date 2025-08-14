@@ -235,18 +235,14 @@ export default function Blog() {
             </div>
             
             <article className="group bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden hover:shadow-3xl hover:scale-[1.02] transition-all duration-700">
-              <div className="aspect-video bg-gradient-to-br from-purple-600 via-blue-600 to-orange-500 relative overflow-hidden">
+              <div className="aspect-video relative overflow-hidden">
+                <img 
+                  src={featuredPost.image} 
+                  alt="Code2WP - Convert Custom HTML Website to WordPress"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
                 <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-500"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                
-                {/* Enhanced animated background elements */}
-                <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-pulse group-hover:scale-110 transition-transform duration-1000"></div>
-                <div className="absolute bottom-16 right-16 w-40 h-40 bg-orange-400/20 rounded-full blur-3xl animate-bounce group-hover:animate-pulse transition-all duration-1000"></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-purple-400/10 rounded-full blur-3xl animate-pulse group-hover:scale-125 transition-transform duration-1000"></div>
-                
-                {/* Floating elements */}
-                <div className="absolute top-20 right-20 w-6 h-6 bg-white/30 rounded-full animate-ping"></div>
-                <div className="absolute bottom-32 left-20 w-4 h-4 bg-orange-300/40 rounded-full animate-bounce delay-1000"></div>
                 
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/20 group-hover:bg-white/10 transition-colors duration-500">
