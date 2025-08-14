@@ -15,6 +15,9 @@ This is an HTML to WordPress theme converter application that allows users to up
 - **Enhanced Asset Path Resolution**: Improved handling of relative paths (../styles.css) to prevent duplicate API path conversions and ensure proper styling across all page types
 - **MAJOR: Complete Nested URL System**: Implemented comprehensive nested page discovery and routing for complex website structures like blogs with nested posts (e.g., /blog/post-title), including proper directory structure creation, asset path rewriting for nested directories, and recursive page content fetching
 - **Enhanced Multi-Page Discovery**: Advanced page detection now finds and processes nested blog posts, category pages, and deep-linked content, creating proper file hierarchies and serving them with correct navigation
+- **CRITICAL FIX: Nested Blog Post Redirect Issue**: Resolved major issue where nested blog posts (like /blog/specific-post-title) were incorrectly serving homepage content instead of proper 404 responses or actual blog post content
+- **Implemented Fresh Content Fetching**: Added system to fetch missing nested pages directly from original websites for URL-based conversions, with proper caching and error handling
+- **Enhanced 404 Handling**: Non-existent nested pages now return appropriate 404 responses instead of fallback homepage content, maintaining proper website behavior
 
 # User Preferences
 

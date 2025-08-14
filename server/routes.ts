@@ -943,6 +943,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(404).send('Not found');
     }
     
+    console.log(`=== Nested Page Request: ${nestedPath} ===`);
+    
     try {
       const conversion = await storage.getConversion(req.params.id);
       if (!conversion) {
@@ -985,13 +987,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 const result = await findHtmlRecursively(fullPath, targetPath);
                 if (result) return result;
               } else if (entry.name.endsWith('.html')) {
-                // Check if this file might match our nested path
+                // Check if this file might match our nested path - be more strict
                 const relativePath = path.relative(extractPath, fullPath);
                 const normalizedPath = relativePath.replace(/\.html$/, '').replace(/\\/g, '/');
-                if (normalizedPath === targetPath || 
-                    normalizedPath.endsWith(`/${targetPath}`) ||
-                    entry.name === `${path.basename(targetPath)}.html`) {
+                
+                // Only match if it's an exact match or a direct nested match, not just any HTML file
+                if (normalizedPath === targetPath) {
                   return fullPath;
+                }
+                
+                // For nested paths like blog/post-title, only match if the file is in the exact directory structure
+                if (targetPath.includes('/')) {
+                  const expectedFileName = path.basename(targetPath) + '.html';
+                  const expectedDir = path.dirname(targetPath);
+                  const actualDir = path.dirname(normalizedPath);
+                  
+                  if (entry.name === expectedFileName && actualDir === expectedDir) {
+                    return fullPath;
+                  }
                 }
               }
             }
@@ -1005,17 +1018,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       if (!htmlFilePath || !await fs.pathExists(htmlFilePath)) {
-        console.log(`Nested page not found: ${nestedPath}, serving index.html as fallback`);
-        // Fallback to index.html for nested blog posts that weren't properly extracted
-        const indexPath = path.join(extractPath, 'index.html');
-        if (await fs.pathExists(indexPath)) {
-          htmlFilePath = indexPath;
-        } else {
+        console.log(`Nested page not found: ${nestedPath}, attempting to fetch fresh content`);
+        
+        // Try to fetch the nested page content directly from the original website
+        try {
+          const conversion = await storage.getConversion(req.params.id);
+          if (conversion?.sourceUrl) {
+            const nestedUrl = new URL(nestedPath, conversion.sourceUrl).toString();
+            console.log(`Fetching fresh content for nested page: ${nestedUrl}`);
+            
+            const response = await fetch(nestedUrl, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+              }
+            });
+            
+            if (response.ok && response.headers.get('content-type')?.includes('text/html')) {
+              const freshContent = await response.text();
+              console.log(`Successfully fetched fresh content: ${freshContent.length} chars`);
+              
+              // Save the fresh content for future requests
+              const fullPath = path.join(extractPath, `${nestedPath}.html`);
+              const dirPath = path.dirname(fullPath);
+              await fs.ensureDir(dirPath);
+              await fs.writeFile(fullPath, freshContent);
+              htmlFilePath = fullPath;
+            }
+          }
+        } catch (error) {
+          console.log(`Failed to fetch fresh content: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+        
+        // If still no content, return 404
+        if (!htmlFilePath) {
           return res.status(404).send(`
             <html>
               <body>
                 <h1>Page Not Found</h1>
                 <p>The requested page "${nestedPath}" was not found in the converted website.</p>
+                <p><a href="/api/conversions/${req.params.id}/preview">← Back to Homepage</a></p>
               </body>
             </html>
           `);
@@ -1043,13 +1084,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Handle relative paths from nested directories
           if (!assetPath.startsWith('/')) {
             // Calculate how many directories we need to go up
-            const nestingLevel = nestedPath.split('/').filter(p => p).length;
+            const nestingLevel = nestedPath.split('/').filter((p: string) => p).length;
             const prefix = '../'.repeat(nestingLevel);
             rewrittenPath = prefix + assetPath;
           }
           
           console.log(`Asset rewrite: ${assetPath} -> ${rewrittenPath} (from nested page: ${nestedPath})`);
-          return `${attr}="/api/conversions/${conversion.id}/assets/${rewrittenPath}"`;
+          return `${attr}="/api/conversions/${req.params.id}/assets/${rewrittenPath}"`;
         }
       );
 
@@ -1085,7 +1126,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       );
 
-      console.log(`Serving nested page: ${nestedPath} from ${path.basename(htmlFilePath)}`);
+      console.log(`Serving nested page: ${nestedPath} from ${path.basename(htmlFilePath)} (${htmlContent.length} chars)`);
 
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('X-Frame-Options', 'SAMEORIGIN');

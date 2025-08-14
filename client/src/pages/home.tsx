@@ -73,7 +73,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
-              className="bg-black text-white hover:bg-gray-800 px-8 py-3 text-lg font-medium"
+              className="bg-white text-purple-900 hover:bg-gray-100 px-8 py-3 text-lg font-medium border-2 border-white shadow-lg"
               onClick={() => setActiveTab("upload")}
               data-testid="get-started-button"
             >
@@ -82,7 +82,7 @@ export default function Home() {
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-white text-white hover:bg-white hover:text-purple-900 px-8 py-3 text-lg font-medium"
+              className="border-white border-2 text-white hover:bg-white hover:text-purple-900 px-8 py-3 text-lg font-medium transition-all duration-200 shadow-lg"
               onClick={() => setShowAdvancedView(true)}
               data-testid="view-examples-button"
             >
