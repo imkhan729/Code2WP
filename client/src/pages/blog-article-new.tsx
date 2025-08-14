@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import blogFeaturedImage from "@assets/Code2WP Blog_1755172145582.webp";
 
 const articles = {
   "ultimate-guide-html-to-wordpress-2025": {
@@ -380,21 +381,20 @@ export default function BlogArticle() {
           {/* Article */}
           <article className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
             {/* Featured Image */}
-            <div className="relative w-full h-80 bg-gradient-to-br from-purple-600 via-blue-600 to-orange-500 overflow-hidden">
-              <div className="absolute inset-0 bg-black/20"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div className="relative w-full h-80 overflow-hidden">
+              <img 
+                src={blogFeaturedImage} 
+                alt="Code2WP - Convert Custom HTML Website to WordPress"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
               
-              {/* Animated background elements */}
-              <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-pulse"></div>
-              <div className="absolute bottom-16 right-16 w-32 h-32 bg-orange-400/20 rounded-full blur-2xl animate-bounce"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
-              
-              <div className="relative z-10 text-white text-center h-full flex flex-col justify-center">
-                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-md">
-                  <BookOpen className="w-20 h-20 mx-auto mb-6 opacity-90 drop-shadow-lg" />
-                  <p className="text-xl font-bold opacity-95 mb-2">Featured Article</p>
-                  <p className="text-sm opacity-80">In-depth WordPress conversion guide</p>
+              <div className="absolute bottom-6 left-6 text-white">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2 mb-3">
+                  <span className="text-sm font-medium">Featured Article</span>
                 </div>
+                <h2 className="text-2xl font-bold mb-2 drop-shadow-lg">HTML to WordPress Conversion Guide</h2>
+                <p className="text-sm opacity-90 drop-shadow">Complete guide with AI-powered tools and techniques</p>
               </div>
             </div>
             

@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import { Calendar, Clock, ArrowRight, User, Tag, TrendingUp, Star, BookOpen, Zap, Eye, CheckCircle, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import blogFeaturedImage from "@assets/Code2WP Blog_1755172145582.webp";
 
 export default function Blog() {
   const featuredPost = {
@@ -102,7 +103,7 @@ export default function Blog() {
     slug: "ultimate-guide-html-to-wordpress-2025",
     featured: true,
     views: "12.5K",
-    image: "/api/placeholder/800/400"
+    image: blogFeaturedImage
   };
 
   const blogPosts = [
