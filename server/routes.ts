@@ -934,6 +934,176 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Route for nested pages like /blog/post-title
+  app.get("/api/conversions/:id/*", async (req, res) => {
+    const nestedPath = (req.params as any)[0]; // Get the full nested path
+    
+    // Skip if this is a static asset request
+    if (nestedPath.includes('.') && !nestedPath.endsWith('.html')) {
+      return res.status(404).send('Not found');
+    }
+    
+    try {
+      const conversion = await storage.getConversion(req.params.id);
+      if (!conversion) {
+        return res.status(404).json({ message: "Conversion not found" });
+      }
+
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      
+      // Try different file patterns for the nested path
+      const possibleFiles = [
+        `${nestedPath}.html`,
+        `${nestedPath}/index.html`,
+        path.join(nestedPath, 'index.html'),
+        nestedPath.endsWith('.html') ? nestedPath : `${nestedPath}.html`
+      ];
+      
+      console.log(`Looking for nested page: ${nestedPath}, trying files:`, possibleFiles);
+      
+      let htmlFilePath: string | null = null;
+      
+      // Search for the file in the extracted directory
+      for (const fileName of possibleFiles) {
+        const testPath = path.join(extractPath, fileName);
+        if (await fs.pathExists(testPath)) {
+          htmlFilePath = testPath;
+          console.log(`Found nested page at: ${testPath}`);
+          break;
+        }
+      }
+      
+      // If not found, fall back to searching all HTML files recursively
+      if (!htmlFilePath) {
+        console.log(`File not found in standard locations, searching recursively...`);
+        const findHtmlRecursively = async (dir: string, targetPath: string): Promise<string | null> => {
+          try {
+            const entries = await fs.readdir(dir, { withFileTypes: true });
+            for (const entry of entries) {
+              const fullPath = path.join(dir, entry.name);
+              if (entry.isDirectory()) {
+                const result = await findHtmlRecursively(fullPath, targetPath);
+                if (result) return result;
+              } else if (entry.name.endsWith('.html')) {
+                // Check if this file might match our nested path
+                const relativePath = path.relative(extractPath, fullPath);
+                const normalizedPath = relativePath.replace(/\.html$/, '').replace(/\\/g, '/');
+                if (normalizedPath === targetPath || 
+                    normalizedPath.endsWith(`/${targetPath}`) ||
+                    entry.name === `${path.basename(targetPath)}.html`) {
+                  return fullPath;
+                }
+              }
+            }
+          } catch (error) {
+            console.log(`Error searching directory ${dir}:`, error);
+          }
+          return null;
+        };
+        
+        htmlFilePath = await findHtmlRecursively(extractPath, nestedPath);
+      }
+      
+      if (!htmlFilePath || !await fs.pathExists(htmlFilePath)) {
+        console.log(`Nested page not found: ${nestedPath}, serving index.html as fallback`);
+        // Fallback to index.html for nested blog posts that weren't properly extracted
+        const indexPath = path.join(extractPath, 'index.html');
+        if (await fs.pathExists(indexPath)) {
+          htmlFilePath = indexPath;
+        } else {
+          return res.status(404).send(`
+            <html>
+              <body>
+                <h1>Page Not Found</h1>
+                <p>The requested page "${nestedPath}" was not found in the converted website.</p>
+              </body>
+            </html>
+          `);
+        }
+      }
+
+      // Read and serve the HTML file
+      let htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
+      
+      // Get the relative path for asset URL rewriting
+      const relativePath = path.relative(extractPath, htmlFilePath);
+      const basePath = path.dirname(relativePath);
+      
+      // Enhanced asset path rewriting for nested pages
+      htmlContent = htmlContent.replace(
+        /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp))["']/gi,
+        (match, attr, assetPath) => {
+          // Skip external URLs
+          if (assetPath.startsWith('http') || assetPath.startsWith('//')) {
+            return match;
+          }
+          
+          let rewrittenPath = assetPath;
+          
+          // Handle relative paths from nested directories
+          if (!assetPath.startsWith('/')) {
+            // Calculate how many directories we need to go up
+            const nestingLevel = nestedPath.split('/').filter(p => p).length;
+            const prefix = '../'.repeat(nestingLevel);
+            rewrittenPath = prefix + assetPath;
+          }
+          
+          console.log(`Asset rewrite: ${assetPath} -> ${rewrittenPath} (from nested page: ${nestedPath})`);
+          return `${attr}="/api/conversions/${conversion.id}/assets/${rewrittenPath}"`;
+        }
+      );
+
+      // Enhanced link rewriting for nested pages
+      htmlContent = htmlContent.replace(
+        /href=["']([^"']+)["']/gi,
+        (match, linkPath) => {
+          if (linkPath.startsWith('http') || linkPath.startsWith('mailto:') || linkPath.startsWith('tel:')) {
+            return match;
+          }
+          
+          if (linkPath.startsWith('#')) {
+            return match;
+          }
+          
+          if (linkPath.endsWith('.html')) {
+            const pageName = path.basename(linkPath, '.html');
+            return `href="/api/conversions/${conversion.id}/${pageName}"`;
+          }
+          
+          if (linkPath === '/' || linkPath === '/index' || linkPath === '/home') {
+            return `href="/api/conversions/${conversion.id}/preview"`;
+          }
+          
+          if (linkPath.startsWith('/')) {
+            const cleanPath = linkPath.slice(1);
+            if (cleanPath && !cleanPath.includes('.')) {
+              return `href="/api/conversions/${conversion.id}/${cleanPath}"`;
+            }
+          }
+          
+          return match;
+        }
+      );
+
+      console.log(`Serving nested page: ${nestedPath} from ${path.basename(htmlFilePath)}`);
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+      res.send(htmlContent);
+      
+    } catch (error) {
+      console.error('Nested page error:', error);
+      res.status(500).send(`
+        <html>
+          <body>
+            <h1>Page Error</h1>
+            <p>Failed to load nested page: ${error instanceof Error ? error.message : 'Unknown error'}</p>
+          </body>
+        </html>
+      `);
+    }
+  });
+
   // Enhanced route for serving any HTML page with better pattern matching
   app.get("/api/conversions/:id/*.html", async (req, res) => {
     const wildcard = (req.params as any)[0]; // Get the wildcard part
@@ -1233,7 +1403,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           for (const page of parsedWebsite.analysis.pages) {
             if (page.content && page.filename !== 'index.html') {
               console.log(`Saving additional page: ${page.filename} (${page.content.length} chars)`);
-              await fs.writeFile(path.join(extractPath, page.filename), page.content);
+              
+              // Handle nested directory structure
+              const fullPath = path.join(extractPath, page.filename);
+              const dirPath = path.dirname(fullPath);
+              
+              // Create nested directories if needed
+              await fs.ensureDir(dirPath);
+              await fs.writeFile(fullPath, page.content);
             }
           }
         }

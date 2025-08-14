@@ -908,13 +908,23 @@ export class HtmlParser {
             
             processedUrls.add(linkUrl.href);
             
-            let pageName = linkUrl.pathname.split('/').pop() || 'page';
-            if (!pageName || pageName === '' || pageName === '/') {
-              const pathParts = linkUrl.pathname.split('/').filter(p => p);
-              pageName = pathParts[pathParts.length - 1] || 'page';
-            }
-            if (!pageName.endsWith('.html')) {
-              pageName = `${pageName}.html`;
+            // Handle nested paths properly
+            let pageName: string;
+            let pathParts = linkUrl.pathname.split('/').filter(p => p);
+            
+            if (pathParts.length === 0) {
+              pageName = 'page.html';
+            } else if (pathParts.length === 1) {
+              // Single level path like /blog or /about
+              pageName = pathParts[0].endsWith('.html') ? pathParts[0] : `${pathParts[0]}.html`;
+            } else {
+              // Nested path like /blog/post-title or /blog/category/post
+              // Create nested directory structure: blog/post-title.html
+              const fileName = pathParts[pathParts.length - 1];
+              const dirPath = pathParts.slice(0, -1).join('/');
+              pageName = fileName.endsWith('.html') ? 
+                `${dirPath}/${fileName}` : 
+                `${dirPath}/${fileName}.html`;
             }
             
             const title = $(link).text().trim() || pageName.replace('.html', '');

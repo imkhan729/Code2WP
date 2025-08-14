@@ -13,6 +13,8 @@ This is an HTML to WordPress theme converter application that allows users to up
 - **Improved Navigation System**: Added clean URL support (without .html extensions) and enhanced multi-page navigation for all website types including blogs
 - **Universal Website Support**: Modified backend routes to work with any website structure, not just specific layouts, making it suitable for all types of HTML websites
 - **Enhanced Asset Path Resolution**: Improved handling of relative paths (../styles.css) to prevent duplicate API path conversions and ensure proper styling across all page types
+- **MAJOR: Complete Nested URL System**: Implemented comprehensive nested page discovery and routing for complex website structures like blogs with nested posts (e.g., /blog/post-title), including proper directory structure creation, asset path rewriting for nested directories, and recursive page content fetching
+- **Enhanced Multi-Page Discovery**: Advanced page detection now finds and processes nested blog posts, category pages, and deep-linked content, creating proper file hierarchies and serving them with correct navigation
 
 # User Preferences
 
