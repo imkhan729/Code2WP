@@ -163,41 +163,72 @@ export default function Home() {
             </div>
 
             {/* Step 2: Processing */}
-            <div className={`bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative transition-all duration-300 hover:shadow-xl ${!hasActiveConversion ? 'opacity-60' : ''}`}>
+            <div className="bg-white rounded-xl shadow-lg border-2 border-gray-100 p-8 relative transition-all duration-300 hover:shadow-xl">
               <div className="flex items-center mb-6">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mr-4 ${
-                  hasActiveConversion ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white' : 'bg-gray-300 text-gray-600'
-                }`}>
+                <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-full flex items-center justify-center font-bold text-lg mr-4">
                   2
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">AI Processing</h3>
               </div>
               
               <div className="space-y-3">
-                <div className="flex items-center text-sm text-gray-600">
-                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                <div className="flex items-center text-sm text-gray-700">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-green-500' : 'bg-blue-400'}`}></div>
                   Files extracted successfully
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-yellow-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                <div className="flex items-center text-sm text-gray-700">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-yellow-500 animate-pulse' : 'bg-purple-400'}`}></div>
                   Parsing HTML structure...
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <div className="w-4 h-4 rounded-full mr-3 bg-gray-300"></div>
+                <div className="flex items-center text-sm text-gray-700">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-orange-500 animate-pulse' : 'bg-orange-400'}`}></div>
                   Converting to WordPress theme
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <div className="w-4 h-4 rounded-full mr-3 bg-gray-300"></div>
+                <div className="flex items-center text-sm text-gray-700">
+                  <div className={`w-4 h-4 rounded-full mr-3 ${hasActiveConversion ? 'bg-green-500 animate-pulse' : 'bg-green-400'}`}></div>
                   Optimizing assets
                 </div>
                 
-                {hasActiveConversion && (
-                  <div className="mt-4">
-                    <div className="text-sm text-gray-600 mb-2">Waiting...</div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-blue-500 h-2 rounded-full animate-pulse" style={{width: '45%'}}></div>
+                {hasActiveConversion ? (
+                  <div className="mt-6">
+                    {/* Beautiful Loading Spinner */}
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="relative w-16 h-16">
+                        <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+                        <div className="absolute inset-0 rounded-full border-4 border-yellow-500 border-t-transparent animate-spin"></div>
+                        <div className="absolute inset-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 flex items-center justify-center">
+                          <div className="w-6 h-6 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-gray-900 mb-2">Processing your website...</div>
+                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full animate-pulse" style={{width: '45%'}}></div>
+                        </div>
+                        <div className="text-right text-xs text-gray-500 mt-1">Converting...</div>
+                      </div>
                     </div>
-                    <div className="text-right text-xs text-gray-500 mt-1">0%</div>
+                  </div>
+                ) : (
+                  <div className="mt-6">
+                    {/* Standby Beautiful Animation */}
+                    <div className="flex flex-col items-center space-y-4">
+                      <div className="relative w-16 h-16">
+                        <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+                        <div className="absolute inset-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 flex items-center justify-center">
+                          <div className="w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-60"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-gray-700 mb-2">Ready to process</div>
+                        <div className="w-full bg-gray-200 rounded-full h-3">
+                          <div className="h-full bg-gradient-to-r from-gray-300 to-gray-400 rounded-full" style={{width: '0%'}}></div>
+                        </div>
+                        <div className="text-center text-xs text-gray-500 mt-1">Waiting for upload...</div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
