@@ -280,7 +280,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Inject asset proxy URLs to serve CSS, JS, and images from the original files
       htmlContent = htmlContent.replace(
-        /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))["']/gi,
+        /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp))["']/gi,
         (match, attr, assetPath) => {
           // Handle relative paths
           let fullAssetPath = assetPath;
@@ -288,6 +288,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
             fullAssetPath = basePath ? `${basePath}/${assetPath}` : assetPath;
           }
           return `${attr}="/api/conversions/${conversion.id}/assets/${fullAssetPath}"`;
+        }
+      );
+
+      // Rewrite internal HTML page links to use the conversion API
+      htmlContent = htmlContent.replace(
+        /href=["']([^"']*\.html)["']/gi,
+        (match, htmlPath) => {
+          if (!htmlPath.startsWith('http') && !htmlPath.startsWith('/')) {
+            const pageName = path.basename(htmlPath, '.html');
+            return `href="/api/conversions/${conversion.id}/${pageName}.html"`;
+          }
+          return match;
         }
       );
 
@@ -304,6 +316,99 @@ export async function registerRoutes(app: Express): Promise<Server> {
           <body>
             <h1>Preview Error</h1>
             <p>Failed to load preview: ${error instanceof Error ? error.message : 'Unknown error'}</p>
+          </body>
+        </html>
+      `);
+    }
+  });
+
+  // Serve other HTML pages from extracted website (e.g., blog.html, about.html)
+  app.get("/api/conversions/:id/:filename.html", async (req, res) => {
+    try {
+      const conversion = await storage.getConversion(req.params.id);
+      if (!conversion) {
+        return res.status(404).json({ message: "Conversion not found" });
+      }
+
+      const filename = req.params.filename + '.html';
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      
+      // Find the HTML file in the extracted directory
+      const findHtmlFile = async (dir: string, targetFile: string): Promise<string | null> => {
+        try {
+          const entries = await fs.readdir(dir, { withFileTypes: true });
+          for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+              const result = await findHtmlFile(fullPath, targetFile);
+              if (result) return result;
+            } else if (entry.name.toLowerCase() === targetFile.toLowerCase()) {
+              return fullPath;
+            }
+          }
+        } catch (error) {
+          // Directory doesn't exist or can't be read
+        }
+        return null;
+      };
+
+      const htmlFilePath = await findHtmlFile(extractPath, filename);
+      
+      if (!htmlFilePath || !await fs.pathExists(htmlFilePath)) {
+        return res.status(404).send(`
+          <html>
+            <body>
+              <h1>Page Not Found</h1>
+              <p>The requested page "${filename}" was not found in the converted website.</p>
+            </body>
+          </html>
+        `);
+      }
+
+      // Read and serve the HTML file
+      let htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
+      
+      // Get the relative path for asset URL rewriting
+      const relativePath = path.relative(extractPath, htmlFilePath);
+      const basePath = path.dirname(relativePath);
+      
+      // Rewrite asset URLs to use the conversion API
+      htmlContent = htmlContent.replace(
+        /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp))["']/gi,
+        (match, attr, assetPath) => {
+          let fullAssetPath = assetPath;
+          if (!assetPath.startsWith('http') && !assetPath.startsWith('/')) {
+            fullAssetPath = basePath ? `${basePath}/${assetPath}` : assetPath;
+          }
+          return `${attr}="/api/conversions/${conversion.id}/assets/${fullAssetPath}"`;
+        }
+      );
+
+      // Rewrite internal HTML page links to use the conversion API
+      htmlContent = htmlContent.replace(
+        /href=["']([^"']*\.html)["']/gi,
+        (match, htmlPath) => {
+          if (!htmlPath.startsWith('http') && !htmlPath.startsWith('/')) {
+            const pageName = path.basename(htmlPath, '.html');
+            return `href="/api/conversions/${conversion.id}/${pageName}.html"`;
+          }
+          return match;
+        }
+      );
+
+      console.log(`Serving HTML page: ${filename} (${htmlContent.length} chars)`);
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+      res.send(htmlContent);
+      
+    } catch (error) {
+      console.error('HTML page error:', error);
+      res.status(500).send(`
+        <html>
+          <body>
+            <h1>Page Error</h1>
+            <p>Failed to load page: ${error instanceof Error ? error.message : 'Unknown error'}</p>
           </body>
         </html>
       `);
@@ -367,7 +472,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             '.woff': 'font/woff',
             '.woff2': 'font/woff2',
             '.ttf': 'font/ttf',
-            '.eot': 'application/vnd.ms-fontobject'
+            '.eot': 'application/vnd.ms-fontobject',
+            '.webp': 'image/webp'
           };
 
           if (contentTypes[ext]) {
