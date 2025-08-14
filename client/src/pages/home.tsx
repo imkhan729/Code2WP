@@ -74,7 +74,13 @@ export default function Home() {
             <Button 
               size="lg" 
               className="bg-white text-purple-900 hover:bg-gray-100 px-8 py-3 text-lg font-medium border-2 border-white shadow-lg"
-              onClick={() => setActiveTab("upload")}
+              onClick={() => {
+                setActiveTab("upload");
+                document.getElementById('upload-section')?.scrollIntoView({ 
+                  behavior: 'smooth',
+                  block: 'start' 
+                });
+              }}
               data-testid="get-started-button"
             >
               Get Started Free
@@ -83,7 +89,16 @@ export default function Home() {
               size="lg" 
               variant="outline" 
               className="border-white border-2 text-white hover:bg-white hover:text-purple-900 px-8 py-3 text-lg font-medium transition-all duration-200 shadow-lg"
-              onClick={() => setShowAdvancedView(true)}
+              onClick={() => {
+                setShowAdvancedView(true);
+                // Scroll to examples section if it exists
+                setTimeout(() => {
+                  document.getElementById('examples-section')?.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start' 
+                  });
+                }, 100);
+              }}
               data-testid="view-examples-button"
             >
               View Examples
@@ -103,7 +118,7 @@ export default function Home() {
         </div>
 
         {/* Main Conversion Process - Default View */}
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto" id="upload-section">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
             
             {/* Step 1: Upload or Enter URL */}
@@ -297,6 +312,66 @@ export default function Home() {
         {/* Advanced View - Previous functionality */}
         {showAdvancedView && (
           <>
+            {/* Examples Section */}
+            <div className="mb-12" id="examples-section">
+              <h3 className="text-3xl font-bold text-gray-900 mb-8 text-center">Conversion Examples</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300">
+                  <div className="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-white text-center">
+                        <h4 className="text-lg font-bold mb-2">Business Website</h4>
+                        <p className="text-sm opacity-90">Corporate landing page</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-gray-600 text-sm mb-3">Multi-page business site with contact forms and services</p>
+                    <div className="flex gap-2">
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">5 Pages</span>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded">Forms</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300">
+                  <div className="aspect-video bg-gradient-to-br from-green-500 to-teal-600 relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-white text-center">
+                        <h4 className="text-lg font-bold mb-2">Blog Template</h4>
+                        <p className="text-sm opacity-90">Content-rich design</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-gray-600 text-sm mb-3">Blog layout with sidebar, categories, and post navigation</p>
+                    <div className="flex gap-2">
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Blog</span>
+                      <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">Sidebar</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300">
+                  <div className="aspect-video bg-gradient-to-br from-orange-500 to-red-600 relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-white text-center">
+                        <h4 className="text-lg font-bold mb-2">E-commerce</h4>
+                        <p className="text-sm opacity-90">Product showcase</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <p className="text-gray-600 text-sm mb-3">Product catalog with shopping cart and checkout flow</p>
+                    <div className="flex gap-2">
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Shop</span>
+                      <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded">Cart</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Live Preview Section */}
             {recentCompleted && (
               <div className="mb-12">
