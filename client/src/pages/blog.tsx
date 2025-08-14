@@ -99,7 +99,7 @@ export default function Blog() {
     category: "Complete Guide",
     author: "WordPress Expert",
     tags: ["HTML", "WordPress", "Conversion", "SEO", "Performance"],
-    slug: "ultimate-html-to-wordpress-conversion-guide-2025",
+    slug: "ultimate-guide-html-to-wordpress-2025",
     featured: true,
     views: "12.5K",
     image: "/api/placeholder/800/400"
@@ -108,18 +108,30 @@ export default function Blog() {
   const blogPosts = [
     {
       id: 2,
-      title: "Advanced WordPress Theme Customization After HTML Conversion",
-      excerpt: "Take your converted WordPress theme to the next level with advanced customization techniques, custom post types, and dynamic functionality that goes beyond basic conversion.",
-      date: "2025-08-10",
-      readTime: "12 min read",
-      category: "Advanced",
-      author: "Theme Developer",
-      tags: ["Customization", "Advanced", "WordPress"],
-      slug: "advanced-wordpress-theme-customization",
+      title: "WordPress Theme Development Trends and Best Practices for 2025",
+      excerpt: "Discover the latest trends in WordPress theme development, from AI-powered tools to modern design patterns that will dominate 2025.",
+      date: "2025-01-10",
+      readTime: "8 min read",
+      category: "Trends",
+      author: "Marcus Rodriguez",
+      tags: ["WordPress", "Trends", "Development", "Design", "2025"],
+      slug: "wordpress-theme-development-trends-2025",
       views: "8.2K"
     },
     {
       id: 3,
+      title: "AI vs Manual WordPress Conversion: Which Method is Right for Your Project?",
+      excerpt: "Compare AI-powered conversion tools with traditional manual methods to determine the best approach for your WordPress development project.",
+      date: "2025-01-08",
+      readTime: "10 min read",
+      category: "Comparison",
+      author: "Elena Kowalski",
+      tags: ["AI", "Manual", "Conversion", "Comparison", "WordPress"],
+      slug: "ai-vs-manual-wordpress-conversion",
+      views: "6.8K"
+    },
+    {
+      id: 4,
       title: "WordPress Theme Performance Optimization: From Good to Great",
       excerpt: "Discover professional techniques to optimize your converted WordPress theme for lightning-fast loading speeds, improved user experience, and better search engine rankings.",
       date: "2025-08-07",
@@ -131,7 +143,7 @@ export default function Blog() {
       views: "6.8K"
     },
     {
-      id: 4,
+      id: 5,
       title: "SEO Mastery for Converted WordPress Themes",
       excerpt: "Master search engine optimization for your converted themes with advanced SEO techniques, structured data implementation, and ranking strategies that actually work.",
       date: "2025-08-05",
@@ -143,7 +155,7 @@ export default function Blog() {
       views: "9.1K"
     },
     {
-      id: 5,
+      id: 6,
       title: "Troubleshooting Complex HTML to WordPress Conversions",
       excerpt: "Solve the most challenging conversion problems with expert troubleshooting techniques for complex layouts, JavaScript integrations, and advanced functionality preservation.",
       date: "2025-08-02",
@@ -155,7 +167,7 @@ export default function Blog() {
       views: "5.4K"
     },
     {
-      id: 6,
+      id: 7,
       title: "Mobile-First WordPress Theme Design: Best Practices 2025",
       excerpt: "Create stunning mobile-first WordPress themes that provide exceptional user experience across all devices with modern design principles and responsive techniques.",
       date: "2025-07-30",
