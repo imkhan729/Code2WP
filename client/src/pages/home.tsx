@@ -4,15 +4,37 @@ import FileUpload from "@/components/FileUpload";
 import UrlInput from "@/components/UrlInput";
 import ProcessingSteps from "@/components/ProcessingSteps";
 import ProgressBar from "@/components/ProgressBar";
+import EmbeddedPreview from "@/components/EmbeddedPreview";
 
 import RecentConversions from "@/components/RecentConversions";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Code, Link } from "lucide-react";
+import { Code, Link, Eye, EyeOff } from "lucide-react";
+
+interface Conversion {
+  id: string;
+  name: string;
+  type: string;
+  status: string;
+  progress: number;
+  previewData?: any;
+  createdAt: string;
+  completedAt?: string;
+}
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"upload" | "url">("upload");
   const [currentConversion, setCurrentConversion] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(true);
+  
+  const { data: conversions = [] } = useQuery<Conversion[]>({
+    queryKey: ['/api/conversions'],
+    refetchInterval: 5000,
+  });
+
+  // Find the most recent completed conversion for auto-preview
+  const recentCompleted = conversions.find(c => c.status === 'completed' && c.previewData);
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
@@ -27,6 +49,42 @@ export default function Home() {
             Preserve design, responsiveness, and functionality.
           </p>
         </div>
+
+        {/* Live Preview Section - Show if there's a completed conversion */}
+        {recentCompleted && showPreview && (
+          <div className="mb-12">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-semibold text-gray-900">Live Preview</h3>
+              <Button
+                variant="outline"
+                onClick={() => setShowPreview(false)}
+                className="flex items-center gap-2"
+                data-testid="hide-preview"
+              >
+                <EyeOff className="w-4 h-4" />
+                Hide Preview
+              </Button>
+            </div>
+            <EmbeddedPreview 
+              conversionId={recentCompleted.id}
+              title={recentCompleted.name}
+            />
+          </div>
+        )}
+
+        {/* Show Preview Button if hidden */}
+        {recentCompleted && !showPreview && (
+          <div className="mb-12 text-center">
+            <Button
+              onClick={() => setShowPreview(true)}
+              className="flex items-center gap-2"
+              data-testid="show-preview"
+            >
+              <Eye className="w-4 h-4" />
+              Show Live Preview
+            </Button>
+          </div>
+        )}
 
         {/* Conversion Workflow */}
         <div className="grid lg:grid-cols-3 gap-8 mb-12">

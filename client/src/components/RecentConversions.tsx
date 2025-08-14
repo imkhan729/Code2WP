@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConversionDetails } from "./ConversionDetails";
+import EmbeddedPreview from "./EmbeddedPreview";
 import { FileArchive, Link as LinkIcon, Download, RotateCcw, CheckCircle, XCircle, Eye, Monitor } from "lucide-react";
 import { format } from "date-fns";
 
@@ -23,6 +24,7 @@ interface Conversion {
 
 export default function RecentConversions() {
   const [selectedConversion, setSelectedConversion] = useState<string | null>(null);
+  const [previewConversion, setPreviewConversion] = useState<string | null>(null);
   const { data: conversions = [], isLoading } = useQuery<Conversion[]>({
     queryKey: ['/api/conversions'],
     refetchInterval: 5000, // Refresh every 5 seconds
@@ -37,11 +39,11 @@ export default function RecentConversions() {
   };
 
   const handlePreview = (conversionId: string) => {
-    const previewUrl = `/api/conversions/${conversionId}/preview`;
-    window.open(previewUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+    setPreviewConversion(conversionId);
   };
 
   const selectedConversionData = conversions.find((c: Conversion) => c.id === selectedConversion);
+  const previewConversionData = conversions.find((c: Conversion) => c.id === previewConversion);
 
   if (selectedConversionData) {
     return (
@@ -56,6 +58,27 @@ export default function RecentConversions() {
           </Button>
         </div>
         <ConversionDetails conversion={selectedConversionData} />
+      </div>
+    );
+  }
+
+  if (previewConversionData) {
+    return (
+      <div className="space-y-4" data-testid="preview-view">
+        <div className="flex items-center justify-between">
+          <Button 
+            variant="outline" 
+            onClick={() => setPreviewConversion(null)}
+            data-testid="back-to-conversions"
+          >
+            ← Back to Conversions
+          </Button>
+        </div>
+        <EmbeddedPreview 
+          conversionId={previewConversionData.id}
+          title={previewConversionData.name}
+          onClose={() => setPreviewConversion(null)}
+        />
       </div>
     );
   }
