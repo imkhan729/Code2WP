@@ -880,6 +880,7 @@ export class HtmlParser {
     // Collect all potential page URLs first
     const pageUrls: Array<{url: string, title: string, pageName: string, path: string}> = [];
     const allLinks: string[] = [];
+    const foldersToExplore = new Set<string>(); // Track folders that need exploration
     
     $('a[href]').each((_, link) => {
       const href = $(link).attr('href');
@@ -894,53 +895,72 @@ export class HtmlParser {
           // Only process pages from the same domain and likely HTML pages
           if (linkUrl.hostname === new URL(baseUrl).hostname && 
               !processedUrls.has(linkUrl.href) &&
-              linkUrl.href !== baseUrl && // Don't re-fetch the main page
-              (linkUrl.pathname.endsWith('.html') || 
-               linkUrl.pathname.endsWith('/') || 
-               !linkUrl.pathname.includes('.') ||
-               linkUrl.pathname.includes('blog') ||
-               linkUrl.pathname.includes('post') ||
-               linkUrl.pathname.includes('article') ||
-               linkUrl.pathname.includes('about') ||
-               linkUrl.pathname.includes('contact') ||
-               linkUrl.pathname.includes('features') ||
-               linkUrl.pathname.includes('download'))) {
+              linkUrl.href !== baseUrl) { // Don't re-fetch the main page
             
-            processedUrls.add(linkUrl.href);
+            // Check if this is a folder path (ends with / or has no extension)
+            const isFolder = linkUrl.pathname.endsWith('/') || 
+              (!linkUrl.pathname.includes('.') && linkUrl.pathname !== '/');
             
-            // Handle nested paths properly
-            let pageName: string;
-            let pathParts = linkUrl.pathname.split('/').filter(p => p);
-            
-            if (pathParts.length === 0) {
-              pageName = 'page.html';
-            } else if (pathParts.length === 1) {
-              // Single level path like /blog or /about
-              pageName = pathParts[0].endsWith('.html') ? pathParts[0] : `${pathParts[0]}.html`;
-            } else {
-              // Nested path like /blog/post-title or /blog/category/post
-              // Create nested directory structure: blog/post-title.html
-              const fileName = pathParts[pathParts.length - 1];
-              const dirPath = pathParts.slice(0, -1).join('/');
-              pageName = fileName.endsWith('.html') ? 
-                `${dirPath}/${fileName}` : 
-                `${dirPath}/${fileName}.html`;
+            // Track folders for later exploration
+            if (isFolder && (
+              linkUrl.pathname.includes('blog') ||
+              linkUrl.pathname.includes('post') ||
+              linkUrl.pathname.includes('article') ||
+              linkUrl.pathname.includes('news') ||
+              linkUrl.pathname.includes('category')
+            )) {
+              console.log(`Adding folder for exploration: ${linkUrl.href}`);
+              foldersToExplore.add(linkUrl.href);
             }
             
-            const title = $(link).text().trim() || pageName.replace('.html', '');
-            
-            pageUrls.push({
-              url: linkUrl.href,
-              title: title,
-              pageName: pageName,
-              path: linkUrl.pathname
-            });
+            // Add likely HTML pages or folders to be fetched
+            if (linkUrl.pathname.endsWith('.html') || 
+                linkUrl.pathname.endsWith('/') || 
+                !linkUrl.pathname.includes('.') ||
+                this.isLikelyContentPage(linkUrl.pathname)) {
+              
+              processedUrls.add(linkUrl.href);
+              
+              // Handle nested paths properly
+              let pageName: string;
+              let pathParts = linkUrl.pathname.split('/').filter(p => p);
+              
+              if (pathParts.length === 0) {
+                pageName = 'page.html';
+              } else if (pathParts.length === 1) {
+                // Single level path like /blog or /about
+                pageName = pathParts[0].endsWith('.html') ? pathParts[0] : `${pathParts[0]}.html`;
+              } else {
+                // Nested path like /blog/post-title or /blog/category/post
+                // Create nested directory structure: blog/post-title.html
+                const fileName = pathParts[pathParts.length - 1];
+                const dirPath = pathParts.slice(0, -1).join('/');
+                pageName = fileName.endsWith('.html') ? 
+                  `${dirPath}/${fileName}` : 
+                  `${dirPath}/${fileName}.html`;
+              }
+              
+              const title = $(link).text().trim() || pageName.replace('.html', '');
+              
+              pageUrls.push({
+                url: linkUrl.href,
+                title: title,
+                pageName: pageName,
+                path: linkUrl.pathname
+              });
+            }
           }
         } catch (e) {
           // Invalid URL, skip
         }
       }
     });
+    
+    // Explore folders to find nested content
+    for (const folderUrl of Array.from(foldersToExplore)) {
+      if (pageUrls.length >= maxPages) break;
+      await this.exploreFolderStructure(folderUrl, baseUrl, pageUrls, processedUrls, maxPages);
+    }
     
     console.log(`Found ${allLinks.length} total links, ${pageUrls.length} potential pages to fetch`);
     console.log('All links found:', allLinks.slice(0, 10)); // Show first 10 links
@@ -1174,5 +1194,108 @@ export class HtmlParser {
     });
     
     return sitemap;
+  }
+
+  private isLikelyContentPage(pathname: string): boolean {
+    const contentIndicators = [
+      'blog', 'post', 'article', 'about', 'contact', 'features', 
+      'download', 'news', 'category', 'tag', 'archive', 'page'
+    ];
+    
+    return contentIndicators.some(indicator => 
+      pathname.toLowerCase().includes(indicator)
+    );
+  }
+
+  private async exploreFolderStructure(
+    folderUrl: string, 
+    baseUrl: string, 
+    pageUrls: Array<{url: string, title: string, pageName: string, path: string}>, 
+    processedUrls: Set<string>,
+    maxPages: number
+  ): Promise<void> {
+    try {
+      console.log(`Exploring folder: ${folderUrl}`);
+      
+      // Fetch the folder page with redirect following
+      const response = await fetch(folderUrl, {
+        redirect: 'follow',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+      });
+      
+      if (!response.ok) {
+        console.log(`Failed to explore folder ${folderUrl}: ${response.status}`);
+        return;
+      }
+      
+      const folderContent = await response.text();
+      const folder$ = cheerio.load(folderContent);
+      
+      // Look for links to individual posts/articles within this folder
+      const newLinks: Array<{url: string, title: string, pageName: string, path: string}> = [];
+      
+      folder$('a[href]').each((_, link) => {
+        if (pageUrls.length >= maxPages) return;
+        
+        const href = folder$(link).attr('href');
+        if (!href) return;
+        
+        try {
+          const linkUrl = new URL(href, folderUrl);
+          
+          // Only process pages from same domain that we haven't seen
+          if (linkUrl.hostname === new URL(baseUrl).hostname && 
+              !processedUrls.has(linkUrl.href) &&
+              linkUrl.href !== folderUrl &&
+              linkUrl.href !== baseUrl) {
+            
+            // Check if this looks like a content page within the folder
+            const isContentInFolder = linkUrl.pathname.startsWith(new URL(folderUrl).pathname) &&
+              (linkUrl.pathname.endsWith('.html') || 
+               !linkUrl.pathname.includes('.') ||
+               this.isLikelyContentPage(linkUrl.pathname));
+            
+            if (isContentInFolder) {
+              processedUrls.add(linkUrl.href);
+              
+              // Create proper nested path structure
+              const pathParts = linkUrl.pathname.split('/').filter(p => p);
+              let pageName: string;
+              
+              if (pathParts.length <= 1) {
+                pageName = pathParts[0] ? `${pathParts[0]}.html` : 'page.html';
+              } else {
+                // Create nested structure like blog/post-title.html
+                const fileName = pathParts[pathParts.length - 1];
+                const dirPath = pathParts.slice(0, -1).join('/');
+                pageName = fileName.endsWith('.html') ? 
+                  `${dirPath}/${fileName}` : 
+                  `${dirPath}/${fileName}.html`;
+              }
+              
+              const title = folder$(link).text().trim() || 
+                pathParts[pathParts.length - 1] || 'Untitled Page';
+              
+              newLinks.push({
+                url: linkUrl.href,
+                title: title,
+                pageName: pageName,
+                path: linkUrl.pathname
+              });
+            }
+          }
+        } catch (e) {
+          // Invalid URL, skip
+        }
+      });
+      
+      console.log(`Found ${newLinks.length} additional pages in folder: ${folderUrl}`);
+      pageUrls.push(...newLinks);
+      
+    } catch (error) {
+      console.log(`Error exploring folder ${folderUrl}:`, error instanceof Error ? error.message : 'Unknown error');
+    }
   }
 }

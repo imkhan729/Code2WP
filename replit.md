@@ -13,11 +13,11 @@ This is an HTML to WordPress theme converter application that allows users to up
 - **Improved Navigation System**: Added clean URL support (without .html extensions) and enhanced multi-page navigation for all website types including blogs
 - **Universal Website Support**: Modified backend routes to work with any website structure, not just specific layouts, making it suitable for all types of HTML websites
 - **Enhanced Asset Path Resolution**: Improved handling of relative paths (../styles.css) to prevent duplicate API path conversions and ensure proper styling across all page types
-- **MAJOR: Complete Nested URL System**: Implemented comprehensive nested page discovery and routing for complex website structures like blogs with nested posts (e.g., /blog/post-title), including proper directory structure creation, asset path rewriting for nested directories, and recursive page content fetching
+- **CRITICAL FIX: Filesystem Error (ENAMETOOLONG)**: Fixed major filesystem error where WordPress theme generation failed due to extremely long filenames generated from website titles. Limited theme names to 50 characters with unique ID suffixes for safe filesystem compatibility
+- **MAJOR: Advanced Folder Structure Discovery**: Completely revolutionized URL analysis system to automatically discover and extract nested folder structures like `/blog/` directories containing multiple individual posts. System now identifies blog folders, follows redirects, crawls internal links, and creates proper nested directory structures (e.g., `blog/post-title.html`) with correct relative path handling
 - **Enhanced Multi-Page Discovery**: Advanced page detection now finds and processes nested blog posts, category pages, and deep-linked content, creating proper file hierarchies and serving them with correct navigation
-- **CRITICAL FIX: Nested Blog Post Redirect Issue**: Resolved major issue where nested blog posts (like /blog/specific-post-title) were incorrectly serving homepage content instead of proper 404 responses or actual blog post content
-- **Implemented Fresh Content Fetching**: Added system to fetch missing nested pages directly from original websites for URL-based conversions, with proper caching and error handling
-- **Enhanced 404 Handling**: Non-existent nested pages now return appropriate 404 responses instead of fallback homepage content, maintaining proper website behavior
+- **Nested Content Routing**: Implemented comprehensive nested page routing system that handles complex directory structures, rewrites asset paths for nested pages (../styles.css → styles.css), and maintains proper content hierarchy for WordPress conversion
+- **Blog Post Analysis**: System now automatically detects blog-like folder structures, explores individual post URLs within folders, and extracts full content from each nested page while preserving original website structure and navigation
 
 # User Preferences
 
