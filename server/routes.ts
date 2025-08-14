@@ -18,6 +18,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const htmlParser = new HtmlParser();
   const wpGenerator = new AdvancedWordPressGenerator();
 
+  // Helper function to find all HTML pages in extracted directory
+  async function findAllHtmlPages(extractPath: string): Promise<string[]> {
+    const htmlPages: string[] = [];
+    
+    const findHtmlFiles = async (dir: string): Promise<void> => {
+      try {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            await findHtmlFiles(fullPath);
+          } else if (entry.name.toLowerCase().endsWith('.html')) {
+            const relativePath = path.relative(extractPath, fullPath);
+            const pageName = path.basename(entry.name, '.html');
+            htmlPages.push(pageName);
+          }
+        }
+      } catch (error) {
+        // Directory doesn't exist or can't be read
+      }
+    };
+    
+    await findHtmlFiles(extractPath);
+    return [...new Set(htmlPages)]; // Remove duplicates
+  }
+
   // Helper function to extract ZIP files for preview system
   async function extractZipForPreview(conversionId: string, zipPath: string) {
     try {
@@ -72,6 +98,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(conversion);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch conversion" });
+    }
+  });
+
+  // Get all available pages for a conversion
+  app.get("/api/conversions/:id/pages", async (req, res) => {
+    try {
+      const conversion = await storage.getConversion(req.params.id);
+      if (!conversion) {
+        return res.status(404).json({ message: "Conversion not found" });
+      }
+
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      const allPages = await findAllHtmlPages(extractPath);
+      
+      res.json({ 
+        pages: allPages.map(page => ({
+          name: page,
+          url: `/api/conversions/${conversion.id}/${page}.html`,
+          title: page.charAt(0).toUpperCase() + page.slice(1).replace(/[-_]/g, ' ')
+        }))
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch pages" });
     }
   });
 
@@ -520,6 +569,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         parsedWebsite = await htmlParser.parseFromUrl(source);
       }
 
+      // Find all HTML pages for navigation
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversionId);
+      const allHtmlPages = await findAllHtmlPages(extractPath);
+
       // Update progress with analysis
       await storage.updateConversion(conversionId, { 
         progress: 60,
@@ -533,7 +586,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             formsFound: parsedWebsite.analysis.forms.length,
             hasNavigation: parsedWebsite.analysis.navigation !== null,
             assetsFound: Object.values(parsedWebsite.analysis.assets).flat().length
-          }
+          },
+          allPages: allHtmlPages // Add list of all available pages
         }
       });
 
