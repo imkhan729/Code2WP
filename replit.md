@@ -7,6 +7,9 @@ This is an HTML to WordPress theme converter application that allows users to up
 - **Added Embedded Preview Component**: Created responsive preview with device testing (desktop/tablet/mobile), refresh, fullscreen, and new window options
 - **Enhanced Homepage**: Added live preview section that displays directly on homepage instead of opening new windows
 - **Improved Sample Data System**: Fixed ID mismatches between conversions and extracted files for consistent preview functionality
+- **Enhanced Asset Serving**: Implemented recursive asset discovery to fix missing images across all website types - searches entire extracted directory structure for assets
+- **Improved Navigation System**: Added clean URL support (without .html extensions) and enhanced multi-page navigation for all website types including blogs
+- **Universal Website Support**: Modified backend routes to work with any website structure, not just specific layouts, making it suitable for all types of HTML websites
 
 # User Preferences
 

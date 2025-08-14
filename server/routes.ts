@@ -354,10 +354,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
             return match;
           }
           
-          // Handle .html files
+          // Handle .html files - convert to clean URLs
           if (linkPath.endsWith('.html')) {
             const pageName = path.basename(linkPath, '.html');
-            return `href="/api/conversions/${conversion.id}/${pageName}.html"`;
+            return `href="/api/conversions/${conversion.id}/${pageName}"`;
           }
           
           // Handle common navigation paths like /, /blog, /about, etc.
@@ -365,18 +365,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
             return `href="/api/conversions/${conversion.id}/preview"`;
           }
           
-          // Handle other absolute paths by trying to map them to HTML files
+          // Handle other absolute paths by trying to map them to clean URLs
           if (linkPath.startsWith('/')) {
             const cleanPath = linkPath.slice(1); // Remove leading slash
             if (cleanPath && !cleanPath.includes('.')) {
-              // Try to find a corresponding HTML file
-              return `href="/api/conversions/${conversion.id}/${cleanPath}.html"`;
+              return `href="/api/conversions/${conversion.id}/${cleanPath}"`;
             }
           }
           
           // Handle relative paths that might be pages
           if (!linkPath.includes('.') && !linkPath.includes('/') && linkPath.length > 0) {
-            return `href="/api/conversions/${conversion.id}/${linkPath}.html"`;
+            return `href="/api/conversions/${conversion.id}/${linkPath}"`;
           }
           
           return match;
@@ -396,6 +395,144 @@ export async function registerRoutes(app: Express): Promise<Server> {
           <body>
             <h1>Preview Error</h1>
             <p>Failed to load preview: ${error instanceof Error ? error.message : 'Unknown error'}</p>
+          </body>
+        </html>
+      `);
+    }
+  });
+
+  // Enhanced route to handle clean URLs (without .html extension)
+  app.get("/api/conversions/:id/:page", async (req, res) => {
+    const pageName = req.params.page;
+    
+    // Skip if it's an asset request (has file extension) or special endpoints
+    if (pageName.includes('.') || pageName === 'assets' || pageName === 'pages' || pageName === 'preview') {
+      return res.status(404).send('Page not found');
+    }
+    
+    try {
+      const conversion = await storage.getConversion(req.params.id);
+      if (!conversion) {
+        return res.status(404).json({ message: "Conversion not found" });
+      }
+
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      
+      // Try to find the HTML file with this name
+      const findHtmlFileByName = async (dir: string, targetName: string): Promise<string | null> => {
+        try {
+          const entries = await fs.readdir(dir, { withFileTypes: true });
+          
+          // First check for exact matches
+          for (const entry of entries) {
+            if (!entry.isDirectory()) {
+              const nameWithoutExt = path.basename(entry.name, path.extname(entry.name));
+              if (nameWithoutExt.toLowerCase() === targetName.toLowerCase() && entry.name.toLowerCase().endsWith('.html')) {
+                return path.join(dir, entry.name);
+              }
+            }
+          }
+          
+          // Then recursively search subdirectories
+          for (const entry of entries) {
+            if (entry.isDirectory()) {
+              const fullPath = path.join(dir, entry.name);
+              const result = await findHtmlFileByName(fullPath, targetName);
+              if (result) return result;
+            }
+          }
+        } catch (error) {
+          // Directory doesn't exist or can't be read
+        }
+        return null;
+      };
+
+      const htmlFilePath = await findHtmlFileByName(extractPath, pageName);
+      
+      if (!htmlFilePath || !await fs.pathExists(htmlFilePath)) {
+        return res.status(404).send(`
+          <html>
+            <body>
+              <h1>Page Not Found</h1>
+              <p>The requested page "${pageName}" was not found in the converted website.</p>
+              <p><a href="/api/conversions/${conversion.id}/preview">Return to home</a></p>
+            </body>
+          </html>
+        `);
+      }
+
+      // Read and serve the HTML file
+      let htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
+      
+      // Get the relative path for asset URL rewriting
+      const relativePath = path.relative(extractPath, htmlFilePath);
+      const basePath = path.dirname(relativePath);
+      
+      // Rewrite asset URLs to use the conversion API
+      htmlContent = htmlContent.replace(
+        /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp))["']/gi,
+        (match, attr, assetPath) => {
+          let fullAssetPath = assetPath;
+          if (!assetPath.startsWith('http') && !assetPath.startsWith('/')) {
+            fullAssetPath = basePath ? `${basePath}/${assetPath}` : assetPath;
+          }
+          return `${attr}="/api/conversions/${conversion.id}/assets/${fullAssetPath}"`;
+        }
+      );
+
+      // Enhanced rewriting for all types of internal links
+      htmlContent = htmlContent.replace(
+        /href=["']([^"']+)["']/gi,
+        (match, linkPath) => {
+          // Skip external links (http/https) and fragments (#)
+          if (linkPath.startsWith('http') || linkPath.startsWith('mailto:') || linkPath.startsWith('tel:')) {
+            return match;
+          }
+          
+          // Handle fragment links (#about, #features, etc.) - keep them as is for same-page navigation
+          if (linkPath.startsWith('#')) {
+            return match;
+          }
+          
+          // Handle .html files - convert to clean URLs
+          if (linkPath.endsWith('.html')) {
+            const pageName = path.basename(linkPath, '.html');
+            return `href="/api/conversions/${conversion.id}/${pageName}"`;
+          }
+          
+          // Handle common navigation paths like /, /blog, /about, etc.
+          if (linkPath === '/' || linkPath === '/index' || linkPath === '/home') {
+            return `href="/api/conversions/${conversion.id}/preview"`;
+          }
+          
+          // Handle other absolute paths by trying to map them to clean URLs
+          if (linkPath.startsWith('/')) {
+            const cleanPath = linkPath.slice(1); // Remove leading slash
+            if (cleanPath && !cleanPath.includes('.')) {
+              return `href="/api/conversions/${conversion.id}/${cleanPath}"`;
+            }
+          }
+          
+          // Handle relative paths that might be pages
+          if (!linkPath.includes('.') && !linkPath.includes('/') && linkPath.length > 0) {
+            return `href="/api/conversions/${conversion.id}/${linkPath}"`;
+          }
+          
+          return match;
+        }
+      );
+
+      console.log(`Serving page: ${pageName} from ${path.basename(htmlFilePath)}`);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+      res.send(htmlContent);
+    } catch (error) {
+      console.error(`Error serving page ${pageName}:`, error);
+      res.status(500).send(`
+        <html>
+          <body>
+            <h1>Page Error</h1>
+            <p>Failed to load the page: ${error instanceof Error ? error.message : 'Unknown error'}</p>
           </body>
         </html>
       `);
@@ -424,20 +561,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Try different possible paths if the direct path doesn't exist
       if (!await fs.pathExists(fullAssetPath)) {
-        // Try looking in common subdirectories
-        const possiblePaths = [
-          path.join(extractPath, 'assets', assetPath),
-          path.join(extractPath, 'css', assetPath),
-          path.join(extractPath, 'js', assetPath),
-          path.join(extractPath, 'images', assetPath),
-          path.join(extractPath, 'img', assetPath),
-          path.join(extractPath, 'fonts', assetPath)
-        ];
+        // Recursively search for the asset in the entire extracted directory
+        const findAssetRecursively = async (dir: string, targetFile: string): Promise<string | null> => {
+          try {
+            const entries = await fs.readdir(dir, { withFileTypes: true });
+            
+            // First, check if the file exists in the current directory
+            for (const entry of entries) {
+              if (!entry.isDirectory() && entry.name.toLowerCase() === path.basename(targetFile).toLowerCase()) {
+                return path.join(dir, entry.name);
+              }
+            }
+            
+            // Then recursively search subdirectories
+            for (const entry of entries) {
+              if (entry.isDirectory()) {
+                const fullPath = path.join(dir, entry.name);
+                const result = await findAssetRecursively(fullPath, targetFile);
+                if (result) return result;
+              }
+            }
+          } catch (error) {
+            // Directory doesn't exist or can't be read
+          }
+          return null;
+        };
 
-        for (const possiblePath of possiblePaths) {
-          if (await fs.pathExists(possiblePath)) {
-            fullAssetPath = possiblePath;
-            break;
+        const foundAsset = await findAssetRecursively(extractPath, assetPath);
+        if (foundAsset) {
+          fullAssetPath = foundAsset;
+        } else {
+          // Try looking in common subdirectories as fallback
+          const possiblePaths = [
+            path.join(extractPath, 'assets', assetPath),
+            path.join(extractPath, 'css', assetPath),
+            path.join(extractPath, 'js', assetPath),
+            path.join(extractPath, 'images', assetPath),
+            path.join(extractPath, 'img', assetPath),
+            path.join(extractPath, 'fonts', assetPath),
+            path.join(extractPath, 'static', assetPath),
+            path.join(extractPath, 'media', assetPath),
+            path.join(extractPath, 'resources', assetPath)
+          ];
+
+          for (const possiblePath of possiblePaths) {
+            if (await fs.pathExists(possiblePath)) {
+              fullAssetPath = possiblePath;
+              break;
+            }
           }
         }
       }
@@ -560,10 +731,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
             return match;
           }
           
-          // Handle .html files
+          // Handle .html files - convert to clean URLs
           if (linkPath.endsWith('.html')) {
             const pageName = path.basename(linkPath, '.html');
-            return `href="/api/conversions/${conversion.id}/${pageName}.html"`;
+            return `href="/api/conversions/${conversion.id}/${pageName}"`;
           }
           
           // Handle common navigation paths like /, /blog, /about, etc.
@@ -571,18 +742,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
             return `href="/api/conversions/${conversion.id}/preview"`;
           }
           
-          // Handle other absolute paths by trying to map them to HTML files
+          // Handle other absolute paths by trying to map them to clean URLs
           if (linkPath.startsWith('/')) {
             const cleanPath = linkPath.slice(1); // Remove leading slash
             if (cleanPath && !cleanPath.includes('.')) {
-              // Try to find a corresponding HTML file
-              return `href="/api/conversions/${conversion.id}/${cleanPath}.html"`;
+              return `href="/api/conversions/${conversion.id}/${cleanPath}"`;
             }
           }
           
           // Handle relative paths that might be pages
           if (!linkPath.includes('.') && !linkPath.includes('/') && linkPath.length > 0) {
-            return `href="/api/conversions/${conversion.id}/${linkPath}.html"`;
+            return `href="/api/conversions/${conversion.id}/${linkPath}"`;
           }
           
           return match;
