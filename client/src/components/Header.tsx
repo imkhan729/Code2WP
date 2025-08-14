@@ -22,7 +22,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center space-x-2">
               <Code className="text-primary text-2xl" />
-              <h1 className="text-xl font-bold text-gray-900">HTML to WordPress</h1>
+              <h1 className="text-xl font-bold text-gray-900">Code2WP</h1>
             </Link>
           </div>
           
@@ -31,12 +31,24 @@ export default function Header() {
             {navItems.map((item) => (
               <Link 
                 key={item.href}
-                href={item.href} 
+                href={item.href === "/features" ? "/" : item.href} 
                 className={`font-medium transition-colors ${
                   location === item.href 
                     ? "text-primary" 
                     : "text-gray-600 hover:text-gray-900"
                 }`}
+                onClick={(e) => {
+                  if (item.href === "/features") {
+                    e.preventDefault();
+                    const featuresSection = document.getElementById('features-section');
+                    if (featuresSection) {
+                      featuresSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start' 
+                      });
+                    }
+                  }
+                }}
               >
                 {item.label}
               </Link>
@@ -61,13 +73,27 @@ export default function Header() {
               {navItems.map((item) => (
                 <Link 
                   key={item.href}
-                  href={item.href} 
+                  href={item.href === "/features" ? "/" : item.href} 
                   className={`font-medium transition-colors ${
                     location === item.href 
                       ? "text-primary" 
                       : "text-gray-600 hover:text-gray-900"
                   }`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (item.href === "/features") {
+                      e.preventDefault();
+                      setTimeout(() => {
+                        const featuresSection = document.getElementById('features-section');
+                        if (featuresSection) {
+                          featuresSection.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start' 
+                          });
+                        }
+                      }, 100);
+                    }
+                  }}
                 >
                   {item.label}
                 </Link>

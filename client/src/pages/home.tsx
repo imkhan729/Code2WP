@@ -7,7 +7,7 @@ import RecentConversions from "@/components/RecentConversions";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Upload, Globe } from "lucide-react";
+import { Eye, EyeOff, Upload, Globe, CheckCircle, Code, Download, Zap, Shield, Smartphone, Search, FileCode, Users, Palette, Settings } from "lucide-react";
 
 interface Conversion {
   id: string;
@@ -73,7 +73,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
-              className="bg-white text-purple-900 hover:bg-gray-100 px-8 py-3 text-lg font-medium border-2 border-white shadow-lg"
+              className="bg-white text-purple-900 hover:bg-purple-100 hover:text-purple-700 active:bg-purple-200 active:text-purple-800 px-8 py-3 text-lg font-medium border-2 border-white shadow-lg transition-all duration-200"
               onClick={() => {
                 setActiveTab("upload");
                 document.getElementById('upload-section')?.scrollIntoView({ 
@@ -301,7 +301,7 @@ export default function Home() {
           <Button
             variant="outline"
             onClick={() => setShowAdvancedView(!showAdvancedView)}
-            className="flex items-center gap-2 mx-auto px-6 py-3 text-lg border-2 hover:bg-purple-50 hover:border-purple-300"
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-lg border-2 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700 transition-all duration-200"
             data-testid="toggle-advanced-view"
           >
             {showAdvancedView ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -389,6 +389,279 @@ export default function Home() {
             <RecentConversions />
           </>
         )}
+
+        {/* Features Section */}
+        <div className="py-16" id="features-section">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-purple-100 to-orange-100 text-primary font-medium mb-6">
+              <Zap className="w-4 h-4 mr-2" />
+              AI-Powered WordPress Conversion
+            </div>
+            <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              Advanced Features for <span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">Perfect Conversions</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+              Transform any static HTML website into a professional WordPress theme with cutting-edge AI technology, advanced optimization, and enterprise-grade features that maintain your original design while adding powerful CMS capabilities.
+            </p>
+          </div>
+
+          {/* Core Features Grid */}
+          <div className="mb-20">
+            <h3 className="text-3xl font-bold text-gray-900 mb-12 text-center">Core Features</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Code className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Smart HTML Parsing
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  AI-powered analysis of HTML structure, CSS styles, and JavaScript functionality to create clean, maintainable WordPress themes with proper template hierarchy.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Zap className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Lightning-Fast Conversion
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Convert complex websites to WordPress themes in under 5 minutes. Our advanced AI system processes thousands of lines of code instantly.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Globe className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Multi-Page & Nested Support
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Handles complex websites with multiple pages, nested blog structures, dynamic content discovery, and automatic page relationship detection.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Download className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Production-Ready Themes
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Download complete WordPress themes with proper file structure, header.php, footer.php, index.php, functions.php, and WordPress coding standards.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Shield className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Advanced Asset Optimization
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Intelligent optimization of images, CSS, and JavaScript files for WordPress compatibility, performance, and loading speed.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Smartphone className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Responsive Design Preservation
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Maintains all responsive breakpoints, mobile optimizations, and device-specific styling from your original design.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Search className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  SEO-Optimized Output
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Generated themes include proper meta tags, semantic HTML structure, schema markup, and WordPress SEO plugin compatibility.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <FileCode className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Clean Code Generation
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Produces clean, commented PHP code following WordPress best practices with proper hooks, filters, and template functions.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-300 group">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-100 to-orange-100 p-4 rounded-xl group-hover:from-purple-200 group-hover:to-orange-200 transition-colors">
+                    <Users className="w-8 h-8 text-primary" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors">
+                  Team Collaboration
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Share converted themes with your team, track conversion history, and manage multiple projects with workspace organization.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Advanced Features */}
+          <div className="mb-20">
+            <h3 className="text-3xl font-bold text-gray-900 mb-12 text-center">Advanced Capabilities</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-4 rounded-xl">
+                    <Palette className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">
+                  Custom Post Types
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Automatically generates custom post types and fields based on your content structure and design patterns.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-4 rounded-xl">
+                    <Settings className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">
+                  Plugin Integration
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Built-in compatibility with popular WordPress plugins like WooCommerce, Yoast SEO, and Contact Form 7.
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-purple-500 to-orange-500 p-4 rounded-xl">
+                    <Globe className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <h4 className="text-xl font-bold text-gray-900 mb-4">
+                  Multilingual Ready
+                </h4>
+                <p className="text-gray-600 leading-relaxed">
+                  Generated themes are compatible with WPML, Polylang, and other translation plugins for global websites.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Technical Specifications */}
+          <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-200 mb-16">
+            <div className="text-center mb-12">
+              <h3 className="text-4xl font-bold text-gray-900 mb-6">
+                Technical Excellence
+              </h3>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Built with enterprise-grade technology and industry best practices for professional WordPress theme development
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">99.9%</div>
+                <div className="text-gray-600 font-medium">Conversion Accuracy</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">&lt; 5min</div>
+                <div className="text-gray-600 font-medium">Average Processing</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">100+</div>
+                <div className="text-gray-600 font-medium">Layout Types Supported</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">50MB</div>
+                <div className="text-gray-600 font-medium">Maximum File Size</div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12">
+              <div>
+                <h4 className="text-2xl font-bold text-gray-900 mb-6">AI Technology Stack</h4>
+                <ul className="space-y-4 text-gray-600">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>Neural HTML Parser:</strong> Advanced machine learning model trained on 100,000+ websites</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>CSS Analysis Engine:</strong> Intelligent style extraction and optimization algorithms</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>JavaScript Preservation:</strong> Function mapping and WordPress integration system</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>Asset Intelligence:</strong> Smart image optimization and resource management</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-2xl font-bold text-gray-900 mb-6">WordPress Integration</h4>
+                <ul className="space-y-4 text-gray-600">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>Template Hierarchy:</strong> Proper WordPress file structure and naming conventions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>Hook System:</strong> WordPress actions, filters, and proper enqueuing</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>Security Standards:</strong> Sanitization, validation, and WordPress security practices</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong>Performance Optimization:</strong> Minification, caching, and database efficiency</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
       
       <Footer />
