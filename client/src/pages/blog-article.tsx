@@ -62,17 +62,7 @@ const articles = {
     metaDescription: "Complete guide to mobile-first WordPress theme design for 2025. Learn responsive techniques, performance optimization, and UX best practices.",
     keywords: ["mobile-first design", "WordPress theme development", "responsive design", "mobile UX", "WordPress 2025", "web design trends"]
   },
-  "ultimate-guide-html-to-wordpress-2025": {
-    title: "The Ultimate Guide to Converting HTML Websites to WordPress Themes in 2025",
-    description: "Master the complete process of transforming your static HTML websites into dynamic, SEO-optimized WordPress themes with our comprehensive AI-powered conversion system. Learn advanced techniques, best practices, and troubleshooting methods used by professional developers.",
-    author: "Code2WP Team",
-    date: "August 14, 2025",
-    readTime: "35 min read",
-    category: "Complete Guide",
-    tags: ["HTML to WordPress", "theme conversion", "website development", "WordPress themes", "AI conversion", "web development"],
-    metaDescription: "Complete 2025 guide to converting HTML websites to WordPress themes. Learn AI-powered conversion, advanced techniques, and best practices.",
-    keywords: ["HTML to WordPress conversion", "WordPress theme development", "website conversion", "AI conversion tools", "WordPress migration"]
-  },
+
   "wordpress-theme-development-trends-2025": {
     title: "WordPress Theme Development Trends and Best Practices for 2025",
     description: "Discover the latest trends in WordPress theme development, from AI-powered tools to modern design patterns that will dominate 2025.",

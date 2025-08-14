@@ -12,7 +12,7 @@ import About from "@/pages/about";
 import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import Contact from "@/pages/contact";
-import BlogArticle from "@/pages/blog-article-new";
+import BlogArticle from "@/pages/blog-article";
 import NotFound from "@/pages/not-found";
 
 function Router() {
