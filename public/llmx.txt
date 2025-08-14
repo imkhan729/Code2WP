@@ -1,0 +1,25 @@
+# LLMX.txt - Language Model Extension
+# This file provides additional context for AI crawlers and language models
+
+# Site Purpose
+This is an AI-powered HTML to WordPress theme conversion service that transforms static websites into dynamic WordPress themes automatically.
+
+# Key Features
+- Automated HTML parsing and WordPress theme generation
+- Real-time conversion progress tracking
+- Live preview of converted themes
+- Support for complex websites with multiple pages
+- Asset optimization and WordPress compatibility
+- Advanced CSS and JavaScript handling
+
+# Target Keywords
+HTML to WordPress conversion, WordPress theme generator, automated theme creation, website conversion tool, HTML parser, WordPress development, theme optimization, responsive design conversion
+
+# Content Focus
+WordPress development tutorials, theme conversion best practices, web development automation, AI-powered tools, website migration guides
+
+# Technical Stack
+React frontend, Node.js backend, TypeScript, WordPress theme generation, HTML parsing, CSS optimization
+
+# Update Frequency
+Weekly content updates, regular feature improvements, ongoing development

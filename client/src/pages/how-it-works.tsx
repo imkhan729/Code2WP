@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/seo-head";
 import { Upload, Settings, Eye, Download, ArrowRight, Clock, CheckCircle, Zap, Code, Globe, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -88,6 +89,12 @@ export default function HowItWorks() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <SEOHead
+        title="How Our AI WordPress Converter Works - Step-by-Step Process | Code2WP"
+        description="Learn how our 4-step AI-powered process converts HTML websites to WordPress themes in under 5 minutes with 99.9% design accuracy and zero technical knowledge required."
+        keywords="HTML to WordPress conversion process, AI converter steps, website conversion guide, WordPress theme creation, automated conversion"
+        canonicalUrl="https://your-domain.com/how-it-works"
+      />
       <Header />
       
       <main className="py-16">

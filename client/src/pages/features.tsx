@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/seo-head";
 import { CheckCircle, Code, Download, Zap, Shield, Globe, Smartphone, Search, FileCode, Users, Palette, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -73,6 +74,12 @@ export default function Features() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <SEOHead
+        title="WordPress Converter Features - Advanced AI-Powered Conversion Tools | Code2WP"
+        description="Discover powerful features of our WordPress converter: AI-powered HTML parsing, responsive design preservation, SEO optimization, team collaboration, and professional theme generation."
+        keywords="WordPress converter features, AI HTML parsing, theme generation, responsive design, SEO optimization, WordPress development tools"
+        canonicalUrl="https://your-domain.com/features"
+      />
       <Header />
       
       <main className="py-16">

@@ -1,6 +1,8 @@
 import { useRoute } from "wouter";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/seo-head";
+import StructuredData from "@/components/structured-data";
 import { Clock, Calendar, User, ArrowLeft, Share2, BookOpen, ChevronDown, ChevronRight, ThumbsUp, ThumbsDown, Star, TrendingUp, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -3499,6 +3501,33 @@ export default function BlogArticle() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50">
+      <SEOHead
+        title={`${article.title} | Code2WP Blog`}
+        description={article.metaDescription}
+        keywords={article.keywords.join(', ')}
+        canonicalUrl={`https://your-domain.com/blog/${params.slug}`}
+        ogType="article"
+        article={{
+          publishedTime: new Date(article.date).toISOString(),
+          modifiedTime: new Date(article.date).toISOString(),
+          author: article.author,
+          section: article.category,
+          tags: article.tags
+        }}
+      />
+      <StructuredData
+        type="Article"
+        data={{
+          headline: article.title,
+          description: article.metaDescription,
+          author: article.author,
+          datePublished: new Date(article.date).toISOString(),
+          dateModified: new Date(article.date).toISOString(),
+          url: `https://your-domain.com/blog/${params.slug}`,
+          section: article.category,
+          keywords: article.keywords
+        }}
+      />
       <Header />
       
       <main className="max-w-4xl mx-auto px-4 py-8">

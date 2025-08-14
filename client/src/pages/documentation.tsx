@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/seo-head";
 import { Upload, FileText, Download, Settings, Eye, CheckCircle, ArrowRight, Code, Globe, Folder } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -7,6 +8,12 @@ import { Link } from "wouter";
 export default function Documentation() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEOHead
+        title="Complete WordPress Conversion Documentation - Setup & Deployment Guide | Code2WP"
+        description="Comprehensive documentation for converting HTML to WordPress themes and deploying them successfully. Includes setup guides, troubleshooting, and best practices."
+        keywords="WordPress documentation, theme conversion guide, WordPress installation, theme deployment, conversion troubleshooting, WordPress setup"
+        canonicalUrl="https://your-domain.com/documentation"
+      />
       <Header />
       
       <main className="py-16">

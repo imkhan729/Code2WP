@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/seo-head";
 import { Calendar, Clock, ArrowRight, User, Tag, TrendingUp, Star, BookOpen, Zap, Eye, CheckCircle, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -186,6 +187,12 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <SEOHead
+        title="WordPress Conversion Blog - Expert Tutorials & Best Practices | Code2WP"
+        description="Discover professional WordPress conversion techniques, expert tutorials, and best practices. Learn from industry experts and master HTML to WordPress theme development."
+        keywords="WordPress blog, conversion tutorials, theme development, HTML to WordPress, web development, expert guides, WordPress best practices"
+        canonicalUrl="https://your-domain.com/blog"
+      />
       <Header />
       
       <main className="py-16">

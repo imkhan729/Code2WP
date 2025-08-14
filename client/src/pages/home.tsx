@@ -4,6 +4,7 @@ import FileUpload from "@/components/FileUpload";
 import UrlInput from "@/components/UrlInput";
 import EmbeddedPreview from "@/components/EmbeddedPreview";
 import RecentConversions from "@/components/RecentConversions";
+import SEOHead from "@/components/seo-head";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-inter">
+      <SEOHead
+        title="HTML to WordPress Converter - AI-Powered Theme Generator | Code2WP"
+        description="Transform static HTML websites into dynamic WordPress themes instantly with our AI-powered converter. Upload ZIP files or enter URLs for automatic theme generation with live preview and optimization."
+        keywords="HTML to WordPress, WordPress theme generator, website converter, HTML parser, automated theme creation, WordPress development, theme optimization, responsive design conversion"
+        canonicalUrl="https://your-domain.com/"
+      />
       <Header />
       
       {/* Hero Section with Gradient Background */}
@@ -65,7 +72,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 opacity-30"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <h1 className="text-6xl font-bold text-white mb-6">
-            The AI HTML to WordPress Converter
+            AI-Powered HTML to WordPress Theme Converter
           </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
             Built to make you extraordinarily productive. Our converter is the best way to transform HTML to WordPress themes with AI.
