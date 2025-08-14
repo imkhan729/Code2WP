@@ -539,6 +539,192 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Enhanced route to handle nested paths (like /blog/post-name)
+  app.get("/api/conversions/:id/*", async (req, res) => {
+    const fullPath = (req.params as any)[0]; // Get the wildcard part
+    
+    // Skip if it's an asset request or special endpoints
+    if (fullPath.includes('.') || fullPath.startsWith('assets/') || fullPath === 'pages' || fullPath === 'preview') {
+      return res.status(404).send('Not found');
+    }
+    
+    try {
+      const conversion = await storage.getConversion(req.params.id);
+      if (!conversion) {
+        return res.status(404).json({ message: "Conversion not found" });
+      }
+
+      const extractPath = path.join(process.cwd(), 'temp', 'extracted', conversion.id);
+      
+      // Function to recursively find HTML files by path
+      const findHtmlFileByPath = async (dir: string, targetPath: string): Promise<string | null> => {
+        try {
+          const entries = await fs.readdir(dir, { withFileTypes: true });
+          
+          // Try exact path match first (with .html extension)
+          const exactFile = path.join(dir, targetPath + '.html');
+          if (await fs.pathExists(exactFile)) {
+            return exactFile;
+          }
+          
+          // Try to find the file in subdirectories that match the path structure
+          const pathParts = targetPath.split('/');
+          let currentDir = dir;
+          
+          // Navigate through path parts
+          for (let i = 0; i < pathParts.length - 1; i++) {
+            const partDir = path.join(currentDir, pathParts[i]);
+            if (await fs.pathExists(partDir)) {
+              const stat = await fs.stat(partDir);
+              if (stat.isDirectory()) {
+                currentDir = partDir;
+              } else {
+                break;
+              }
+            } else {
+              break;
+            }
+          }
+          
+          // Look for the final file
+          const finalFileName = pathParts[pathParts.length - 1];
+          const possibleFiles = [
+            path.join(currentDir, finalFileName + '.html'),
+            path.join(currentDir, finalFileName, 'index.html'),
+            path.join(currentDir, 'index.html')
+          ];
+          
+          for (const possibleFile of possibleFiles) {
+            if (await fs.pathExists(possibleFile)) {
+              return possibleFile;
+            }
+          }
+          
+          // Recursive search if direct path doesn't work
+          const searchRecursively = async (searchDir: string): Promise<string | null> => {
+            try {
+              const entries = await fs.readdir(searchDir, { withFileTypes: true });
+              
+              // Check files in current directory
+              for (const entry of entries) {
+                if (!entry.isDirectory()) {
+                  const nameWithoutExt = path.basename(entry.name, path.extname(entry.name));
+                  if (nameWithoutExt.toLowerCase() === finalFileName.toLowerCase() && entry.name.toLowerCase().endsWith('.html')) {
+                    return path.join(searchDir, entry.name);
+                  }
+                }
+              }
+              
+              // Check subdirectories
+              for (const entry of entries) {
+                if (entry.isDirectory()) {
+                  const fullPath = path.join(searchDir, entry.name);
+                  const result = await searchRecursively(fullPath);
+                  if (result) return result;
+                }
+              }
+            } catch (error) {
+              // Directory doesn't exist or can't be read
+            }
+            return null;
+          };
+          
+          return await searchRecursively(dir);
+        } catch (error) {
+          // Directory doesn't exist or can't be read
+        }
+        return null;
+      };
+
+      const htmlFilePath = await findHtmlFileByPath(extractPath, fullPath);
+      
+      if (!htmlFilePath || !await fs.pathExists(htmlFilePath)) {
+        return res.status(404).send(`
+          <html>
+            <body>
+              <h1>Page Not Found</h1>
+              <p>The requested page "${fullPath}" was not found in the converted website.</p>
+              <p><a href="/api/conversions/${conversion.id}/preview">Return to home</a></p>
+            </body>
+          </html>
+        `);
+      }
+
+      // Read and serve the HTML file
+      let htmlContent = await fs.readFile(htmlFilePath, 'utf-8');
+      
+      // Get the relative path for asset URL rewriting
+      const relativePath = path.relative(extractPath, htmlFilePath);
+      const basePath = path.dirname(relativePath);
+      
+      // Rewrite asset URLs to use the conversion API
+      htmlContent = htmlContent.replace(
+        /(href|src)=["']([^"']*\.(?:css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|webp))["']/gi,
+        (match, attr, assetPath) => {
+          let fullAssetPath = assetPath;
+          if (!assetPath.startsWith('http') && !assetPath.startsWith('/')) {
+            fullAssetPath = basePath ? `${basePath}/${assetPath}` : assetPath;
+          }
+          return `${attr}="/api/conversions/${conversion.id}/assets/${fullAssetPath}"`;
+        }
+      );
+
+      // Enhanced rewriting for all types of internal links
+      htmlContent = htmlContent.replace(
+        /href=["']([^"']+)["']/gi,
+        (match, linkPath) => {
+          // Skip external links (http/https) and fragments (#)
+          if (linkPath.startsWith('http') || linkPath.startsWith('mailto:') || linkPath.startsWith('tel:')) {
+            return match;
+          }
+          
+          // Handle fragment links (#about, #features, etc.) - keep them as is for same-page navigation
+          if (linkPath.startsWith('#')) {
+            return match;
+          }
+          
+          // Handle .html files - convert to clean URLs
+          if (linkPath.endsWith('.html')) {
+            const cleanPath = linkPath.slice(0, -5); // Remove .html
+            return `href="/api/conversions/${conversion.id}${cleanPath.startsWith('/') ? '' : '/'}${cleanPath}"`;
+          }
+          
+          // Handle common navigation paths like /, /blog, /about, etc.
+          if (linkPath === '/' || linkPath === '/index' || linkPath === '/home') {
+            return `href="/api/conversions/${conversion.id}/preview"`;
+          }
+          
+          // Handle other absolute paths by trying to map them to clean URLs
+          if (linkPath.startsWith('/')) {
+            return `href="/api/conversions/${conversion.id}${linkPath}"`;
+          }
+          
+          // Handle relative paths that might be pages
+          if (!linkPath.includes('.') && linkPath.length > 0) {
+            return `href="/api/conversions/${conversion.id}/${linkPath}"`;
+          }
+          
+          return match;
+        }
+      );
+
+      console.log(`Serving nested page: ${fullPath} from ${path.basename(htmlFilePath)}`);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+      res.send(htmlContent);
+    } catch (error) {
+      console.error(`Error serving nested page ${fullPath}:`, error);
+      res.status(500).send(`
+        <html>
+          <body>
+            <h1>Page Error</h1>
+            <p>Failed to load the page: ${error instanceof Error ? error.message : 'Unknown error'}</p>
+          </body>
+        </html>
+      `);
+    }
+  });
+
   // Get original files for preview (CSS, JS, images) - MUST come before wildcard HTML route
   app.get("/api/conversions/:id/assets/*", async (req, res) => {
     try {

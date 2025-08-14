@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+Allow: /blog/
+Allow: /images/
+Allow: /styles.css
+Allow: /script.js
+Allow: /manifest.json
+
+# Disallow admin or private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /cache/
+
+# Allow important pages
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /dmca
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.alightmotionpremium.com/sitemap.xml
+
+# Host directive
+Host: https://www.alightmotionpremium.com
